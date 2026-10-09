@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGCSE ESL Lessons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Fredoka:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --teal:#0a8b99; --teal-dark:#06707c; --teal-light:#8ecbd3; --teal-tab:#79c2cc;
+    --pink:#e6175c; --ink:#14262b; --muted:#4a5f65; --paper:#f4fafb; --card:#ffffff; --line:#d6e9ec;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{font-family:"Mulish","Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper);min-height:100vh}
+  header{background:var(--teal);color:#fff;padding:28px 16px 30px;position:relative;overflow:hidden}
+  header::after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:var(--teal-dark);opacity:.55}
+  header::before{content:"";position:absolute;right:120px;bottom:-90px;width:160px;height:160px;border-radius:50%;background:var(--teal-tab);opacity:.35}
+  .wrap{max-width:1000px;margin:0 auto;position:relative;z-index:1}
+  .kicker{font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.8rem;opacity:.9}
+  h1{font-family:"Fredoka",sans-serif;font-weight:700;font-size:clamp(1.8rem,5vw,2.6rem);margin:6px 0 4px}
+  header p{margin:0;font-size:1rem;opacity:.95}
+  main{padding:24px 16px 48px}
+  .grade{margin-bottom:28px}
+  .grade h2{font-family:"Fredoka",sans-serif;font-weight:600;font-size:1.35rem;margin:0 0 12px;display:flex;align-items:center;gap:10px}
+  .grade h2 .pill{background:var(--pink);color:#fff;font-size:.8rem;padding:3px 10px;border-radius:999px;font-family:"Mulish",sans-serif;font-weight:800}
+  .units{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+  .unit-btn{appearance:none;border:2px solid var(--line);background:var(--card);border-radius:14px;padding:16px;text-align:left;cursor:pointer;font:inherit;color:inherit;display:flex;gap:14px;align-items:center;transition:transform .12s,border-color .12s,box-shadow .12s}
+  .unit-btn:hover{transform:translateY(-2px);border-color:var(--teal-light);box-shadow:0 6px 16px rgba(6,112,124,.12)}
+  .unit-btn:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+  .unit-btn[aria-expanded="true"]{border-color:var(--teal);background:#e8f5f7}
+  .num{flex:0 0 52px;height:52px;border-radius:12px;background:var(--teal);color:#fff;display:grid;place-items:center;font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.5rem}
+  .unit-btn small{display:block;font-weight:800;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-dark)}
+  .unit-btn strong{display:block;font-size:1.08rem;margin-top:2px}
+  .unit-btn span.count{display:block;font-size:.85rem;color:var(--muted);margin-top:2px}
+  .panel{margin-top:14px;background:var(--card);border:2px solid var(--teal);border-radius:16px;padding:18px}
+  .panel[hidden]{display:none}
+  .panel h3{margin:0 0 12px;font-family:"Fredoka",sans-serif;font-weight:600;font-size:1.2rem;color:var(--teal-dark)}
+  .lessons{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+  .lessons a{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:12px;background:var(--paper);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:background .12s,border-color .12s}
+  .lessons a:hover{background:#e8f5f7;border-color:var(--teal-light)}
+  .lessons a:focus-visible{outline:3px solid var(--pink);outline-offset:2px}
+  .tag{flex:0 0 auto;background:var(--pink);color:#fff;font-weight:800;font-size:.78rem;padding:4px 10px;border-radius:999px}
+  .lessons .t{font-weight:700}
+  .lessons .d{display:block;font-size:.9rem;color:var(--muted);margin-top:2px}
+  .arrow{margin-left:auto;font-size:1.3rem;color:var(--teal)}
+  footer{text-align:center;color:var(--muted);font-size:.85rem;padding:0 16px 28px}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="kicker">Cambridge IGCSE · English as a Second Language</div>
+    <h1>ESL Lessons</h1>
+    <p>Choose your unit to see its lessons.</p>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+<footer>Pick a unit, then a lesson.</footer>
+
+<script>
+/* To add a lesson: add it to the matching unit's "lessons" list (or add a new unit). */
+var CATALOG = [
+  { grade: "Grade 9", id: "g9", units: [
+    { num: 3, title: "Food", lessons: [
+      { tag: "A & B", title: "Food — Sections A & B1–5", href: "G9/unit-03-food/" },
+      { tag: "Writing", title: "Writing & Linking devices", href: "G9/unit-03-food-writing/" }
+    ]}
+  ]},
+  { grade: "Grade 10", id: "g10", units: [
+    { num: 13, title: "Success and fame", lessons: [
+      { tag: "A–C", title: "Watch and talk · Speaking and vocabulary · Reading: Note-taking", href: "G10/unit-13-success-and-fame/" },
+      { tag: "D", title: "Reading and vocabulary (Helen Keller) · Language focus: Discourse markers showing contrast", href: "G10/unit-13-success-and-fame-section-d/" }
+    ]}
+  ]}
+];
+
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
+
+var app = document.getElementById("app");
+var html = "";
+CATALOG.forEach(function(g){
+  var total = g.units.length;
+  html += '<section class="grade" aria-labelledby="h-' + g.id + '"><h2 id="h-' + g.id + '">' + esc(g.grade) +
+          ' <span class="pill">' + total + (total === 1 ? " unit" : " units") + '</span></h2><div class="units">';
+  g.units.forEach(function(u){
+    var key = g.id + "-unit-" + u.num;
+    html += '<button class="unit-btn" type="button" aria-expanded="false" aria-controls="p-' + key + '" data-key="' + key + '">' +
+            '<span class="num">' + u.num + '</span><span><small>Unit ' + u.num + '</small><strong>' + esc(u.title) + '</strong>' +
+            '<span class="count">' + u.lessons.length + (u.lessons.length === 1 ? " lesson" : " lessons") + '</span></span></button>';
+  });
+  html += '</div>';
+  g.units.forEach(function(u){
+    var key = g.id + "-unit-" + u.num;
+    html += '<div class="panel" id="p-' + key + '" hidden><h3>' + esc(g.grade) + ' · Unit ' + u.num + ': ' + esc(u.title) + '</h3><ul class="lessons">';
+    u.lessons.forEach(function(l){
+      html += '<li><a href="' + esc(l.href) + '"><span class="tag">' + esc(l.tag) + '</span><span><span class="t">' + esc(l.title) + '</span></span><span class="arrow" aria-hidden="true">›</span></a></li>';
+    });
+    html += '</ul></div>';
+  });
+  html += '</section>';
+});
+app.innerHTML = html;
+
+function openUnit(key, updateHash){
+  var btns = document.querySelectorAll(".unit-btn");
+  for (var i = 0; i < btns.length; i++){
+    var b = btns[i], on = b.getAttribute("data-key") === key && b.getAttribute("aria-expanded") !== "true";
+    if (b.getAttribute("data-key") === key && !updateHash) on = true;
+    b.setAttribute("aria-expanded", on ? "true" : "false");
+    document.getElementById("p-" + b.getAttribute("data-key")).hidden = !on;
+    if (on && updateHash) history.replaceState(null, "", "#" + key);
+    if (!on && b.getAttribute("data-key") === key && updateHash) history.replaceState(null, "", location.pathname + location.search);
+  }
+}
+app.addEventListener("click", function(e){
+  var b = e.target.closest(".unit-btn");
+  if (b) openUnit(b.getAttribute("data-key"), true);
+});
+if (location.hash && document.getElementById("p-" + location.hash.slice(1))) openUnit(location.hash.slice(1), false);
+</script>
+</body>
+</html>
