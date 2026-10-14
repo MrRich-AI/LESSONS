@@ -549,6 +549,13 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 .spkBtn.on{background:var(--pink);animation:spkPulse 1s ease-in-out infinite}
 @keyframes spkPulse{50%{box-shadow:0 0 0 7px rgba(230,23,92,.25)}}
 .reading-now{background:rgba(251,184,27,.22);border-radius:8px;box-shadow:0 0 0 6px rgba(251,184,27,.22)}
+/* ---------- Whiteout (W key) ---------- */
+#whiteout{position:absolute;inset:0;z-index:90;background:#fff;display:none;cursor:none}
+#whiteout.on{display:block;animation:boIn .3s ease}
+/* ---------- First screen waits for a click ---------- */
+#startGate{position:absolute;inset:0;z-index:29;background:rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center;cursor:pointer}
+#startGate .sgTxt{font-size:56px;font-weight:800;color:#fff;background:rgba(10,139,153,.92);padding:22px 48px;border-radius:60px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:sgPulse 1.8s ease-in-out infinite}
+@keyframes sgPulse{50%{transform:scale(1.05)}}
 </style>
 </head>
 <body>
@@ -1804,22 +1811,62 @@ var LESSON_EXTRAS = {
     });
   }
 
+  /* ---------- Whiteout: W key, plain white, silent (teacher only) ---------- */
+  var wo=document.createElement('div');wo.id='whiteout';stage.appendChild(wo);
+  wo.addEventListener('click',function(e){e.stopPropagation();});
+  function whiteout(on){wo.classList.toggle('on',on);}
+
+  /* ---------- First screen waits for a click: still + dimmed, then plays from the start ---------- */
+  var gate=null,held=[];
+  function holdFirst(){
+    var s=document.querySelector('.slide.active');if(!s)return;
+    stage.classList.add('prestart');
+    gate=document.createElement('div');gate.id='startGate';
+    if(STUDENT)gate.innerHTML='<div class="sgTxt">▶ Click to start</div>';
+    stage.appendChild(gate);
+    if(document.getAnimations){
+      held=document.getAnimations().filter(function(a){var t=a.effect&&a.effect.target;return t&&(t===s||s.contains(t));});
+      held.forEach(function(a){
+        try{var tm=a.effect.getComputedTiming();if(isFinite(tm.endTime)){a.finish();}a.pause();}catch(err){}
+      });
+    }
+  }
+  function startFirst(){
+    if(!gate)return;
+    gate.remove();gate=null;stage.classList.remove('prestart');
+    held.forEach(function(a){try{a.currentTime=0;a.play();}catch(err){}});held=[];
+    audio();
+  }
+  holdFirst();
+  window.addEventListener('click',function(e){
+    if(!gate)return;
+    var onSlide=e.target===gate||!!(e.target.closest&&e.target.closest('.slide'));
+    startFirst();
+    if(onSlide){e.preventDefault();e.stopPropagation();}
+  },true);
+
   /* ---------- keys: handled before slide navigation ---------- */
   window.addEventListener('keydown',function(e){
     var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
-    if(bo.classList.contains('on')){
-      if(e.key==='b'||e.key==='B'||e.key==='Escape')blackout(false);
+    var k=e.key,isB=(k==='b'||k==='B')&&!e.ctrlKey&&!e.metaKey&&!e.altKey,isW=(k==='w'||k==='W')&&!e.ctrlKey&&!e.metaKey&&!e.altKey;
+    if(bo.classList.contains('on')||wo.classList.contains('on')){
+      var black=bo.classList.contains('on');
+      if(k==='Escape'||(isB&&black)||(isW&&!black)){blackout(false);whiteout(false);}
+      else if(isW&&black){blackout(false);whiteout(true);}
+      else if(isB&&!black){whiteout(false);blackout(true);}
       e.preventDefault();e.stopPropagation();return;
     }
     if(zl.classList.contains('on')){
-      if(e.key==='Escape'||e.key===' '||e.key.indexOf('Arrow')===0||e.key==='PageDown'||e.key==='PageUp'){zoomClose();e.preventDefault();e.stopPropagation();}
+      if(k==='Escape'||k===' '||k.indexOf('Arrow')===0||k==='PageDown'||k==='PageUp'){zoomClose();e.preventDefault();e.stopPropagation();}
       return;
     }
-    if(!STUDENT&&(e.key==='b'||e.key==='B')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();e.stopPropagation();blackout(true);}
+    if(!STUDENT&&isB){e.preventDefault();e.stopPropagation();blackout(true);return;}
+    if(!STUDENT&&isW){e.preventDefault();e.stopPropagation();whiteout(true);return;}
+    if(gate&&(k===' '||k==='Enter'||k==='ArrowRight'||k==='PageDown')){e.preventDefault();e.stopPropagation();startFirst();}
   },true);
 
   /* called from go() on every slide change */
-  window.lessonExtras={onSlide:function(){zoomClose();stopSpeak();}};
+  window.lessonExtras={onSlide:function(){zoomClose();stopSpeak();if(gate)startFirst();}};
 })();
 </script>
 
