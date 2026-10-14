@@ -835,6 +835,42 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1b2326;font-family:
 #tmMenu .tmOpt{font-family:"Orbitron","Consolas","Courier New",monospace;font-size:30px;font-weight:700;border:none;border-radius:14px;padding:16px 14px;background:#081a1d;color:#5ff0ff;text-shadow:0 0 8px rgba(95,240,255,.7);cursor:pointer;min-width:150px;transition:transform .12s}
 #tmMenu .tmOpt:hover{transform:translateY(-3px)}
 #tmMenu .tmTest{margin-top:14px;font-family:inherit;font-size:20px;font-weight:800;color:var(--teal-dark);background:#e7f4f6;border:2px dashed var(--teal);border-radius:10px;padding:8px 12px;cursor:pointer;width:100%}
+
+/* ---------- Student mode: hide teacher tools ---------- */
+body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPill,body.student #rp,body.student #tmMenu{display:none!important}
+/* ---------- Blackout (B key) ---------- */
+#blackout{position:absolute;inset:0;z-index:90;background:#000;display:none;align-items:center;justify-content:center;cursor:none}
+#blackout.on{display:flex;animation:boIn .35s ease}
+#blackout .boTxt{font-size:120px;font-weight:800;color:#fff;letter-spacing:2px;text-shadow:0 0 30px rgba(255,255,255,.25);animation:boPulse 2.6s ease-in-out infinite}
+#blackout .boTxt span{display:inline-block;animation:boEyes 2.6s ease-in-out infinite}
+@keyframes boPulse{50%{opacity:.75;transform:scale(1.03)}}
+@keyframes boEyes{0%,40%,100%{transform:translateX(0)}50%{transform:translateX(-14px)}70%{transform:translateX(14px)}}
+#zoomLayer .zmWrap .zmLive{pointer-events:auto!important;cursor:pointer}
+#zoomLayer .zmWrap .zmLive *{pointer-events:auto!important}
+@keyframes boIn{from{opacity:0}to{opacity:1}}
+/* ---------- Click-to-zoom ---------- */
+.zmHost{position:relative}
+.zmBtn{position:absolute;right:6px;top:6px;z-index:6;width:30px;height:30px;border-radius:50%;border:2px solid var(--teal);background:rgba(255,255,255,.88);color:var(--teal-dark);display:flex;align-items:center;justify-content:center;padding:0;cursor:zoom-in;opacity:.55;transition:opacity .2s,transform .2s;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.zmBtn.out{right:-13px;top:-13px}
+.zmBtn svg{width:17px;height:17px}
+.zmBtn:hover,.zmHost:hover>.zmBtn{opacity:1;transform:scale(1.12)}
+#zoomLayer{position:absolute;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(8,20,24,.82);cursor:zoom-out}
+#zoomLayer.on{display:flex;animation:boIn .25s ease}
+#zoomLayer .zmWrap{position:relative;transform-origin:center center;animation:zmPop .35s cubic-bezier(.2,.8,.2,1)}
+@keyframes zmPop{from{opacity:0;scale:.6}to{opacity:1;scale:1}}
+#zoomLayer .zmWrap *{pointer-events:none!important}
+#zoomLayer .zmWrap .zmBtn,#zoomLayer .zmWrap .spkBtn{display:none!important}
+#zoomLayer .zmWrap .rise{opacity:1!important;transform:none!important;animation:none!important}
+#zoomLayer .zmX{position:absolute;right:28px;top:22px;font-size:26px;font-weight:800;color:#fff;background:rgba(255,255,255,.14);border:2px solid rgba(255,255,255,.5);border-radius:12px;padding:6px 14px}
+/* ---------- Read-aloud (student mode only) ---------- */
+.spkBtn{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:none;background:var(--teal);color:#fff;padding:0;margin:0 6px 0 2px;vertical-align:-4px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,.2);transition:transform .15s;flex:none}
+.spkBtn svg{width:17px;height:17px}
+.spkBtn:hover{transform:scale(1.12)}
+.spkBtn.sm{width:24px;height:24px;margin:0 0 0 6px;vertical-align:-2px}
+.spkBtn.sm svg{width:14px;height:14px}
+.spkBtn.on{background:var(--pink);animation:spkPulse 1s ease-in-out infinite}
+@keyframes spkPulse{50%{box-shadow:0 0 0 7px rgba(230,23,92,.25)}}
+.reading-now{background:rgba(251,184,27,.22);border-radius:8px;box-shadow:0 0 0 6px rgba(251,184,27,.22)}
 </style>
 </head>
 <body>
@@ -1585,6 +1621,7 @@ var TIMER_SOUNDS=(function(){
     if(typeof hideClue==='function') hideClue();
     if(window.rosterPicker) rosterPicker.close();
     if(window.slideTimer) slideTimer.close();
+    if(window.lessonExtras) lessonExtras.onSlide();
     slides[cur].classList.remove('active');
     cur=i;
     var s=slides[cur];
@@ -1803,5 +1840,149 @@ var TIMER_SOUNDS=(function(){
   go(0);
 })();
 </script>
+
+<script>
+/* ===== Lesson extras: student mode, blackout, click-to-zoom, read-aloud ===== */
+var LESSON_EXTRAS = {
+  zoom: ".t2box, .ph, .statue",
+  readParagraphs: ".t2cols p",
+  readTerms: ".gloss p, .sd2 .wrow .s b, .wcard .w",
+  readPhrases: "",
+  zoomReveal: ".clk, .rv"
+};
+/* Read-aloud voice: add data-voice="female" to a text, slide or phrase written/spoken by a woman; everything else uses a male American voice. */
+(function(){
+  var stage=document.getElementById('stage');
+  var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(location.search+location.hash);
+  if(STUDENT)document.body.classList.add('student');
+  var ICON_ZOOM='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="10" cy="10" r="6.5"/><path d="M15 15l6 6"/></svg>';
+  var ICON_SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3z"/><path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+  var ac=null;function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+
+  /* ---------- Blackout: B key, looping "shhh" until B or Esc (teacher only) ---------- */
+  var bo=document.createElement('div');bo.id='blackout';bo.innerHTML='<div class="boTxt">Eyes on me <span>👀</span></div>';stage.appendChild(bo);
+  var shhMaster=null,shhIv=null,nbuf=null;
+  function shh(c,t){
+    if(!nbuf){nbuf=c.createBuffer(1,c.sampleRate*2,c.sampleRate);var d=nbuf.getChannelData(0);for(var i=0;i<d.length;i++)d[i]=Math.random()*2-1;}
+    var s=c.createBufferSource(),bp=c.createBiquadFilter(),hp=c.createBiquadFilter(),g=c.createGain();
+    s.buffer=nbuf;s.loop=true;bp.type='bandpass';bp.frequency.setValueAtTime(3200,t);bp.frequency.linearRampToValueAtTime(3800,t+1.3);bp.Q.value=0.8;hp.type='highpass';hp.frequency.value=1800;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.5,t+0.28);g.gain.setValueAtTime(0.5,t+1.0);g.gain.exponentialRampToValueAtTime(0.0001,t+1.55);
+    s.connect(bp);bp.connect(hp);hp.connect(g);g.connect(shhMaster);s.start(t);s.stop(t+1.6);
+  }
+  function blackout(on){
+    bo.classList.toggle('on',on);
+    clearInterval(shhIv);shhIv=null;
+    if(shhMaster){try{shhMaster.disconnect();}catch(e){}shhMaster=null;}
+    if(on){var c=audio();if(c){shhMaster=c.createGain();shhMaster.gain.value=0.9;shhMaster.connect(c.destination);shh(c,c.currentTime+0.05);shhIv=setInterval(function(){if(shhMaster)shh(c,c.currentTime+0.05);},2100);}}
+  }
+  bo.addEventListener('click',function(e){e.stopPropagation();});
+
+  /* ---------- Click-to-zoom ---------- */
+  var zl=document.createElement('div');zl.id='zoomLayer';zl.innerHTML='<div class="zmX">✕ Esc</div>';stage.appendChild(zl);
+  function zoomOpen(el){
+    var sl=el.closest('.slide'),w=el.offsetWidth,h=el.offsetHeight;
+    var wrap=document.createElement('div');
+    wrap.className='zmWrap '+(sl?[].slice.call(sl.classList).filter(function(c){return c!=='slide'&&c!=='active';}).join(' '):'');
+    var cl=el.cloneNode(true);cl.removeAttribute('id');cl.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id');});
+    cl.style.width=w+'px';cl.style.height=h+'px';cl.style.margin='0';cl.style.position='relative';cl.style.left='auto';cl.style.top='auto';cl.style.transform='none';
+    wrap.appendChild(cl);
+    var zr=LESSON_EXTRAS.zoomReveal||'.clk, .rv',og=el.querySelectorAll(zr),cg=cl.querySelectorAll(zr);
+    cg.forEach(function(c,i){var o=og[i];if(!o)return;c.classList.add('zmLive');
+      c.addEventListener('click',function(e){e.stopPropagation();var b=o.querySelector('.rvbtn');(b||o).click();c.classList.toggle('shown',o.classList.contains('shown'));});
+      c.addEventListener('pointerdown',function(e){e.stopPropagation();});});
+    var k=Math.min(1780/w,940/h,3.2);wrap.style.transform='scale('+k+')';
+    [].slice.call(zl.querySelectorAll('.zmWrap')).forEach(function(x){x.remove();});
+    zl.appendChild(wrap);zl.classList.add('on');
+  }
+  function zoomClose(){zl.classList.remove('on');[].slice.call(zl.querySelectorAll('.zmWrap')).forEach(function(x){x.remove();});}
+  zl.addEventListener('click',function(e){e.stopPropagation();zoomClose();});
+  zl.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  function qa(sel){return sel?document.querySelectorAll(sel):[];}
+  qa(LESSON_EXTRAS.zoom).forEach(function(el){
+    if(el.closest('#zoomLayer'))return;
+    var cs=getComputedStyle(el);if(cs.position==='static')el.classList.add('zmHost');
+    var b=document.createElement('button');b.className='zmBtn'+(cs.overflow==='visible'?' out':'');b.title='Zoom in';b.setAttribute('aria-label','Zoom in');b.innerHTML=ICON_ZOOM;
+    b.addEventListener('pointerdown',function(e){e.stopPropagation();});
+    b.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();zoomOpen(el);});
+    el.appendChild(b);
+  });
+
+  /* ---------- Read-aloud (student mode only, American voice) ---------- */
+  var synth=window.speechSynthesis,curBtn=null,curHl=null,curSrc=null;
+  var MALE=['Guy','Christopher','Andrew','Brian','Eric','Roger','Steffan','David','Mark','Alex','Aaron','Evan','Nathan','Tom','Fred','Reed','Rocko','Ralph','Male'],
+      FEMALE=['Aria','Jenny','Ava','Emma','Michelle','Ana','Zira','Samantha','Allison','Susan','Nicky','Joelle','Google US English','Female'];
+  function has(v,list){return list.some(function(n){return v.name.indexOf(n)>=0;});}
+  function usVoice(g){
+    if(!synth)return null;var vs=synth.getVoices()||[],us=vs.filter(function(v){return /en[-_]US/i.test(v.lang);});
+    var want=g==='female'?FEMALE:MALE,other=g==='female'?MALE:FEMALE;
+    for(var i=0;i<want.length;i++){var m=us.filter(function(v){return v.name.indexOf(want[i])>=0&&!(g==='female'?has(v,MALE):has(v,FEMALE));})[0];if(m)return m;}
+    var neutral=us.filter(function(v){return !has(v,other);})[0];
+    return neutral||us[0]||vs.filter(function(v){return /^en/i.test(v.lang);})[0]||null;
+  }
+  function genderOf(el){var x=el&&el.closest&&el.closest('[data-voice]');return x&&x.dataset.voice==='female'?'female':'male';}
+  if(synth&&synth.onvoiceschanged!==undefined)synth.onvoiceschanged=function(){};
+  function stopSpeak(){
+    if(synth)synth.cancel();
+    if(curBtn)curBtn.classList.remove('on');if(curHl)curHl.classList.remove('reading-now');curBtn=curHl=curSrc=null;
+  }
+  function speak(text,btn,hl,src,rate,gender){
+    if(!synth)return;
+    var same=btn&&btn===curBtn;stopSpeak();if(same)return;
+    text=(text||'').replace(/\s+/g,' ').trim();if(!text)return;
+    var u=new SpeechSynthesisUtterance(text),v=usVoice(gender||genderOf(hl||btn));if(v)u.voice=v;u.lang='en-US';u.rate=rate||0.92;
+    curBtn=btn;curHl=hl;curSrc=src||null;if(btn)btn.classList.add('on');if(hl)hl.classList.add('reading-now');
+    u.onend=u.onerror=function(){if(curBtn===btn){stopSpeak();}};
+    synth.speak(u);
+  }
+  function mkBtn(small){var b=document.createElement('button');b.className='spkBtn'+(small?' sm':'');b.title='Listen';b.setAttribute('aria-label','Listen');b.innerHTML=ICON_SPK;
+    b.addEventListener('pointerdown',function(e){e.stopPropagation();});return b;}
+  function paraText(p){
+    var c=p.cloneNode(true),og=p.querySelectorAll('.gap'),cg=c.querySelectorAll('.gap');
+    cg.forEach(function(g,i){var a=g.querySelector('.g-ans'),txt=og[i]&&og[i].classList.contains('shown')&&a?a.textContent:'blank';g.replaceWith(document.createTextNode(' '+txt+' '));});
+    c.querySelectorAll('.pn,.spkBtn,.zmBtn').forEach(function(x){x.remove();});
+    return c.textContent.replace(/\.\s\.\s\./g,' blank ');
+  }
+  if(STUDENT&&synth){
+    qa(LESSON_EXTRAS.readParagraphs).forEach(function(p){
+      var b=mkBtn(false),pn=p.querySelector('.pn');
+      b.addEventListener('click',function(e){e.stopPropagation();speak(paraText(p),b,p,null,0.9);});
+      if(pn)pn.after(b);else p.insertBefore(b,p.firstChild);
+    });
+    qa([LESSON_EXTRAS.readTerms,LESSON_EXTRAS.readPhrases].filter(Boolean).join(',')).forEach(function(t){
+      var b=mkBtn(true);
+      b.addEventListener('click',function(e){e.stopPropagation();var c=t.cloneNode(true);c.querySelectorAll('.spkBtn,.zmBtn,small').forEach(function(x){x.remove();});speak(c.textContent,b,t,null,0.88);});
+      t.appendChild(b);
+    });
+    /* CLUE / VISCLUE cards read the word and its meaning when they open */
+    [['cluecard','.cw','.cd'],['visclue','.vword','.vdef']].forEach(function(x){
+      var card=document.getElementById(x[0]);if(!card)return;
+      var was=false;
+      new MutationObserver(function(){
+        var on=card.classList.contains('show');if(on===was)return;was=on;
+        if(on){var w=card.querySelector(x[1]),d=card.querySelector(x[2]);speak((w?w.textContent:'')+'. '+(d?d.textContent:''),null,null,card,0.88);}
+        else if(curSrc===card)stopSpeak();
+      }).observe(card,{attributes:true,attributeFilter:['class']});
+    });
+  }
+
+  /* ---------- keys: handled before slide navigation ---------- */
+  window.addEventListener('keydown',function(e){
+    var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+    if(bo.classList.contains('on')){
+      if(e.key==='b'||e.key==='B'||e.key==='Escape')blackout(false);
+      e.preventDefault();e.stopPropagation();return;
+    }
+    if(zl.classList.contains('on')){
+      if(e.key==='Escape'||e.key===' '||e.key.indexOf('Arrow')===0||e.key==='PageDown'||e.key==='PageUp'){zoomClose();e.preventDefault();e.stopPropagation();}
+      return;
+    }
+    if(!STUDENT&&(e.key==='b'||e.key==='B')&&!e.ctrlKey&&!e.metaKey&&!e.altKey){e.preventDefault();e.stopPropagation();blackout(true);}
+  },true);
+
+  /* called from go() on every slide change */
+  window.lessonExtras={onSlide:function(){zoomClose();stopSpeak();}};
+})();
+</script>
+
 </body>
 </html>
