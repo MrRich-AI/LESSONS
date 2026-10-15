@@ -1681,6 +1681,8 @@ var LESSON_WORDS = [
   "v": "lãnh thổ"
  }
 ];
+/* Vietnamese for glossary-box words (glossary words are collected automatically) */
+var LESSON_WORDS_VI = {"bewildering": "gây hoang mang, khó hiểu", "possessed": "sở hữu, có", "feat": "kỳ tích", "strikers": "tiền đạo", "humility": "sự khiêm tốn"};
 /* ===== end of word list ===== */
 (function(){
   var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(location.search+location.hash);
@@ -1691,6 +1693,11 @@ var LESSON_WORDS = [
   slides.forEach(function(s){
     if(s===quiz)return;
     LESSON_WORDS.filter(function(x){return x.slide===s.dataset.title;}).forEach(add);
+    s.querySelectorAll('.gloss p').forEach(function(p){
+      var m=/^\s*([^(:]+?)\s*\(([^)]+)\)\s*:\s*([\s\S]+)$/.exec(p.textContent.replace(/\s+/g,' '));if(!m)return;
+      var ab={noun:'n',verb:'v',adjective:'adj',adverb:'adv'}[m[2].trim()]||m[2].trim();
+      add({w:m[1],pos:'('+ab+')',d:m[3].trim(),v:(window.LESSON_WORDS_VI||{})[m[1].trim()]||''});
+    });
     s.querySelectorAll('.clue[data-head], [data-vword]').forEach(function(c){
       if(c.dataset.head)add({w:c.dataset.head,d:c.dataset.def||'',v:c.dataset.vi||''});
       else add({w:c.dataset.vword,d:c.dataset.vdef||'',v:c.dataset.vvi||''});
