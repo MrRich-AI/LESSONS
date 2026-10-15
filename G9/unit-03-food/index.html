@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>G9 Unit 3: Food — A &amp; B1–5</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:wght@400;600;700;800&family=Fredoka:wght@500;600;700&family=Orbitron:wght@700&family=Press+Start+2P&family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --teal:#0a8b99; --teal-dark:#06707c; --teal-light:#8ecbd3; --teal-tab:#79c2cc;
@@ -556,6 +556,78 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 #startGate{position:absolute;inset:0;z-index:29;background:rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center;cursor:pointer}
 #startGate .sgTxt{font-size:56px;font-weight:800;color:#fff;background:rgba(10,139,153,.92);padding:22px 48px;border-radius:60px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:sgPulse 1.8s ease-in-out infinite}
 @keyframes sgPulse{50%{transform:scale(1.05)}}
+
+/* ---------- End-of-deck quiz: ARCADE NEON ---------- */
+.slide.qz{padding:0;background:#07021a;overflow:hidden;font-family:"Chakra Petch","Mulish","Segoe UI",sans-serif;color:#fff}
+.qz canvas.qzBg{position:absolute;left:0;top:0;width:1920px;height:984px}
+.qz .qzScan{position:absolute;left:0;top:0;width:1920px;height:984px;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 5px);mix-blend-mode:multiply;z-index:3}
+.qz .qzVig{position:absolute;left:0;top:0;width:1920px;height:984px;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(0,0,0,.6) 100%);z-index:3}
+.qz .qzDim{position:absolute;left:0;top:0;width:1920px;height:984px;background:rgba(6,0,22,.62);opacity:0;transition:opacity .5s;z-index:1}
+.qz.qz-playing .qzDim,.qz.qz-done .qzDim{opacity:1}
+.qz .qzPx{font-family:"Press Start 2P","Courier New",monospace}
+.qz .qz-scr{position:absolute;left:0;top:0;width:1920px;height:984px;z-index:2;display:none}
+.qz .qz-scr.qz-on{display:block}
+/* title screen */
+.qz .qzTitle{position:absolute;left:0;right:0;top:120px;text-align:center}
+.qz .qzT1{font-size:34px;letter-spacing:10px;color:#22f0ff;text-shadow:0 0 10px #22f0ff,0 0 26px #0aa}
+.qz .qzT2{margin-top:34px;font-size:150px;line-height:1;color:#fff;letter-spacing:6px;text-shadow:0 0 6px #fff,0 0 22px #ff3df0,0 0 48px #ff3df0,6px 6px 0 #5a0b6e}
+.qz .qzT3{display:inline-block;margin-top:40px;padding:16px 26px;background:rgba(7,2,26,.82);box-shadow:0 0 0 3px rgba(255,225,74,.5);font-size:30px;color:#ffe14a;letter-spacing:6px;text-shadow:0 0 12px rgba(255,225,74,.8)}
+.qz .qzStart{position:absolute;left:50%;top:640px;transform:translateX(-50%);font-size:38px;color:#07021a;background:#6cff5a;border:none;padding:28px 54px;cursor:pointer;box-shadow:0 0 0 6px #07021a,0 0 0 10px #6cff5a,0 0 40px #6cff5a;animation:qzBlink 1.1s steps(1) infinite}
+.qz .qzStart:hover{background:#b4ff9e}
+@keyframes qzBlink{50%{opacity:.35}}
+.qz.qz-started .qzT2{animation:qzGlitch 4s infinite}
+@keyframes qzGlitch{0%,92%,100%{transform:none}93%{transform:translate(-6px,2px) skewX(-6deg)}95%{transform:translate(5px,-2px)}97%{transform:translate(-2px,0) skewX(4deg)}}
+/* HUD */
+.qz .qz-hud{position:absolute;left:70px;right:70px;top:34px;height:60px;display:flex;align-items:center;justify-content:space-between}
+.qz .qz-hudL{font-size:22px;color:#22f0ff;text-shadow:0 0 10px #22f0ff;letter-spacing:3px}
+.qz .qz-pips{display:flex;gap:12px}
+.qz .qz-pip{width:30px;height:30px;border:3px solid rgba(255,255,255,.35);transform:rotate(45deg) scale(.8);transition:all .3s}
+.qz .qz-pip.qz-cur{border-color:#ffe14a;box-shadow:0 0 14px #ffe14a;transform:rotate(45deg) scale(1)}
+.qz .qz-pip.qz-ok{background:#6cff5a;border-color:#6cff5a;box-shadow:0 0 12px #6cff5a}
+.qz .qz-pip.qz-no{background:#ff3b5c;border-color:#ff3b5c;box-shadow:0 0 12px #ff3b5c}
+.qz .qz-hudR{font-size:22px;color:#ffe14a;text-shadow:0 0 10px #ffe14a;letter-spacing:3px;min-width:260px;text-align:right}
+.qz .qz-hudR b{display:inline-block;font-weight:400}
+.qz .qz-hudR b.qz-bump{animation:qzBump .5s}
+@keyframes qzBump{40%{transform:scale(1.6);color:#6cff5a}}
+/* question */
+.qz .qz-qcard{position:absolute;left:160px;right:160px;top:128px;padding:30px 44px 34px;background:rgba(10,4,34,.9);border:3px solid #ff3df0;box-shadow:0 0 0 1px rgba(255,61,240,.4),0 0 34px rgba(255,61,240,.45),inset 0 0 40px rgba(255,61,240,.12);}
+.qz .qz-qcat{display:inline-block;font-size:18px;letter-spacing:3px;padding:10px 16px;margin-bottom:18px;color:#07021a;background:#22f0ff;box-shadow:0 0 14px #22f0ff}
+.qz .qz-qcat.qz-read{background:#ffe14a;box-shadow:0 0 14px #ffe14a}
+.qz .qz-qcat.qz-speak{background:#6cff5a;box-shadow:0 0 14px #6cff5a}
+.qz .qz-qq{font-size:50px;font-weight:600;line-height:1.28}
+.qz .qz-qq .qz-blank{display:inline-block;min-width:200px;border-bottom:5px solid #22f0ff;margin:0 6px;transform:translateY(-6px);box-shadow:0 6px 12px -6px #22f0ff}
+.qz .qz-qq .qz-say{color:#ffe14a}
+.qz .qz-qq.qz-in{animation:qzIn .45s cubic-bezier(.2,.8,.2,1)}
+@keyframes qzIn{from{opacity:0;transform:translateX(60px)}to{opacity:1;transform:none}}
+.qz .qz-answers{position:absolute;left:160px;right:160px;display:grid;grid-template-columns:1fr 1fr;gap:26px 34px}
+.qz .qz-ab{--c:#22f0ff;position:relative;display:flex;align-items:center;gap:24px;min-height:128px;padding:20px 28px 20px 22px;font-family:inherit;font-size:38px;font-weight:600;line-height:1.22;text-align:left;color:#fff;background:rgba(10,4,34,.88);border:3px solid var(--c);cursor:pointer;box-shadow:0 0 18px color-mix(in srgb,var(--c) 55%,transparent),inset 0 0 22px color-mix(in srgb,var(--c) 14%,transparent);transition:transform .15s,background .2s,opacity .3s;animation:qzPop .45s cubic-bezier(.2,.8,.2,1) backwards}
+.qz .qz-ab:nth-child(1){--c:#22f0ff;animation-delay:.05s}.qz .qz-ab:nth-child(2){--c:#ff3df0;animation-delay:.12s}
+.qz .qz-ab:nth-child(3){--c:#ffe14a;animation-delay:.19s}.qz .qz-ab:nth-child(4){--c:#6cff5a;animation-delay:.26s}
+@keyframes qzPop{from{opacity:0;transform:scale(.85)}}
+.qz .qz-ab:hover:not([disabled]){transform:translateY(-4px);background:color-mix(in srgb,var(--c) 18%,rgba(10,4,34,.9))}
+.qz .qz-ab .qz-k{flex:none;width:64px;height:64px;display:flex;align-items:center;justify-content:center;font-family:"Press Start 2P","Courier New",monospace;font-size:26px;color:#07021a;background:var(--c);box-shadow:0 0 14px var(--c)}
+.qz .qz-ab[disabled]{cursor:default}
+.qz .qz-ab.qz-dim{opacity:.35}
+.qz .qz-ab.qz-right{--c:#6cff5a;background:rgba(40,120,40,.55);opacity:1;animation:qzRight .6s}
+.qz .qz-ab.qz-right::after{content:"✔";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:48px;color:#6cff5a;text-shadow:0 0 14px #6cff5a}
+.qz .qz-ab.qz-wrong{--c:#ff3b5c;background:rgba(140,20,40,.55);opacity:1;animation:qzShake .45s}
+.qz .qz-ab.qz-wrong::after{content:"✖";position:absolute;right:22px;top:50%;transform:translateY(-50%);font-size:44px;color:#ff3b5c;text-shadow:0 0 14px #ff3b5c}
+@keyframes qzRight{30%{transform:scale(1.05)}}
+@keyframes qzShake{20%{transform:translateX(-12px)}40%{transform:translateX(12px)}60%{transform:translateX(-8px)}80%{transform:translateX(6px)}}
+.qz .qz-expl{position:absolute;padding:14px 20px;background:rgba(7,2,26,.88);border-left:6px solid #22f0ff;left:160px;right:420px;bottom:46px;font-size:32px;line-height:1.3;color:#d9f6ff;opacity:0;transform:translateY(14px);transition:all .35s}
+.qz .qz-expl b{color:#6cff5a}.qz .qz-expl b.qz-no{color:#ff3b5c}
+.qz .qz-expl.qz-on{opacity:1;transform:none}
+.qz .qz-nextB{position:absolute;right:160px;bottom:40px;font-size:26px;color:#07021a;background:#ffe14a;border:none;padding:24px 34px;cursor:pointer;box-shadow:0 0 0 5px #07021a,0 0 0 9px #ffe14a,0 0 30px #ffe14a;opacity:0;pointer-events:none;transition:opacity .3s}
+.qz .qz-nextB.qz-on{opacity:1;pointer-events:auto;animation:qzBlink 1.1s steps(1) infinite 1s}
+.qz .qz-plus{position:absolute;font-size:40px;color:#6cff5a;text-shadow:0 0 14px #6cff5a;pointer-events:none;animation:qzPlus 1s forwards;z-index:5}
+@keyframes qzPlus{to{transform:translateY(-110px);opacity:0}}
+/* results */
+.qz .qz-res{position:absolute;left:0;right:0;top:120px;text-align:center}
+.qz .qz-resT{font-size:64px;color:#ff3df0;text-shadow:0 0 10px #ff3df0,0 0 34px #ff3df0;letter-spacing:6px}
+.qz .qz-resS{margin-top:46px;font-size:220px;line-height:1;color:#fff;text-shadow:0 0 8px #fff,0 0 30px #22f0ff,0 0 60px #22f0ff}
+.qz .qz-resM{margin-top:40px;font-size:30px;color:#ffe14a;letter-spacing:4px;text-shadow:0 0 12px rgba(255,225,74,.8)}
+.qz .qz-resRow{margin-top:44px;display:flex;justify-content:center;gap:12px}
+.qz .qz-again{position:absolute;left:50%;top:760px;transform:translateX(-50%);font-size:28px;color:#07021a;background:#22f0ff;border:none;padding:24px 40px;cursor:pointer;box-shadow:0 0 0 5px #07021a,0 0 0 9px #22f0ff,0 0 30px #22f0ff}
 </style>
 </head>
 <body>
@@ -954,6 +1026,38 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
       <div class="scard rise d6"><span class="w">underestimated</span><div class="ans"><div class="cover"></div><div class="body">I underestimated how long it would take to make the soup.</div></div></div>
     </div>
   </section>
+
+  <!-- ===== End-of-deck quiz ===== -->
+  <section class="slide qz" data-title="Food Quiz" data-page="">
+    <canvas class="qzBg" width="1920" height="984"></canvas>
+    <div class="qzDim"></div>
+    <div class="qz-scr qz-sTitle qz-on">
+      <div class="qzTitle">
+        <div class="qzT1 qzPx">UNIT 3 · FOOD</div>
+        <div class="qzT2 qzPx">QUIZ</div>
+        <div class="qzT3 qzPx">10 QUESTIONS · 1 PLAYER</div>
+      </div>
+      <button class="qzStart qzPx">PRESS START</button>
+    </div>
+    <div class="qz-scr qz-sPlay">
+      <div class="qz-hud"><div class="qz-hudL qzPx">FOOD QUIZ</div><div class="qz-pips"></div><div class="qz-hudR qzPx">SCORE <b>0</b></div></div>
+      <div class="qz-qcard"><div class="qz-qcat qzPx"></div><div class="qz-qq"></div></div>
+      <div class="qz-answers"></div>
+      <div class="qz-expl"></div>
+      <button class="qz-nextB qzPx">NEXT ▶</button>
+    </div>
+    <div class="qz-scr qz-sDone">
+      <div class="qz-res">
+        <div class="qz-resT qzPx">QUIZ COMPLETE</div>
+        <div class="qz-resS qzPx">0/10</div>
+        <div class="qz-resM qzPx"></div>
+        <div class="qz-resRow qz-pips"></div>
+      </div>
+      <button class="qz-again qzPx">↺ PLAY AGAIN</button>
+    </div>
+    <div class="qzScan"></div><div class="qzVig"></div>
+  </section>
+
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
       <linearGradient id="crA-fem" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7a4f22"/><stop offset="1" stop-color="#3b2410"/></linearGradient>
@@ -1867,6 +1971,253 @@ var LESSON_EXTRAS = {
 
   /* called from go() on every slide change */
   window.lessonExtras={onSlide:function(){zoomClose();stopSpeak();if(gate)startFirst();}};
+})();
+</script>
+
+
+<script>
+/* ===== End-of-deck quiz questions — edit here =====
+   cat: "vocab" | "read" | "speak"   q: question (use ___ for a gap, «…» for a spoken line)
+   a: answers, the FIRST one is correct (order is shuffled on screen)   why: short explanation */
+var QUIZ = [
+ {
+  "cat": "vocab",
+  "q": "The new phone is ___ more expensive than my old one, so I’m going to wait.",
+  "a": [
+   "considerably",
+   "harmless",
+   "guaranteed",
+   "actual"
+  ],
+  "why": "considerably = by a large amount."
+ },
+ {
+  "cat": "vocab",
+  "q": "A lot of people think energy drinks are ___, but too many can be bad for your heart.",
+  "a": [
+   "harmless",
+   "underestimated",
+   "majority",
+   "simply"
+  ],
+  "why": "harmless = safe, not dangerous."
+ },
+ {
+  "cat": "vocab",
+  "q": "We ___ how many guests would come, so there wasn’t enough pizza for everyone.",
+  "a": [
+   "underestimated",
+   "consumed",
+   "fooled",
+   "guaranteed"
+  ],
+  "why": "underestimate = think something is less or smaller than it really is."
+ },
+ {
+  "cat": "vocab",
+  "q": "The ___ of people in the survey said they eat fast food at least once a week.",
+  "a": [
+   "majority",
+   "pressure",
+   "actual",
+   "simply"
+  ],
+  "why": "majority = the largest part of a group."
+ },
+ {
+  "cat": "vocab",
+  "q": "«Teenagers are consuming more sugar than ever.» What does consuming mean here?",
+  "a": [
+   "eating or drinking",
+   "buying and selling",
+   "cooking",
+   "avoiding"
+  ],
+  "why": "consume = eat or drink (or use something up)."
+ },
+ {
+  "cat": "read",
+  "q": "You are about to read an article called ‘The truth about energy drinks’. What is the best thing to do first?",
+  "a": [
+   "Predict what the article might say and discuss your ideas",
+   "Look up every word in a dictionary",
+   "Read only the last paragraph",
+   "Copy the title into your notebook"
+  ],
+  "why": "Predicting gets you thinking about the topic, so the text is easier to follow."
+ },
+ {
+  "cat": "read",
+  "q": "You only need to check one fact – the price of a meal – in a long article. What should you do?",
+  "a": [
+   "Scan quickly for numbers and key words",
+   "Read every word slowly from the start",
+   "Read the title again",
+   "Translate the whole article"
+  ],
+  "why": "Scanning means moving your eyes quickly to find one piece of information."
+ },
+ {
+  "cat": "read",
+  "q": "«The café was so packed that we couldn’t find a table.» You don’t know packed. What does it probably mean?",
+  "a": [
+   "very full",
+   "very clean",
+   "closed",
+   "quiet"
+  ],
+  "why": "‘couldn’t find a table’ is the clue – use the words around a new word to guess its meaning."
+ },
+ {
+  "cat": "speak",
+  "q": "Your partner says: «I think schools should stop selling fast food.» What is the best reply?",
+  "a": [
+   "I partly agree. It isn’t very healthy, but students need quick options too. What do you think?",
+   "No.",
+   "Fast food is food you can buy quickly.",
+   "OK. Next question."
+  ],
+  "why": "Give your opinion, add a reason, then invite your partner to speak."
+ },
+ {
+  "cat": "speak",
+  "q": "Your partner asks: «Do you like spicy food?» What is the best reply?",
+  "a": [
+   "Yes, I love it – especially spicy noodles, because they’re so tasty. How about you?",
+   "Yes.",
+   "Spicy food is food with chilli in it.",
+   "I don’t know what you mean."
+  ],
+  "why": "Answer, give an example or reason, and ask a question back to keep the conversation going."
+ }
+];
+/* ===== end of quiz questions ===== */
+</script>
+<script>
+(function(){
+  var sl=document.querySelector('.slide.qz');if(!sl)return;
+  var stage=document.getElementById('stage'),cv=sl.querySelector('canvas.qzBg'),cx=cv.getContext('2d');
+  var W=1920,H=984,HZ=600,t0=performance.now(),raf=null;
+
+  /* ---------- background: synthwave arcade scene with pixel food ---------- */
+  var stars=[];for(var i=0;i<170;i++)stars.push({x:Math.random()*W,y:Math.random()*(HZ-40),r:Math.random()*1.8+.4,p:Math.random()*6});
+  function ridge(seed,base,amp,n){var pts=[],r=seed;for(var i=0;i<=n;i++){r=(r*9301+49297)%233280;pts.push([i*W/n,base-amp*(.35+.65*(r/233280))*(0.6+0.4*Math.sin(i*.7+seed))]);}return pts;}
+  var far=ridge(7,HZ-10,190,26),near=ridge(31,HZ+2,120,18);
+  var PAL={b:'#f4a640',w:'#fff3c4',g:'#58d14c',r:'#ff4a4a',y:'#ffd84a',m:'#7a3b1e',c:'#d9822b',p:'#e8384f',s:'#ff3b5c',k:'#2a0a3a'};
+  var SPR={
+    burger:["....bbbb....","..bbbbbbbb..",".bbwbbbwbbb.","bbbbbbbbbbbb","gggggggggggg","rrrrrrrrrrrr","yyyyyyyyyyyy","mmmmmmmmmmmm",".bbbbbbbbbb."],
+    fries:[".y.y.yy.y.",".yy.y.yyy.",".yyyyyyyy.","ssssssssss","sswwsswwss","ssswwwwsss",".ssssssss.",".ssssssss.","..ssssss.."],
+    pizza:["cccccccccc","yyyyyyyyyy",".ypyyypyy.",".yyyyyyyy.","..yypyyy..","..yyyyyy..","...yyyy...","...ypyy...","....yy...."],
+    soda:["...ww.....","....w.....",".ssssssss.",".swwsssss.",".ssssssss.","..swwwws..","..ssssss..","..ssssss..","...ssss..."]
+  };
+  var sprites=[];['burger','pizza','fries','soda','burger','pizza'].forEach(function(n,i){sprites.push({n:n,x:180+i*300+Math.random()*80,y:90+Math.random()*300,s:6+Math.random()*3,vx:(Math.random()<.5?-1:1)*(8+Math.random()*10),ph:Math.random()*6});});
+  var sparks=[];
+  function px(n,x,y,s,a){var m=SPR[n];cx.globalAlpha=a;for(var r=0;r<m.length;r++)for(var c=0;c<m[r].length;c++){var ch=m[r][c];if(ch!=='.'){cx.fillStyle=PAL[ch];cx.fillRect(x+c*s,y+r*s,s,s);}}cx.globalAlpha=1;}
+  function draw(now){
+    var t=(now-t0)/1000;
+    var g=cx.createLinearGradient(0,0,0,HZ);g.addColorStop(0,'#05011a');g.addColorStop(.55,'#2a0a52');g.addColorStop(.86,'#a0157a');g.addColorStop(1,'#ff3d88');
+    cx.fillStyle=g;cx.fillRect(0,0,W,HZ);
+    stars.forEach(function(s){cx.globalAlpha=.35+.65*Math.abs(Math.sin(t*1.3+s.p));cx.fillStyle='#fff';cx.fillRect(s.x,s.y,s.r,s.r);});cx.globalAlpha=1;
+    /* sun */
+    var sx=960,sy=HZ-70,sr=230;
+    var gl=cx.createRadialGradient(sx,sy,sr*.6,sx,sy,sr*2.1);gl.addColorStop(0,'rgba(255,90,150,.55)');gl.addColorStop(1,'rgba(255,60,140,0)');cx.fillStyle=gl;cx.fillRect(sx-sr*2.2,sy-sr*2.2,sr*4.4,sr*2.2+70);
+    cx.save();cx.beginPath();cx.arc(sx,sy,sr,Math.PI,0);cx.closePath();cx.clip();
+    var sg=cx.createLinearGradient(0,sy-sr,0,sy);sg.addColorStop(0,'#fff27a');sg.addColorStop(.5,'#ffad3b');sg.addColorStop(1,'#ff3d88');cx.fillStyle=sg;cx.fillRect(sx-sr,sy-sr,sr*2,sr);
+    for(var k=0;k<7;k++){var yy=sy-sr*.55+k*30+((t*14)%30),hh=4+k*2.2;cx.clearRect(sx-sr,yy,sr*2,hh);var bg=cx.createLinearGradient(0,0,0,HZ);bg.addColorStop(.55,'#2a0a52');bg.addColorStop(.86,'#a0157a');bg.addColorStop(1,'#ff3d88');cx.fillStyle=bg;cx.fillRect(sx-sr,yy,sr*2,hh);}
+    cx.restore();
+    /* pixel food floating in the sky */
+    sprites.forEach(function(p){p.x+=p.vx/60;if(p.x<-120)p.x=W+40;if(p.x>W+60)p.x=-110;px(p.n,p.x,p.y+Math.sin(t*1.2+p.ph)*14,p.s,.9);});
+    /* mountains */
+    function mount(pts,fill,edge){cx.beginPath();cx.moveTo(0,HZ+4);pts.forEach(function(q){cx.lineTo(q[0],q[1]);});cx.lineTo(W,HZ+4);cx.closePath();cx.fillStyle=fill;cx.fill();
+      cx.beginPath();pts.forEach(function(q,i){i?cx.lineTo(q[0],q[1]):cx.moveTo(q[0],q[1]);});cx.strokeStyle=edge;cx.globalAlpha=.25;cx.lineWidth=8;cx.stroke();cx.globalAlpha=1;cx.lineWidth=2.5;cx.stroke();}
+    mount(far,'#1a0738','#22f0ff');mount(near,'#0e0322','#ff3df0');
+    /* floor grid */
+    var fg=cx.createLinearGradient(0,HZ,0,H);fg.addColorStop(0,'#1a0436');fg.addColorStop(1,'#05010f');cx.fillStyle=fg;cx.fillRect(0,HZ,W,H-HZ);
+    cx.save();cx.globalCompositeOperation='lighter';
+    function line(x1,y1,x2,y2,a){cx.strokeStyle='rgba(255,61,240,'+(a*.25)+')';cx.lineWidth=7;cx.beginPath();cx.moveTo(x1,y1);cx.lineTo(x2,y2);cx.stroke();cx.strokeStyle='rgba(255,120,245,'+a+')';cx.lineWidth=2;cx.stroke();}
+    for(var v=-20;v<=20;v++){var xb=960+v*170;line(960+v*14,HZ,xb,H,.7);}
+    var off=(t*.55)%1;
+    for(var h=0;h<16;h++){var z=(h+off)/16,y=HZ+(H-HZ)*Math.pow(z,2.4);line(0,y,W,y,Math.min(1,.25+z));}
+    cx.restore();
+    /* horizon glow */
+    var hg=cx.createLinearGradient(0,HZ-6,0,HZ+26);hg.addColorStop(0,'rgba(255,61,240,0)');hg.addColorStop(.3,'rgba(255,140,250,.9)');hg.addColorStop(1,'rgba(255,61,240,0)');cx.fillStyle=hg;cx.fillRect(0,HZ-6,W,32);
+    /* rising sparks */
+    if(Math.random()<.35)sparks.push({x:Math.random()*W,y:H,v:40+Math.random()*80,c:Math.random()<.5?'#22f0ff':'#ffe14a',l:1});
+    sparks=sparks.filter(function(s){s.y-=s.v/60;s.l-=.006;if(s.l<=0||s.y<HZ)return false;cx.globalAlpha=s.l;cx.fillStyle=s.c;cx.fillRect(s.x,s.y,3,3);return true;});cx.globalAlpha=1;
+  }
+  function loop(now){draw(now);raf=sl.classList.contains('active')?requestAnimationFrame(loop):null;}
+  function wake(){if(!raf&&sl.classList.contains('active'))raf=requestAnimationFrame(loop);}
+  new MutationObserver(wake).observe(sl,{attributes:true,attributeFilter:['class']});draw(performance.now());wake();
+
+  /* ---------- 8-bit sounds ---------- */
+  var ac=null;function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function tone(f,d,w,v,dt){var c=audio();if(!c)return;var t=c.currentTime+(dt||0),o=c.createOscillator(),g=c.createGain();o.type=w||'square';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v||.07,t);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.02);}
+  var SND={coin:function(){tone(988,.08);tone(1319,.32,'square',.07,.08);},
+    ok:function(){[523,659,784,1047].forEach(function(f,i){tone(f,.12,'square',.07,i*.07);});},
+    no:function(){tone(220,.18,'sawtooth',.08);tone(150,.32,'sawtooth',.08,.16);},
+    blip:function(){tone(660,.05,'square',.04);},
+    end:function(){[523,523,784,784,880,1047].forEach(function(f,i){tone(f,.16,'square',.07,i*.13);});}};
+
+  /* ---------- quiz logic ---------- */
+  var $=function(s){return sl.querySelector(s);};
+  var scr={t:$('.qz-sTitle'),p:$('.qz-sPlay'),d:$('.qz-sDone')};
+  var catName={vocab:'VOCABULARY',read:'READING SKILLS',speak:'SPEAKING',gram:'LANGUAGE FOCUS',listen:'LISTENING SKILLS'};
+  var qi=0,score=0,answered=false,res=[],order=[];
+  $('.qzT3').textContent=QUIZ.length+' QUESTIONS';
+  function show(k){['t','p','d'].forEach(function(x){scr[x].classList.toggle('qz-on',x===k);});sl.classList.toggle('qz-playing',k==='p');sl.classList.toggle('qz-done',k==='d');}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function fmtQ(s){return esc(s).replace(/___/g,'<span class="qz-blank"></span>').replace(/«(.*?)»/g,'<span class="qz-say">“$1”</span>');}
+  function pips(el){el.innerHTML='';QUIZ.forEach(function(_,i){var d=document.createElement('div');d.className='qz-pip'+(res[i]===true?' qz-ok':res[i]===false?' qz-no':'')+(el.closest('.qz-sPlay')&&i===qi?' qz-cur':'');el.appendChild(d);});}
+  function start(){qi=0;score=0;res=[];$('.qz-hudR b').textContent='0';show('p');SND.coin();ask();}
+  function ask(){
+    answered=false;var Q=QUIZ[qi];
+    var cat=$('.qz-qcat');cat.textContent=catName[Q.cat]||'';cat.className='qz-qcat qzPx qz-'+Q.cat;
+    var qq=$('.qz-qq');qq.innerHTML=fmtQ(Q.q);qq.classList.remove('qz-in');void qq.offsetWidth;qq.classList.add('qz-in');
+    order=shuffle(Q.a.map(function(t,i){return {t:t,ok:i===0};}));
+    var box=$('.qz-answers');box.innerHTML='';
+    order.forEach(function(o,i){var b=document.createElement('button');b.className='qz-ab';b.innerHTML='<span class="qz-k">'+'ABCD'[i]+'</span><span>'+esc(o.t)+'</span>';b.onclick=function(e){e.stopPropagation();pick(i);};box.appendChild(b);});
+    var card=$('.qz-qcard');box.style.top=(card.offsetTop+card.offsetHeight+30)+'px';
+    $('.qz-expl').classList.remove('qz-on');$('.qz-nextB').classList.remove('qz-on');pips($('.qz-sPlay .qz-pips'));
+  }
+  function pick(i){
+    if(answered)return;answered=true;var bs=sl.querySelectorAll('.qz-ab'),ok=order[i].ok;
+    bs.forEach(function(b,j){b.disabled=true;if(order[j].ok)b.classList.add('qz-right');else if(j===i)b.classList.add('qz-wrong');else b.classList.add('qz-dim');});
+    res[qi]=ok;if(ok){score++;var sb=$('.qz-hudR b');sb.textContent=score;sb.classList.remove('qz-bump');void sb.offsetWidth;sb.classList.add('qz-bump');SND.ok();
+      var r=bs[i].getBoundingClientRect(),sr=sl.getBoundingClientRect(),k=sr.width/1920,p=document.createElement('div');p.className='qz-plus qzPx';p.textContent='+1';p.style.left=((r.right-sr.left)/k-120)+'px';p.style.top=((r.top-sr.top)/k-10)+'px';sl.appendChild(p);setTimeout(function(){p.remove();},1000);}
+    else SND.no();
+    var ex=$('.qz-expl');ex.innerHTML=(ok?'<b>Correct!</b> ':'<b class="qz-no">Not quite.</b> ')+esc(QUIZ[qi].why);
+    var box=$('.qz-answers'),yb=box.offsetTop+box.offsetHeight;ex.style.top=(yb+30)+'px';ex.style.bottom='auto';
+    ex.classList.add('qz-on');var nb=$('.qz-nextB');nb.textContent=qi===QUIZ.length-1?'RESULTS ▶':'NEXT ▶';nb.style.top=(yb+24)+'px';nb.style.bottom='auto';nb.classList.add('qz-on');
+    pips($('.qz-sPlay .qz-pips'));
+  }
+  function next(){if(!answered)return;SND.blip();if(qi<QUIZ.length-1){qi++;ask();}else finish();}
+  function finish(){
+    show('d');var n=QUIZ.length,p=score/n;
+    $('.qz-resS').textContent=score+'/'+n;
+    $('.qz-resM').textContent=p===1?'PERFECT SCORE!':p>=.8?'HIGH SCORE!':p>=.5?'NICE TRY – REVIEW THE WORDS':'INSERT COIN – TRY AGAIN';
+    pips($('.qz-sDone .qz-pips'));SND.end();
+  }
+  $('.qzStart').onclick=function(e){e.stopPropagation();sl.classList.add('qz-started');start();};
+  $('.qz-nextB').onclick=function(e){e.stopPropagation();next();};
+  $('.qz-again').onclick=function(e){e.stopPropagation();start();};
+  sl.addEventListener('click',function(e){e.stopPropagation();});
+
+  /* keys on the quiz slide: 1–4 answer (A–D), Space/→/Enter next; ← still goes back a slide */
+  window.addEventListener('keydown',function(e){
+    if(!sl.classList.contains('active')||e.defaultPrevented)return;
+    var busy=['blackout','whiteout','zoomLayer','startGate'].some(function(id){var el=document.getElementById(id);return el&&(id==='startGate'||el.classList.contains('on'));});
+    var cont=document.getElementById('contents');if(busy||(cont&&cont.classList.contains('open')))return;
+    var k=e.key,adv=(k===' '||k==='ArrowRight'||k==='Enter'||k==='PageDown');
+    if(scr.t.classList.contains('qz-on')){if(adv){e.preventDefault();e.stopImmediatePropagation();sl.classList.add('qz-started');start();}return;}
+    if(scr.p.classList.contains('qz-on')){
+      var n='1234'.indexOf(k);
+      if(n>=0&&k.length===1&&!answered&&n<order.length){e.preventDefault();e.stopImmediatePropagation();pick(n);return;}
+      if(adv){e.preventDefault();e.stopImmediatePropagation();next();}
+      return;
+    }
+    if(scr.d.classList.contains('qz-on')&&adv){e.preventDefault();e.stopImmediatePropagation();}
+  },true);
 })();
 </script>
 
