@@ -628,6 +628,12 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 .qz .qz-resM{margin-top:40px;font-size:30px;color:#ffe14a;letter-spacing:4px;text-shadow:0 0 12px rgba(255,225,74,.8)}
 .qz .qz-resRow{margin-top:44px;display:flex;justify-content:center;gap:12px}
 .qz .qz-again{position:absolute;left:50%;top:760px;transform:translateX(-50%);font-size:28px;color:#07021a;background:#22f0ff;border:none;padding:24px 40px;cursor:pointer;box-shadow:0 0 0 5px #07021a,0 0 0 9px #22f0ff,0 0 30px #22f0ff}
+
+/* ---------- Teacher screens 5 (themed timer) and 6 (Break Time) ---------- */
+.lxScreen{position:absolute;inset:0;z-index:90;display:none;overflow:hidden;cursor:pointer}
+.lxScreen.on{display:block;animation:boIn .35s ease}
+.lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
+#lxBreak{cursor:default}
 </style>
 </head>
 <body>
@@ -650,7 +656,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Pizza ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 1 — Pizza" data-page="">
+  <section class="slide warm" data-title="Where is it from? 1 — Pizza" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">1 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#e63946"><span class="fb">🍕</span><img alt="Pizza" data-srcs="https://commons.wikimedia.org/wiki/Special:FilePath/Eq_it-na_pizza-margherita_sep2005_sml.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Pizza_Margherita_stu_spivack.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Pizza-3007395.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Pizza.jpg?width=900"></div><div class="wname" style="color:#e63946">Pizza</div></div></div>
@@ -667,7 +673,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Sushi ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 2 — Sushi" data-page="">
+  <section class="slide warm" data-title="Where is it from? 2 — Sushi" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">2 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#ff6b9a"><span class="fb">🍣</span><img alt="Sushi" data-srcs="https://commons.wikimedia.org/wiki/Special:FilePath/Sushi_platter.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Various_sushi%2C_beautiful_October_night_at_midnight.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Sushi.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Sushi_bar.jpg?width=900"></div><div class="wname" style="color:#ff6b9a">Sushi</div></div></div>
@@ -684,7 +690,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Tacos ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 3 — Tacos" data-page="">
+  <section class="slide warm" data-title="Where is it from? 3 — Tacos" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">3 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#f4a100"><span class="fb">🌮</span><img alt="Tacos" data-srcs="https://commons.wikimedia.org/wiki/Special:FilePath/001_Tacos_de_carnitas%2C_carne_asada_y_al_pastor.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Tacos_al_pastor.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Tacos.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Taco.jpg?width=900"></div><div class="wname" style="color:#f4a100">Tacos</div></div></div>
@@ -701,7 +707,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Buffalo wings ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 4 — Buffalo wings" data-page="">
+  <section class="slide warm" data-title="Where is it from? 4 — Buffalo wings" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">4 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#fb5607"><span class="fb">🍗</span><img alt="Buffalo wings" data-srcs="https://commons.wikimedia.org/wiki/Special:FilePath/Buffalo_wings.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Buffalo_Wings.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Buffalo_-_Wings_at_Airport_Bar.jpg?width=900|https://commons.wikimedia.org/wiki/Special:FilePath/Chicken_wings.jpg?width=900"></div><div class="wname" style="color:#fb5607">Buffalo wings</div></div></div>
@@ -718,7 +724,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Injera with doro wat ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 5 — Injera with doro wat" data-page="">
+  <section class="slide warm" data-title="Where is it from? 5 — Injera with doro wat" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">5 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#8338ec"><span class="fb">🍲</span><img alt="Injera with doro wat" data-srcs="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJglbviYpXw4WHYjj8kUppNaqKc22JfrTZ6p8mcM-RWQ&amp;s=10"></div><div class="wname" style="color:#8338ec">Injera with doro wat</div></div></div>
@@ -735,7 +741,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
   </section>
   <!-- ===== Food origins: Fried crickets ===== -->
-  <section class="slide warm" data-rev="1" data-title="Where is it from? 6 — Fried crickets" data-page="">
+  <section class="slide warm" data-title="Where is it from? 6 — Fried crickets" data-page="">
     <div class="zig"></div><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
     <div class="wcount kin" style="--d:.1s">6 / 6</div>
     <div class="wfood kin fromleft" style="--d:.05s"><div class="wcard"><div class="wph" style="--c:#0fa3a3"><span class="fb">🦗</span><img alt="Fried crickets" data-srcs="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Chingrit_thot.jpg/1280px-Chingrit_thot.jpg|https://upload.wikimedia.org/wikipedia/commons/e/ef/Chingrit_thot.jpg"></div><div class="wname" style="color:#0fa3a3">Fried crickets</div></div></div>
@@ -1919,6 +1925,8 @@ var LESSON_EXTRAS = {
   var wo=document.createElement('div');wo.id='whiteout';stage.appendChild(wo);
   wo.addEventListener('click',function(e){e.stopPropagation();});
   function whiteout(on){wo.classList.toggle('on',on);}
+  var SCREENS=[{keys:['b','B'],isOn:function(){return bo.classList.contains('on');},set:blackout},
+               {keys:['w','W'],isOn:function(){return wo.classList.contains('on');},set:whiteout}];
 
   /* ---------- First screen waits for a click: still + dimmed, then plays from the start ---------- */
   var gate=null,held=[];
@@ -1952,20 +1960,21 @@ var LESSON_EXTRAS = {
   /* ---------- keys: handled before slide navigation ---------- */
   window.addEventListener('keydown',function(e){
     var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
-    var k=e.key,isB=(k==='b'||k==='B')&&!e.ctrlKey&&!e.metaKey&&!e.altKey,isW=(k==='w'||k==='W')&&!e.ctrlKey&&!e.metaKey&&!e.altKey;
-    if(bo.classList.contains('on')||wo.classList.contains('on')){
-      var black=bo.classList.contains('on');
-      if(k==='Escape'||(isB&&black)||(isW&&!black)){blackout(false);whiteout(false);}
-      else if(isW&&black){blackout(false);whiteout(true);}
-      else if(isB&&!black){whiteout(false);blackout(true);}
+    var k=e.key,plain=!e.ctrlKey&&!e.metaKey&&!e.altKey;
+    /* full-screen teacher screens: B blackout, W whiteout, 5 themed timer, 6 break screen (added by the theme script) */
+    var S=SCREENS.concat(window.LX_SCREENS||[]);
+    var open=S.filter(function(s){return s.isOn();})[0];
+    var hit=plain?S.filter(function(s){return s.keys.indexOf(k)>=0;})[0]:null;
+    if(open){
+      if(k==='Escape'||hit===open){open.set(false);}
+      else if(hit){open.set(false);hit.set(true);}
       e.preventDefault();e.stopPropagation();return;
     }
     if(zl.classList.contains('on')){
       if(k==='Escape'||k===' '||k.indexOf('Arrow')===0||k==='PageDown'||k==='PageUp'){zoomClose();e.preventDefault();e.stopPropagation();}
       return;
     }
-    if(!STUDENT&&isB){e.preventDefault();e.stopPropagation();blackout(true);return;}
-    if(!STUDENT&&isW){e.preventDefault();e.stopPropagation();whiteout(true);return;}
+    if(!STUDENT&&hit){e.preventDefault();e.stopPropagation();hit.set(true);return;}
     if(gate&&(k===' '||k==='Enter'||k==='ArrowRight'||k==='PageDown')){e.preventDefault();e.stopPropagation();startFirst();}
   },true);
 
@@ -2207,6 +2216,7 @@ var QUIZ = [
   window.addEventListener('keydown',function(e){
     if(!sl.classList.contains('active')||e.defaultPrevented)return;
     var busy=['blackout','whiteout','zoomLayer','startGate'].some(function(id){var el=document.getElementById(id);return el&&(id==='startGate'||el.classList.contains('on'));});
+    if(document.querySelector('.lxScreen.on'))busy=true;
     var cont=document.getElementById('contents');if(busy||(cont&&cont.classList.contains('open')))return;
     var k=e.key,adv=(k===' '||k==='ArrowRight'||k==='Enter'||k==='PageDown');
     if(scr.t.classList.contains('qz-on')){if(adv){e.preventDefault();e.stopImmediatePropagation();sl.classList.add('qz-started');start();}return;}
@@ -2218,6 +2228,233 @@ var QUIZ = [
     }
     if(scr.d.classList.contains('qz-on')&&adv){e.preventDefault();e.stopImmediatePropagation();}
   },true);
+})();
+</script>
+
+
+<style>
+/* ---------- Theme for screens 5/6: G9 Unit 3 Food — pizza table ---------- */
+#lxTimer .pzF{font-family:"Fredoka","Mulish","Segoe UI",sans-serif}
+#lxTimer .pzSlice{transform-box:view-box}
+#lxTimer .pzSlice.gone{animation:pzEat 1.3s cubic-bezier(.5,0,.75,0) forwards}
+@keyframes pzEat{0%{transform:none}18%{transform:translate(calc(var(--dx)*18px),calc(var(--dy)*18px)) rotate(-4deg)}32%{transform:translate(calc(var(--dx)*10px),calc(var(--dy)*10px)) rotate(3deg)}100%{transform:translate(calc(var(--dx)*320px),calc(var(--dy)*320px)) rotate(28deg) scale(.15);opacity:0}}
+#lxTimer .pzCrumb{transform-box:view-box;animation:pzCrumb 1.1s ease-out forwards}
+@keyframes pzCrumb{from{transform:none;opacity:1}to{transform:translate(var(--cx),var(--cy)) rotate(200deg);opacity:0}}
+#lxTimer .pzSteam{animation:pzSteam 4.5s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+#lxTimer .pzSteam.s2{animation-delay:-1.5s}#lxTimer .pzSteam.s3{animation-delay:-3s}
+@keyframes pzSteam{0%{opacity:0;transform:translateY(30px) scaleX(.8)}30%{opacity:.55}100%{opacity:0;transform:translateY(-90px) scaleX(1.25)}}
+#lxTimer .pzBub{animation:pzBub 2.6s linear infinite;transform-box:fill-box}
+@keyframes pzBub{0%{opacity:0;transform:scale(.4)}20%{opacity:.9}100%{opacity:0;transform:scale(1.4)}}
+#lxTimer .pzCutter{transform-box:fill-box;transform-origin:center;animation:pzSpin 2s linear infinite}
+@keyframes pzSpin{to{transform:rotate(360deg)}}
+#lxTimer .pzReady{animation:pzPulse 1.6s ease-in-out infinite}
+@keyframes pzPulse{50%{opacity:.45}}
+#lxTimer .pzItem{transform-box:fill-box;transform-origin:center;transition:transform 1.5s cubic-bezier(.55,-0.2,.75,.5),opacity 1.5s}
+#lxTimer.lxUp .pzItem{transform:translate(var(--tx),var(--ty)) rotate(var(--tr)) scale(.6);opacity:0}
+#lxTimer .pzDark{opacity:0;transition:opacity 1.2s .6s}
+#lxTimer.lxUp .pzDark{opacity:1}
+#lxTimer .pzUp{opacity:0;transform-box:fill-box;transform-origin:center}
+#lxTimer.lxUp .pzUp{animation:pzUpIn .9s cubic-bezier(.2,1.6,.4,1) 1.5s forwards}
+@keyframes pzUpIn{from{opacity:0;transform:scale(.2) rotate(-8deg)}to{opacity:1;transform:none}}
+#lxTimer.lxUp .pzUpRays{animation:pzSpin 18s linear infinite;transform-box:view-box;transform-origin:0 0}
+</style>
+<script>
+var LX_THEME=(function(){
+  var CX=760,CY=540,R=330,BR=392,RR=432,PI=Math.PI;
+  function pt(r,a,cx,cy){var t=a*PI/180;return [(cx||CX)+r*Math.cos(t),(cy||CY)+r*Math.sin(t)];}
+  function f(n){return Math.round(n*10)/10;}
+  function wedge(r,a0,a1){var p=pt(r,a0),q=pt(r,a1);return 'M'+CX+','+CY+'L'+f(p[0])+','+f(p[1])+'A'+r+','+r+' 0 0 1 '+f(q[0])+','+f(q[1])+'Z';}
+  function arc(r,a0,a1){var p=pt(r,a0),q=pt(r,a1);return 'M'+f(p[0])+','+f(p[1])+'A'+r+','+r+' 0 0 1 '+f(q[0])+','+f(q[1]);}
+  function rnd(s){return function(){s=(s*9301+49297)%233280;return s/233280;};}
+  var g=null,lastSlices=5,digits,status,ring,cutter,icons,C=2*PI*RR;
+
+  function slices(){
+    var out='';
+    for(var i=0;i<5;i++){
+      var a0=-90+72*i+.7,a1=a0+72-1.4,mid=(a0+a1)/2,d=pt(1,mid,0,0),c=pt(R*.55,mid),r=rnd(17+i*31),top='';
+      /* toppings */
+      [[.42,.28],[.72,.55],[.62,.18],[.3,.78],[.82,.85]].forEach(function(p,k){
+        var q=pt(R*p[0]*.95+R*.04,a0+(a1-a0)*p[1]);
+        if(k<3){top+='<g><circle cx="'+f(q[0])+'" cy="'+f(q[1])+'" r="31" fill="#b3302a"/><circle cx="'+f(q[0])+'" cy="'+f(q[1])+'" r="31" fill="none" stroke="#8f2420" stroke-width="5"/>'+
+          '<circle cx="'+f(q[0]-9)+'" cy="'+f(q[1]-7)+'" r="4" fill="#7d1d19"/><circle cx="'+f(q[0]+8)+'" cy="'+f(q[1]+5)+'" r="3.5" fill="#7d1d19"/><circle cx="'+f(q[0]+2)+'" cy="'+f(q[1]-12)+'" r="3" fill="#d65a4d"/></g>';}
+        else if(k===3){top+='<ellipse cx="'+f(q[0])+'" cy="'+f(q[1])+'" rx="24" ry="12" fill="#2f9e44" transform="rotate('+Math.round(r()*180)+' '+f(q[0])+' '+f(q[1])+')"/><path d="M'+f(q[0]-18)+','+f(q[1])+'h36" stroke="#1f7a32" stroke-width="2" transform="rotate('+Math.round(r()*180)+' '+f(q[0])+' '+f(q[1])+')"/>';}
+        else{top+='<circle cx="'+f(q[0])+'" cy="'+f(q[1])+'" r="11" fill="none" stroke="#2b2b2b" stroke-width="8"/>';}
+      });
+      var spots='';for(var s=0;s<7;s++){var q=pt(R*(.2+r()*.65),a0+(a1-a0)*(.1+r()*.8));spots+='<ellipse cx="'+f(q[0])+'" cy="'+f(q[1])+'" rx="'+f(10+r()*16)+'" ry="'+f(7+r()*10)+'" fill="#ffe89a" opacity=".85"/>';}
+      var herbs='';for(var h=0;h<10;h++){var q=pt(R*(.15+r()*.75),a0+(a1-a0)*(.08+r()*.84));herbs+='<rect x="'+f(q[0])+'" y="'+f(q[1])+'" width="5" height="3" rx="1" fill="#3e7d2a" transform="rotate('+Math.round(r()*180)+' '+f(q[0])+' '+f(q[1])+')"/>';}
+      out+='<g class="pzSlice" data-i="'+i+'" style="--dx:'+f(d[0])+';--dy:'+f(d[1])+';transform-origin:'+f(c[0])+'px '+f(c[1])+'px">'+
+        '<path d="'+wedge(R,a0,a1)+'" fill="#e3a24c" stroke="#b97a33" stroke-width="3"/>'+
+        '<path d="'+wedge(R-30,a0+.6,a1-.6)+'" fill="#d2482c"/>'+
+        '<path d="'+wedge(R-38,a0+.9,a1-.9)+'" fill="#ffcf55"/>'+spots+top+herbs+
+        '<path d="'+arc(R-12,a0+1,a1-1)+'" fill="none" stroke="#f7c77d" stroke-width="7" stroke-linecap="round" opacity=".8"/>'+
+        '<path d="'+arc(R-4,a0+1,a1-1)+'" fill="none" stroke="#a96a2a" stroke-width="3" opacity=".6"/></g>';
+    }
+    return out;
+  }
+  function sliceIcon(x,y,on){return '<path d="M'+x+','+(y-26)+'l22,46h-44z" fill="'+(on?'#ffcf55':'none')+'" stroke="'+(on?'#e3a24c':'#f5f1e6')+'" stroke-width="5" stroke-linejoin="round"/>'+(on?'<circle cx="'+(x-3)+'" cy="'+(y+6)+'" r="6" fill="#b3302a"/>':'');}
+
+  function build(el){
+    var r=rnd(5),ty=function(){return Math.round((r()<.5?-1:1)*(700+r()*500));},tx=function(){return Math.round((r()<.5?-1:1)*(900+r()*700));},tr=function(){return Math.round((r()*2-1)*540)+'deg';};
+    var v=function(){return 'style="--tx:'+tx()+'px;--ty:'+ty()+'px;--tr:'+tr()+'"';};
+    var steam='';[[-90,1],[0,2],[110,3]].forEach(function(s){steam+='<path class="pzSteam s'+s[1]+'" d="M'+(CX+s[0])+','+(CY-60)+'c-30,-40 30,-70 0,-110c-25,-35 20,-60 0,-90" fill="none" stroke="#fff" stroke-width="16" stroke-linecap="round" opacity="0"/>';});
+    var bubbles='';for(var b=0;b<7;b++){bubbles+='<circle class="pzBub" cx="'+(1430+Math.round((r()-.5)*90))+'" cy="'+(870+Math.round((r()-.5)*90))+'" r="'+(4+Math.round(r()*5))+'" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2.5" style="animation-delay:-'+(r()*2.6).toFixed(2)+'s"/>';}
+    var flakes='';for(var k=0;k<14;k++){flakes+='<rect x="'+(1318+Math.round((r()-.5)*44))+'" y="'+(158+Math.round((r()-.5)*44))+'" width="5" height="4" fill="#d6402b"/>';}
+    var holes='';[[0,0],[-14,-10],[14,-10],[-14,10],[14,10]].forEach(function(h){holes+='<circle cx="'+(1208+h[0])+'" cy="'+(198+h[1])+'" r="3.6" fill="#9aa3a8"/>';});
+    var grain='';for(var gr=1;gr<7;gr++)grain+='<circle cx="'+CX+'" cy="'+CY+'" r="'+(BR-gr*48)+'" fill="none" stroke="rgba(110,62,24,.18)" stroke-width="3"/>';
+    el.innerHTML='<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><defs>'+
+      '<pattern id="pzGing" width="120" height="120" patternUnits="userSpaceOnUse"><rect width="120" height="120" fill="#fff6e8"/><rect width="60" height="120" fill="rgba(210,46,46,.5)"/><rect width="120" height="60" fill="rgba(210,46,46,.5)"/><path d="M0,0h120M0,60h120" stroke="rgba(255,255,255,.15)" stroke-width="2"/></pattern>'+
+      '<radialGradient id="pzWood" cx="40%" cy="35%" r="75%"><stop offset="0" stop-color="#e3ae74"/><stop offset="1" stop-color="#b2733a"/></radialGradient>'+
+      '<radialGradient id="pzVig" cx="50%" cy="50%" r="70%"><stop offset=".55" stop-color="rgba(0,0,0,0)"/><stop offset="1" stop-color="rgba(60,10,0,.45)"/></radialGradient>'+
+      '<radialGradient id="pzCola" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#8b3a1c"/><stop offset="1" stop-color="#3d1408"/></radialGradient>'+
+      '<filter id="pzSh" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="14"/></filter></defs>'+
+      '<rect width="1920" height="1080" fill="url(#pzGing)"/><rect width="1920" height="1080" fill="url(#pzVig)"/>'+
+      /* napkin + fork */
+      '<g class="pzItem" '+v()+'><g transform="rotate(-12 260 880)"><rect x="140" y="760" width="240" height="240" rx="10" fill="rgba(0,0,0,.18)" filter="url(#pzSh)"/><rect x="132" y="748" width="240" height="240" rx="10" fill="#fdfdfb"/><path d="M132,868h240M252,748v240" stroke="#e6e2d8" stroke-width="3"/>'+
+      '<g fill="#cfd6db" stroke="#9aa5ad" stroke-width="2"><rect x="244" y="830" width="16" height="190" rx="8"/><rect x="226" y="770" width="52" height="72" rx="14"/><rect x="230" y="726" width="8" height="58" rx="4"/><rect x="244" y="726" width="8" height="58" rx="4"/><rect x="258" y="726" width="8" height="58" rx="4"/><rect x="270" y="726" width="8" height="58" rx="4"/></g></g></g>'+
+      /* basil bowl */
+      '<g class="pzItem" '+v()+'><circle cx="205" cy="225" r="104" fill="rgba(0,0,0,.18)" filter="url(#pzSh)"/><circle cx="195" cy="212" r="100" fill="#f4f1ea"/><circle cx="195" cy="212" r="78" fill="#e3ddd0"/>'+
+      '<g fill="#2f9e44" stroke="#1f7a32" stroke-width="2"><ellipse cx="170" cy="195" rx="36" ry="18" transform="rotate(-30 170 195)"/><ellipse cx="220" cy="200" rx="34" ry="17" transform="rotate(25 220 200)"/><ellipse cx="195" cy="240" rx="36" ry="17" transform="rotate(80 195 240)"/><ellipse cx="160" cy="238" rx="28" ry="14" transform="rotate(10 160 238)"/></g></g>'+
+      /* shakers */
+      '<g class="pzItem" '+v()+'><circle cx="1212" cy="204" r="50" fill="rgba(0,0,0,.18)" filter="url(#pzSh)"/><circle cx="1208" cy="198" r="46" fill="#e8edf0" stroke="#b8c1c7" stroke-width="5"/><circle cx="1208" cy="198" r="34" fill="#cfd6db"/>'+holes+'</g>'+
+      '<g class="pzItem" '+v()+'><circle cx="1322" cy="166" r="50" fill="rgba(0,0,0,.18)" filter="url(#pzSh)"/><circle cx="1318" cy="160" r="46" fill="#fbe9df" stroke="#b8c1c7" stroke-width="5"/>'+flakes+'</g>'+
+      /* cola glass */
+      '<g class="pzItem" '+v()+'><circle cx="1438" cy="880" r="118" fill="rgba(0,0,0,.2)" filter="url(#pzSh)"/><circle cx="1430" cy="870" r="112" fill="#c99a6b"/><circle cx="1430" cy="870" r="100" fill="none" stroke="#b5875a" stroke-width="4"/>'+
+      '<circle cx="1430" cy="870" r="88" fill="rgba(210,235,255,.5)" stroke="rgba(255,255,255,.95)" stroke-width="7"/><circle cx="1430" cy="870" r="74" fill="url(#pzCola)"/>'+
+      '<rect x="1392" y="836" width="38" height="34" rx="8" fill="rgba(255,255,255,.55)" transform="rotate(18 1411 853)"/><rect x="1440" y="878" width="34" height="30" rx="8" fill="rgba(255,255,255,.45)" transform="rotate(-24 1457 893)"/>'+bubbles+
+      '<g transform="rotate(-38 1430 870)"><rect x="1424" y="760" width="14" height="118" rx="7" fill="#fff"/><path d="M1424,780h14M1424,806h14M1424,832h14M1424,858h14" stroke="#e8384f" stroke-width="10"/></g>'+
+      '<path d="M1372,826a74,74 0 0 1 40,-26" fill="none" stroke="rgba(255,255,255,.55)" stroke-width="8" stroke-linecap="round"/></g>'+
+      /* pizza board */
+      '<g class="pzItem" '+v()+'><circle cx="'+(CX+16)+'" cy="'+(CY+22)+'" r="'+(BR+6)+'" fill="rgba(0,0,0,.28)" filter="url(#pzSh)"/>'+
+      '<rect x="'+(CX+BR-40)+'" y="'+(CY-36)+'" width="170" height="72" rx="36" fill="#b97a3f"/><circle cx="'+(CX+BR+100)+'" cy="'+CY+'" r="13" fill="#7a4a22"/>'+
+      '<circle cx="'+CX+'" cy="'+CY+'" r="'+BR+'" fill="url(#pzWood)"/>'+grain+
+      '<circle cx="'+CX+'" cy="'+CY+'" r="'+RR+'" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="16"/>'+
+      '<circle class="pzRing" cx="'+CX+'" cy="'+CY+'" r="'+RR+'" fill="none" stroke="#2f9e44" stroke-width="16" stroke-linecap="round" transform="rotate(-90 '+CX+' '+CY+')" stroke-dasharray="'+C+'" stroke-dashoffset="0"/>'+
+      '<g class="pzSlices">'+slices()+'</g>'+steam+
+      '<g class="pzCutterG"><g class="pzCutter"><circle r="30" fill="#dfe5e9" stroke="#8d989f" stroke-width="5"/><circle r="9" fill="#8d989f"/><path d="M0,-30v60M-30,0h60" stroke="#aeb7bd" stroke-width="3"/></g></g></g>'+
+      /* chalk slate */
+      '<g class="pzItem" '+v()+'><g transform="translate(1560 470) rotate(-4)"><rect x="-252" y="-212" width="520" height="440" rx="26" fill="rgba(0,0,0,.25)" filter="url(#pzSh)"/>'+
+      '<rect x="-262" y="-222" width="524" height="444" rx="26" fill="#8a5a2b"/><rect x="-238" y="-198" width="476" height="396" rx="14" fill="#2f3b37"/><ellipse cx="-60" cy="-40" rx="170" ry="90" fill="#fff" opacity=".05"/>'+
+      '<text class="pzF" x="0" y="-122" text-anchor="middle" font-size="46" font-weight="600" fill="#f5f1e6" letter-spacing="6">TIME LEFT</text>'+
+      '<text class="pzF pzDigits" x="0" y="52" text-anchor="middle" font-size="176" font-weight="700" fill="#fffaf0">5:00</text>'+
+      '<g class="pzIcons"></g><text class="pzF pzStatus" x="0" y="178" text-anchor="middle" font-size="32" font-weight="500" fill="#f5c46b"></text></g></g>'+
+      /* time's up */
+      '<rect class="pzDark" width="1920" height="1080" fill="rgba(60,8,0,.55)"/>'+
+      '<g class="pzUp"><g transform="translate(960 520)"><g class="pzUpRays">'+(function(){var s='';for(var i=0;i<16;i++)s+='<path d="M0,0L'+f(900*Math.cos(i*PI/8))+','+f(900*Math.sin(i*PI/8))+'L'+f(900*Math.cos(i*PI/8+.12))+','+f(900*Math.sin(i*PI/8+.12))+'Z" fill="rgba(255,207,85,.12)"/>';return s;})()+'</g></g>'+
+      '<text class="pzF" x="960" y="590" text-anchor="middle" font-size="230" font-weight="700" fill="#fff" stroke="#c0392b" stroke-width="16" paint-order="stroke" letter-spacing="6">TIME’S UP!</text></g>'+
+      '</svg>';
+    g=el.querySelector('svg');digits=g.querySelector('.pzDigits');status=g.querySelector('.pzStatus');ring=g.querySelector('.pzRing');cutter=g.querySelector('.pzCutterG');icons=g.querySelector('.pzIcons');lastSlices=5;
+  }
+  function eat(i){
+    var sl=g.querySelector('.pzSlice[data-i="'+i+'"]');if(!sl||sl.classList.contains('gone'))return;
+    sl.classList.add('gone');
+    var a=-90+72*i+36,c=pt(R*.62,a),cr='';
+    for(var k=0;k<14;k++){var ang=Math.random()*PI*2,d=60+Math.random()*170;cr+='<circle class="pzCrumb" cx="'+f(c[0])+'" cy="'+f(c[1])+'" r="'+f(4+Math.random()*7)+'" fill="'+(k%3?'#e3a24c':'#ffcf55')+'" style="--cx:'+f(Math.cos(ang)*d)+'px;--cy:'+f(Math.sin(ang)*d)+'px;animation-delay:'+(.15+Math.random()*.3).toFixed(2)+'s;transform-origin:'+f(c[0])+'px '+f(c[1])+'px"/>';}
+    sl.parentNode.insertAdjacentHTML('beforeend',cr);
+  }
+  function update(left,total,st){
+    if(!g)return;
+    var s=Math.ceil(left-1e-6),m=Math.floor(s/60),ss=s%60,n=Math.ceil(left/60-1e-9);
+    digits.textContent=m+':'+(ss<10?'0':'')+ss;
+    digits.setAttribute('fill',left<=30&&st!=='ready'?'#ff9b85':'#fffaf0');
+    for(var i=n;i<5;i++)eat(i);
+    var frac=left<=0?0:(left-(n-1)*60)/60;
+    ring.setAttribute('stroke-dashoffset',f(C*(1-frac)));
+    ring.setAttribute('stroke',left<=30&&st!=='ready'?'#e8384f':'#2f9e44');
+    var p=pt(RR,-90+360*frac);cutter.setAttribute('transform','translate('+f(p[0])+' '+f(p[1])+')');cutter.style.opacity=left>0?1:0;
+    var ic='';for(var j=0;j<5;j++)ic+=sliceIcon(-136+j*68,118,j<n);icons.innerHTML=ic;
+    status.textContent=st==='ready'?'▶  click to start':st==='paused'?'❚❚  paused':'';
+    status.setAttribute('class','pzF pzStatus'+(st==='ready'||st==='paused'?' pzReady':''));
+    g.querySelector('.pzCutter').style.animationPlayState=st==='run'?'running':'paused';
+  }
+  function destroy(){}
+  var breakSvg='<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><defs>'+
+    '<linearGradient id="bkWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe7c6"/><stop offset="1" stop-color="#f1cf9c"/></linearGradient>'+
+    '<linearGradient id="bkSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7cc8f0"/><stop offset="1" stop-color="#cdeeff"/></linearGradient>'+
+    '<linearGradient id="bkTable" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c98a4f"/><stop offset="1" stop-color="#9a5f2e"/></linearGradient>'+
+    '<radialGradient id="bkSun" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="rgba(255,240,190,.75)"/><stop offset="1" stop-color="rgba(255,240,190,0)"/></radialGradient>'+
+    '<pattern id="bkTile" width="80" height="40" patternUnits="userSpaceOnUse"><rect width="80" height="40" fill="none"/><path d="M0,40h80M40,0v20M0,20h80M0,0v20M80,20v20M40,20" stroke="rgba(190,140,80,.18)" stroke-width="2" fill="none"/></pattern>'+
+    '<filter id="bkSh"><feGaussianBlur stdDeviation="10"/></filter></defs>'+
+    '<rect width="1920" height="1080" fill="url(#bkWall)"/><rect width="1920" height="760" fill="url(#bkTile)"/>'+
+    /* window */
+    '<g><rect x="110" y="120" width="520" height="520" rx="18" fill="#8a5a2b"/><rect x="134" y="144" width="472" height="472" rx="8" fill="url(#bkSky)"/>'+
+    '<circle cx="520" cy="250" r="56" fill="#ffd95a"/><circle cx="520" cy="250" r="110" fill="url(#bkSun)"/>'+
+    '<g fill="#fff"><ellipse cx="270" cy="270" rx="80" ry="34"/><ellipse cx="320" cy="250" rx="60" ry="38"/><ellipse cx="420" cy="420" rx="70" ry="28"/><ellipse cx="460" cy="404" rx="48" ry="30"/></g>'+
+    '<path d="M134,520c80,-40 160,-30 240,-6s150,10 232,-30v132h-472z" fill="#8fd16a"/><path d="M134,560c90,-28 200,-12 300,4s120,0 172,-14v66h-472z" fill="#6cb84d"/>'+
+    '<rect x="362" y="144" width="16" height="472" fill="#8a5a2b"/><rect x="134" y="372" width="472" height="16" fill="#8a5a2b"/><rect x="96" y="632" width="548" height="30" rx="8" fill="#a8703b"/></g>'+
+    /* hanging plant */
+    '<g><path d="M1700,0v150" stroke="#7a5a3a" stroke-width="4"/><path d="M1650,150h100l-16,90h-68z" fill="#d9734a"/><rect x="1644" y="142" width="112" height="18" rx="6" fill="#c45f38"/>'+
+    '<g fill="#3f9b4c"><ellipse cx="1660" cy="250" rx="16" ry="34" transform="rotate(20 1660 250)"/><ellipse cx="1640" cy="300" rx="14" ry="30" transform="rotate(10 1640 300)"/><ellipse cx="1745" cy="260" rx="16" ry="34" transform="rotate(-20 1745 260)"/><ellipse cx="1764" cy="316" rx="14" ry="30" transform="rotate(-8 1764 316)"/><ellipse cx="1700" cy="140" rx="26" ry="20"/><ellipse cx="1672" cy="134" rx="22" ry="16"/><ellipse cx="1730" cy="132" rx="22" ry="16"/></g></g>'+
+    /* chalkboard sign */
+    '<g transform="translate(1180 360) rotate(-2)"><rect x="-430" y="-230" width="880" height="470" rx="26" fill="rgba(0,0,0,.2)" filter="url(#bkSh)"/><rect x="-440" y="-240" width="880" height="470" rx="26" fill="#8a5a2b"/><rect x="-412" y="-212" width="824" height="414" rx="14" fill="#2f3b37"/>'+
+    '<ellipse cx="-120" cy="-60" rx="300" ry="120" fill="#fff" opacity=".05"/>'+
+    '<text x="0" y="40" text-anchor="middle" font-family="Fredoka,Mulish,Segoe UI,sans-serif" font-size="140" font-weight="700" fill="#fffaf0">Break Time</text>'+
+    '<path d="M-300,96c100,26 220,-22 320,4s180,10 290,-10" fill="none" stroke="#f5c46b" stroke-width="10" stroke-linecap="round"/>'+
+    '<g fill="#f5c46b"><path d="M-330,-150l12,26 28,4-20,20 5,28-25,-13-25,13 5,-28-20,-20 28,-4z"/><path d="M320,-160l9,20 22,3-16,15 4,22-19,-10-19,10 4,-22-16,-15 22,-3z"/></g></g>'+
+    /* table */
+    '<path d="M0,760h1920v320h-1920z" fill="url(#bkTable)"/><path d="M0,760h1920" stroke="#e0a868" stroke-width="10"/><path d="M0,840c400,10 900,-6 1920,8M0,930c500,8 1100,-10 1920,6" stroke="rgba(90,50,20,.25)" stroke-width="4" fill="none"/>'+
+    /* cup and saucer */
+    '<g transform="translate(980 0)"><ellipse cx="0" cy="890" rx="200" ry="38" fill="rgba(0,0,0,.2)" filter="url(#bkSh)"/><ellipse cx="0" cy="868" rx="190" ry="40" fill="#f8f8f4"/><ellipse cx="0" cy="862" rx="120" ry="22" fill="#e9e7df"/>'+
+    '<path d="M-120,700h240l-22,150c-4,20 -30,22 -98,22s-94,-2 -98,-22z" fill="#2f9e9e"/><ellipse cx="0" cy="700" rx="120" ry="24" fill="#3cb3b3"/><ellipse cx="0" cy="704" rx="104" ry="18" fill="#6b3b1c"/><ellipse cx="-20" cy="702" rx="40" ry="8" fill="#c48a5a" opacity=".7"/>'+
+    '<path d="M118,730c70,-10 80,80 6,92" fill="none" stroke="#2f9e9e" stroke-width="22" stroke-linecap="round"/>'+
+    '<g fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round" opacity=".7"><path d="M-40,680c-24,-40 24,-60 0,-104"/><path d="M20,670c-22,-36 22,-56 0,-96"/></g></g>'+
+    /* croissant plate */
+    '<g transform="translate(560 0)"><ellipse cx="0" cy="905" rx="240" ry="44" fill="rgba(0,0,0,.2)" filter="url(#bkSh)"/><ellipse cx="0" cy="884" rx="230" ry="46" fill="#fbfbf7"/><ellipse cx="0" cy="880" rx="170" ry="30" fill="#efede6"/>'+
+    '<g stroke="#a8641e" stroke-width="4" fill="#e9a54b"><path d="M-190,880c-10,-30 20,-60 60,-58l20,40z"/><path d="M190,880c10,-30 -20,-60 -60,-58l-20,40z"/><ellipse cx="-95" cy="842" rx="58" ry="44" transform="rotate(-28 -95 842)"/><ellipse cx="95" cy="842" rx="58" ry="44" transform="rotate(28 95 842)"/><ellipse cx="0" cy="826" rx="74" ry="60"/></g>'+
+    '<g fill="none" stroke="#ffd58a" stroke-width="8" stroke-linecap="round" opacity=".8"><path d="M-40,790c20,-12 56,-12 76,0"/><path d="M-122,822c10,-14 32,-22 50,-20"/><path d="M72,802c18,-2 40,6 50,20"/></g></g>'+
+    /* flower vase */
+    '<g transform="translate(1520 0)"><path d="M-48,880c-20,-80 -20,-140 0,-180h96c20,40 20,100 0,180z" fill="#7ab0e0" opacity=".9"/><ellipse cx="0" cy="700" rx="48" ry="12" fill="#a8cdf0"/>'+
+    '<path d="M-10,700c-20,-80 -60,-140 -90,-170M0,700c0,-90 10,-160 20,-220M10,700c30,-70 80,-120 110,-140" stroke="#3f8f3a" stroke-width="8" fill="none"/>'+
+    '<g><circle cx="-100" cy="525" r="34" fill="#ff7a8a"/><circle cx="-100" cy="525" r="13" fill="#ffd95a"/><circle cx="20" cy="476" r="38" fill="#ffb347"/><circle cx="20" cy="476" r="14" fill="#fff3b0"/><circle cx="120" cy="556" r="32" fill="#c77dff"/><circle cx="120" cy="556" r="12" fill="#ffd95a"/></g></g>'+
+    '</svg>';
+  return {timer:{build:build,update:update,destroy:destroy},breakSvg:breakSvg};
+})();
+</script>
+
+<script>
+/* ===== Teacher screens 5 and 6: themed 5-minute timer (5) and Break Time (6) — teacher only ===== */
+(function(){
+  var T=window.LX_THEME;if(!T)return;
+  var stage=document.getElementById('stage');
+  window.LX_SCREENS=window.LX_SCREENS||[];
+  var TOTAL=300;
+
+  /* ---------- 5: themed timer ---------- */
+  var s5=document.createElement('div');s5.id='lxTimer';s5.className='lxScreen';stage.appendChild(s5);
+  var st='off',left=TOTAL,endAt=0,iv=null,ac=null,master=null,upT=null;
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function playUp(){
+    var c=audio();if(!c||!window.TIMER_SOUNDS)return;
+    var i=Math.floor(Math.random()*TIMER_SOUNDS.length);
+    master=c.createGain();master.connect(c.destination);
+    var t=c.currentTime+.02;master.gain.setValueAtTime(1,t);master.gain.setValueAtTime(1,t+2.75);master.gain.linearRampToValueAtTime(0,t+3);
+    TIMER_SOUNDS[i].play(c,master,t);
+  }
+  function stopSound(){if(master){try{master.disconnect();}catch(e){}master=null;}}
+  function tick(){
+    left=Math.max(0,(endAt-performance.now())/1000);
+    T.timer.update(left,TOTAL,st);
+    if(left<=0){clearInterval(iv);iv=null;st='up';s5.classList.add('lxUp');T.timer.update(0,TOTAL,st);T.timer.destroy();playUp();}
+  }
+  function set5(on){
+    clearInterval(iv);iv=null;clearTimeout(upT);stopSound();
+    s5.classList.toggle('on',on);s5.classList.remove('lxUp');
+    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);T.timer.update(left,TOTAL,st);}
+    else{st='off';s5.innerHTML='';}
+  }
+  s5.addEventListener('click',function(e){
+    e.stopPropagation();audio();
+    if(st==='ready'||st==='paused'){endAt=performance.now()+left*1000;st='run';iv=setInterval(tick,100);tick();}
+    else if(st==='run'){tick();if(st!=='run')return;clearInterval(iv);iv=null;st='paused';T.timer.update(left,TOTAL,st);}
+  });
+  s5.addEventListener('pointerdown',function(e){e.stopPropagation();});
+
+  /* ---------- 6: Break Time ---------- */
+  var s6=document.createElement('div');s6.id='lxBreak';s6.className='lxScreen';stage.appendChild(s6);
+  s6.addEventListener('click',function(e){e.stopPropagation();});
+  function set6(on){s6.classList.toggle('on',on);if(on&&!s6.firstChild)s6.innerHTML=T.breakSvg;}
+
+  LX_SCREENS.push({keys:['5'],isOn:function(){return s5.classList.contains('on');},set:set5},
+                  {keys:['6'],isOn:function(){return s6.classList.contains('on');},set:set6});
 })();
 </script>
 
