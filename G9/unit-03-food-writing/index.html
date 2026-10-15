@@ -878,6 +878,12 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 #startGate{position:absolute;inset:0;z-index:29;background:rgba(0,0,0,.38);display:flex;align-items:center;justify-content:center;cursor:pointer}
 #startGate .sgTxt{font-size:56px;font-weight:800;color:#fff;background:rgba(10,139,153,.92);padding:22px 48px;border-radius:60px;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:sgPulse 1.8s ease-in-out infinite}
 @keyframes sgPulse{50%{transform:scale(1.05)}}
+
+/* ---------- Teacher screens 5 (themed timer) and 6 (Break Time) ---------- */
+.lxScreen{position:absolute;inset:0;z-index:90;display:none;overflow:hidden;cursor:pointer}
+.lxScreen.on{display:block;animation:boIn .35s ease}
+.lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
+#lxBreak{cursor:default}
 </style>
 </head>
 <body>
@@ -2129,6 +2135,8 @@ var LESSON_EXTRAS = {
   var wo=document.createElement('div');wo.id='whiteout';stage.appendChild(wo);
   wo.addEventListener('click',function(e){e.stopPropagation();});
   function whiteout(on){wo.classList.toggle('on',on);}
+  var SCREENS=[{keys:['b','B'],isOn:function(){return bo.classList.contains('on');},set:blackout},
+               {keys:['w','W'],isOn:function(){return wo.classList.contains('on');},set:whiteout}];
 
   /* ---------- First screen waits for a click: still + dimmed, then plays from the start ---------- */
   var gate=null,held=[];
@@ -2162,25 +2170,219 @@ var LESSON_EXTRAS = {
   /* ---------- keys: handled before slide navigation ---------- */
   window.addEventListener('keydown',function(e){
     var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
-    var k=e.key,isB=(k==='b'||k==='B')&&!e.ctrlKey&&!e.metaKey&&!e.altKey,isW=(k==='w'||k==='W')&&!e.ctrlKey&&!e.metaKey&&!e.altKey;
-    if(bo.classList.contains('on')||wo.classList.contains('on')){
-      var black=bo.classList.contains('on');
-      if(k==='Escape'||(isB&&black)||(isW&&!black)){blackout(false);whiteout(false);}
-      else if(isW&&black){blackout(false);whiteout(true);}
-      else if(isB&&!black){whiteout(false);blackout(true);}
+    var k=e.key,plain=!e.ctrlKey&&!e.metaKey&&!e.altKey;
+    /* full-screen teacher screens: B blackout, W whiteout, 5 themed timer, 6 break screen (added by the theme script) */
+    var S=SCREENS.concat(window.LX_SCREENS||[]);
+    var open=S.filter(function(s){return s.isOn();})[0];
+    var hit=plain?S.filter(function(s){return s.keys.indexOf(k)>=0;})[0]:null;
+    if(open){
+      if(k==='Escape'||hit===open){open.set(false);}
+      else if(hit){open.set(false);hit.set(true);}
       e.preventDefault();e.stopPropagation();return;
     }
     if(zl.classList.contains('on')){
       if(k==='Escape'||k===' '||k.indexOf('Arrow')===0||k==='PageDown'||k==='PageUp'){zoomClose();e.preventDefault();e.stopPropagation();}
       return;
     }
-    if(!STUDENT&&isB){e.preventDefault();e.stopPropagation();blackout(true);return;}
-    if(!STUDENT&&isW){e.preventDefault();e.stopPropagation();whiteout(true);return;}
+    if(!STUDENT&&hit){e.preventDefault();e.stopPropagation();hit.set(true);return;}
     if(gate&&(k===' '||k==='Enter'||k==='ArrowRight'||k==='PageDown')){e.preventDefault();e.stopPropagation();startFirst();}
   },true);
 
   /* called from go() on every slide change */
   window.lessonExtras={onSlide:function(){zoomClose();stopSpeak();if(gate)startFirst();}};
+})();
+</script>
+
+
+<style>
+/* ---------- Theme for screens 5/6: G9 Unit 3 Writing — retro diner order rail ---------- */
+#lxTimer .dnR{font-family:"Righteous","Bungee","Fredoka","Segoe UI",sans-serif}
+#lxTimer .dnH{font-family:"Patrick Hand","Comic Sans MS",cursive}
+#lxTimer .dnTk{transform-box:fill-box;transform-origin:50% 0;animation:dnSway 3.2s ease-in-out infinite}
+#lxTimer .dnTk:nth-child(2n){animation-delay:-1.4s}
+@keyframes dnSway{50%{transform:rotate(1.6deg)}}
+#lxTimer .dnTk.gone{animation:dnDrop 1.6s cubic-bezier(.5,0,.8,.4) forwards}
+@keyframes dnDrop{0%{transform:none}15%{transform:translateY(16px) rotate(-6deg)}100%{transform:translate(var(--dx),1100px) rotate(var(--dr));opacity:.2}}
+#lxTimer .dnBell{transform-box:fill-box;transform-origin:50% 100%}
+#lxTimer .dnBell.ding{animation:dnDing .7s ease}
+@keyframes dnDing{20%{transform:translateY(-14px) rotate(-8deg)}45%{transform:translateY(-6px) rotate(6deg)}70%{transform:rotate(-3deg)}}
+#lxTimer .dnWave{opacity:0;transform-box:fill-box;transform-origin:center}
+#lxTimer .dnWave.ding{animation:dnWave .8s ease-out}
+@keyframes dnWave{from{opacity:.9;transform:scale(.4)}to{opacity:0;transform:scale(1.6)}}
+#lxTimer .dnSteam{animation:dnSteam 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+#lxTimer .dnSteam.s2{animation-delay:-2s}
+@keyframes dnSteam{0%{opacity:0;transform:translateY(20px)}30%{opacity:.6}100%{opacity:0;transform:translateY(-70px) scaleX(1.3)}}
+#lxTimer .dnBlink{animation:dnBlink 1.6s ease-in-out infinite}
+@keyframes dnBlink{50%{opacity:.4}}
+#lxTimer .dnItem{transform-box:fill-box;transform-origin:center;transition:transform 1.6s cubic-bezier(.55,-0.25,.8,.45),opacity 1.6s}
+#lxTimer.lxUp .dnItem{transform:translate(var(--tx),1150px) rotate(var(--tr));opacity:.15}
+#lxTimer .dnDark{opacity:0;transition:opacity 1.2s .7s}
+#lxTimer.lxUp .dnDark{opacity:1}
+#lxTimer .dnUp{opacity:0;transform-box:fill-box;transform-origin:center}
+#lxTimer.lxUp .dnUp{animation:dnUpIn .9s cubic-bezier(.2,1.6,.4,1) 1.6s forwards}
+@keyframes dnUpIn{from{opacity:0;transform:scale(.2) rotate(6deg)}to{opacity:1;transform:none}}
+#lxTimer.lxUp .dnUpRays{animation:dnSpin 18s linear infinite;transform-box:view-box;transform-origin:0 0}
+@keyframes dnSpin{to{transform:rotate(360deg)}}
+</style>
+<script>
+var LX_THEME=(function(){
+  var g,dig,stat,wedge,hand,bell,wave,lastN=5,TKX=[300,575,850,1125,1400];
+  function f(n){return Math.round(n*10)/10;}
+  function rnd(s){return function(){s=(s*9301+49297)%233280;return s/233280;};}
+  var ORD=[['Table 4','burger','fries','shake'],['Table 7','pancakes','coffee',''],['Table 2','club sandwich','soda',''],['Table 9','hot dog','onion rings','cola'],['Table 1','apple pie','tea','']];
+  function ticket(i,x){
+    var o=ORD[i],lines='';
+    for(var k=1;k<4;k++)if(o[k])lines+='<text class="dnH" x="'+(x+22)+'" y="'+(212+k*38)+'" font-size="28" fill="#2b3a55">1 × '+o[k]+'</text>';
+    var r=rnd(i*13+3),dx=Math.round((r()-.5)*500),dr=Math.round((r()-.5)*120);
+    return '<g class="dnTk" data-i="'+i+'" style="--dx:'+dx+'px;--dr:'+dr+'deg">'+
+      '<path d="M'+x+',130h210v220l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10l-14,10l-14,-10z" fill="#fffdf4" stroke="#d9d2bd" stroke-width="2"/>'+
+      '<rect x="'+x+'" y="130" width="210" height="46" fill="#ffe08a"/><text class="dnR" x="'+(x+105)+'" y="163" text-anchor="middle" font-size="24" fill="#c0392b">ORDER #'+(i+21)+'</text>'+
+      '<text class="dnH" x="'+(x+22)+'" y="212" font-size="28" fill="#c0392b">'+o[0]+'</text>'+lines+
+      '<rect x="'+(x+86)+'" y="106" width="38" height="40" rx="6" fill="#c9d1d6" stroke="#8d989f" stroke-width="3"/></g>';
+  }
+  function build(el){
+    var r=rnd(9),v=function(){return 'style="--tx:'+Math.round((r()-.5)*600)+'px;--tr:'+Math.round((r()-.5)*160)+'deg"';};
+    var tiles='';for(var y=380;y<800;y+=46)for(var x=(y/46%2?0:-46);x<1920;x+=92)tiles+='<rect x="'+x+'" y="'+y+'" width="88" height="42" rx="4" fill="#f4fbf8"/>';
+    var tks='';for(var i=0;i<5;i++)tks+=ticket(i,TKX[i]);
+    var ticks='';for(var t=0;t<12;t++){var a=t*PI/6;ticks+='<path d="M'+f(250+106*Math.sin(a))+','+f(520-106*Math.cos(a))+'L'+f(250+122*Math.sin(a))+','+f(520-122*Math.cos(a))+'" stroke="#2b3a55" stroke-width="'+(t%3?4:8)+'" stroke-linecap="round"/>';}
+    var grid='';for(var gx=-330;gx<=330;gx+=22)grid+='<path d="M'+(960+gx)+',420v260" stroke="rgba(255,255,255,.05)" stroke-width="2"/>';for(var gy=430;gy<680;gy+=22)grid+='<path d="M620,'+gy+'h680" stroke="rgba(255,255,255,.05)" stroke-width="2"/>';
+    el.innerHTML='<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><defs>'+
+      '<linearGradient id="dnWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd8cb"/><stop offset="1" stop-color="#7cc4b4"/></linearGradient>'+
+      '<linearGradient id="dnChrome" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f4f7f9"/><stop offset=".5" stop-color="#b8c2c9"/><stop offset="1" stop-color="#e6ebee"/></linearGradient>'+
+      '<linearGradient id="dnRed" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e2434a"/><stop offset="1" stop-color="#b82a33"/></linearGradient>'+
+      '<pattern id="dnCheck" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#f7f4ec"/><rect width="40" height="40" fill="#22313f"/><rect x="40" y="40" width="40" height="40" fill="#22313f"/></pattern>'+
+      '<filter id="dnSh"><feGaussianBlur stdDeviation="9"/></filter></defs>'+
+      '<rect width="1920" height="1080" fill="url(#dnWall)"/>'+tiles+'<rect y="352" width="1920" height="28" fill="url(#dnChrome)"/>'+
+      /* order rail */
+      '<g class="dnItem" '+v()+'><rect x="240" y="96" width="1440" height="24" rx="12" fill="url(#dnChrome)" stroke="#8d989f" stroke-width="2"/><rect x="226" y="88" width="30" height="40" rx="6" fill="#8d989f"/><rect x="1664" y="88" width="30" height="40" rx="6" fill="#8d989f"/></g>'+
+      '<g class="dnTks">'+tks+'</g>'+
+      /* letterboard timer */
+      '<g class="dnItem" '+v()+'><rect x="608" y="410" width="720" height="300" rx="20" fill="rgba(0,0,0,.25)" filter="url(#dnSh)"/><rect x="600" y="400" width="720" height="300" rx="20" fill="#c99a5b"/><rect x="620" y="420" width="680" height="260" rx="10" fill="#1d2329"/>'+grid+
+      '<text class="dnR" x="960" y="474" text-anchor="middle" font-size="40" fill="#fffdf4" letter-spacing="8">TIME LEFT</text>'+
+      '<text class="dnR dnDig" x="960" y="622" text-anchor="middle" font-size="150" fill="#fffdf4" letter-spacing="6">5:00</text>'+
+      '<text class="dnR dnStat" x="960" y="664" text-anchor="middle" font-size="30" fill="#ffe08a" letter-spacing="3"></text></g>'+
+      /* wall clock */
+      '<g class="dnItem" '+v()+'><circle cx="258" cy="530" r="150" fill="rgba(0,0,0,.22)" filter="url(#dnSh)"/><circle cx="250" cy="520" r="150" fill="url(#dnChrome)" stroke="#8d989f" stroke-width="4"/><circle cx="250" cy="520" r="132" fill="#fffdf4"/>'+
+      '<path class="dnWedge" d="" fill="rgba(226,67,74,.25)"/>'+ticks+'<text class="dnR" x="250" y="586" text-anchor="middle" font-size="24" fill="#c0392b">DINER</text>'+
+      '<line class="dnHand" x1="250" y1="520" x2="250" y2="406" stroke="#e2434a" stroke-width="8" stroke-linecap="round"/><circle cx="250" cy="520" r="14" fill="#e2434a"/></g>'+
+      /* menu sign left */
+      '<g class="dnItem" '+v()+'><rect x="1480" y="390" width="360" height="250" rx="18" fill="#e2434a"/><rect x="1496" y="406" width="328" height="218" rx="12" fill="none" stroke="#fffdf4" stroke-width="4" stroke-dasharray="14 10"/>'+
+      '<text x="1660" y="478" text-anchor="middle" font-family="Pacifico,Fredoka,cursive" font-size="54" fill="#fffdf4">Today’s</text><text class="dnR" x="1660" y="548" text-anchor="middle" font-size="42" fill="#ffe08a" letter-spacing="4">SPECIAL</text><text class="dnH" x="1660" y="600" text-anchor="middle" font-size="30" fill="#fffdf4">apple pie &amp; shake</text></g>'+
+      /* counter */
+      '<rect y="800" width="1920" height="280" fill="url(#dnRed)"/><rect y="786" width="1920" height="30" fill="url(#dnChrome)"/><rect y="1040" width="1920" height="40" fill="url(#dnCheck)"/>'+
+      '<path d="M0,880h1920M0,960h1920" stroke="rgba(255,255,255,.12)" stroke-width="6"/>'+
+      /* bell */
+      '<g class="dnItem" '+v()+'><circle class="dnWave" cx="250" cy="730" r="90" fill="none" stroke="#ffe08a" stroke-width="8"/><g class="dnBell"><ellipse cx="250" cy="786" rx="90" ry="16" fill="#8d989f"/><path d="M176,782c0,-70 148,-70 148,0z" fill="url(#dnChrome)" stroke="#8d989f" stroke-width="3"/><rect x="242" y="704" width="16" height="14" rx="4" fill="#8d989f"/><circle cx="250" cy="700" r="11" fill="#b8c2c9" stroke="#8d989f" stroke-width="3"/></g></g>'+
+      /* burger plate */
+      '<g class="dnItem" '+v()+'><ellipse cx="520" cy="790" rx="190" ry="26" fill="#fffdf4" stroke="#d9d2bd" stroke-width="3"/>'+
+      '<path d="M420,770c0,-90 180,-90 180,0z" fill="#e9a54b"/><rect x="412" y="760" width="196" height="16" rx="8" fill="#58b94a"/><rect x="416" y="772" width="188" height="16" rx="6" fill="#7a3b1e"/><rect x="420" y="784" width="180" height="10" rx="5" fill="#f4b740"/>'+
+      '<g fill="#fff3c4"><ellipse cx="480" cy="720" rx="7" ry="4"/><ellipse cx="520" cy="705" rx="7" ry="4"/><ellipse cx="560" cy="720" rx="7" ry="4"/></g>'+
+      '<g fill="#f4c34a" stroke="#d9a03a" stroke-width="2"><rect x="620" y="716" width="14" height="70" rx="5" transform="rotate(-10 627 751)"/><rect x="640" y="708" width="14" height="78" rx="5" transform="rotate(6 647 747)"/><rect x="660" y="720" width="14" height="66" rx="5" transform="rotate(-4 667 753)"/></g><path d="M610,790l10,-50h66l10,50z" fill="#e2434a"/>'+
+      '<path class="dnSteam" d="M480,700c-18,-30 18,-50 0,-80" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0"/><path class="dnSteam s2" d="M540,700c-18,-30 18,-50 0,-80" fill="none" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity="0"/></g>'+
+      /* shake */
+      '<g class="dnItem" '+v()+'><path d="M1340,560h120l-20,226h-80z" fill="rgba(220,240,250,.55)" stroke="#fff" stroke-width="5"/><path d="M1348,610h104l-16,170h-72z" fill="#f7a9c4"/><ellipse cx="1400" cy="566" rx="70" ry="30" fill="#fffdf4"/><circle cx="1402" cy="534" r="16" fill="#e2434a"/><path d="M1402,520c4,-20 14,-30 24,-34" stroke="#3f9b4c" stroke-width="4" fill="none"/><rect x="1426" y="440" width="12" height="140" rx="6" fill="#e2434a" transform="rotate(14 1432 510)"/><ellipse cx="1400" cy="788" rx="56" ry="10" fill="#c9d1d6"/></g>'+
+      /* bottles */
+      '<g class="dnItem" '+v()+'><path d="M1560,786v-70c0,-20 14,-34 14,-54v-30h28v30c0,20 14,34 14,54v70z" fill="#d62f2f"/><rect x="1574" y="616" width="28" height="22" fill="#fff"/><rect x="1568" y="720" width="40" height="40" rx="6" fill="#fff"/>'+
+      '<path d="M1660,786v-70c0,-20 14,-34 14,-54v-30h28v30c0,20 14,34 14,54v70z" fill="#f2c230"/><rect x="1674" y="616" width="28" height="22" fill="#fff"/><rect x="1668" y="720" width="40" height="40" rx="6" fill="#fff"/></g>'+
+      /* time's up */
+      '<rect class="dnDark" width="1920" height="1080" fill="rgba(20,30,40,.6)"/>'+
+      '<g class="dnUp"><g transform="translate(960 520)"><g class="dnUpRays">'+(function(){var s='';for(var i=0;i<16;i++)s+='<path d="M0,0L'+f(900*Math.cos(i*PI/8))+','+f(900*Math.sin(i*PI/8))+'L'+f(900*Math.cos(i*PI/8+.12))+','+f(900*Math.sin(i*PI/8+.12))+'Z" fill="rgba(255,224,138,.14)"/>';return s;})()+'</g></g>'+
+      '<text class="dnR" x="960" y="420" text-anchor="middle" font-size="80" fill="#ffe08a" letter-spacing="10">ORDER UP!</text>'+
+      '<text class="dnR" x="960" y="610" text-anchor="middle" font-size="210" fill="#fffdf4" stroke="#e2434a" stroke-width="16" paint-order="stroke" letter-spacing="6">TIME’S UP!</text></g>'+
+      '</svg>';
+    g=el.querySelector('svg');dig=g.querySelector('.dnDig');stat=g.querySelector('.dnStat');wedge=g.querySelector('.dnWedge');hand=g.querySelector('.dnHand');bell=g.querySelector('.dnBell');wave=g.querySelector('.dnWave');lastN=5;
+  }
+  var PI=Math.PI;
+  function ding(){[bell,wave].forEach(function(e){e.classList.remove('ding');void e.getBBox;void e.offsetWidth;setTimeout(function(){e.classList.add('ding');},10);});}
+  function update(left,total,st){
+    if(!g)return;
+    var s=Math.ceil(left-1e-6),m=Math.floor(s/60),ss=s%60,n=Math.ceil(left/60-1e-9);
+    dig.textContent=m+':'+(ss<10?'0':'')+ss;
+    dig.setAttribute('fill',left<=30&&st!=='ready'?'#ff8a80':'#fffdf4');
+    if(n<lastN){for(var i=n;i<lastN;i++){var t=g.querySelector('.dnTk[data-i="'+i+'"]');if(t)t.classList.add('gone');}ding();lastN=n;}
+    var frac=left<=0?0:(left-(n-1)*60)/60,a=2*PI*(1-frac);
+    var x=250+114*Math.sin(a),y=520-114*Math.cos(a);
+    hand.setAttribute('x2',f(x));hand.setAttribute('y2',f(y));
+    var la=frac>.5?1:0,ex=250,ey=520-132;
+    wedge.setAttribute('d',frac<=0?'':frac>=.999?'M250,388a132,132 0 1 1 -0.1,0z':'M250,520L'+f(250+132*Math.sin(a))+','+f(520-132*Math.cos(a))+'A132,132 0 '+la+' 1 '+f(ex)+','+f(ey)+'Z');
+    stat.textContent=st==='ready'?'▶  CLICK TO START':st==='paused'?'❚❚  PAUSED':'';
+    stat.setAttribute('class','dnR dnStat'+(st==='ready'||st==='paused'?' dnBlink':''));
+  }
+  var breakSvg='<svg viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg"><defs>'+
+    '<linearGradient id="bdWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd8cb"/><stop offset="1" stop-color="#7cc4b4"/></linearGradient>'+
+    '<linearGradient id="bdChrome" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#e6ebee"/><stop offset=".5" stop-color="#b8c2c9"/><stop offset="1" stop-color="#f4f7f9"/></linearGradient>'+
+    '<linearGradient id="bdSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd59a"/><stop offset="1" stop-color="#ffb07a"/></linearGradient>'+
+    '<pattern id="bdCheck" width="100" height="100" patternUnits="userSpaceOnUse"><rect width="100" height="100" fill="#f7f4ec"/><rect width="50" height="50" fill="#22313f"/><rect x="50" y="50" width="50" height="50" fill="#22313f"/></pattern>'+
+    '<filter id="bdSh"><feGaussianBlur stdDeviation="10"/></filter></defs>'+
+    '<rect width="1920" height="1080" fill="url(#bdWall)"/><rect y="880" width="1920" height="200" fill="url(#bdCheck)"/><rect y="860" width="1920" height="26" fill="#c9d1d6"/>'+
+    /* door */
+    '<rect x="700" y="120" width="520" height="760" rx="20" fill="url(#bdChrome)" stroke="#8d989f" stroke-width="5"/><rect x="740" y="160" width="440" height="540" rx="10" fill="url(#bdSky)"/>'+
+    '<g fill="#e88a5e" opacity=".7"><rect x="760" y="520" width="90" height="180"/><rect x="860" y="460" width="120" height="240"/><rect x="990" y="540" width="70" height="160"/><rect x="1070" y="490" width="100" height="210"/></g>'+
+    '<circle cx="1080" cy="300" r="60" fill="#fff1c1" opacity=".85"/>'+
+    '<path d="M740,160l120,0l-120,140z" fill="#fff" opacity=".25"/><rect x="1150" y="470" width="20" height="120" rx="10" fill="#8d989f"/>'+
+    /* hanging sign */
+    '<path d="M840,170l120,120M1080,170l-120,120" stroke="#8d989f" stroke-width="4"/><circle cx="960" cy="290" r="10" fill="#8d989f"/>'+
+    '<g transform="rotate(-3 960 420)"><rect x="740" y="296" width="440" height="250" rx="22" fill="rgba(0,0,0,.25)" filter="url(#bdSh)"/><rect x="730" y="286" width="460" height="250" rx="22" fill="#e2434a"/><rect x="748" y="304" width="424" height="214" rx="14" fill="none" stroke="#fffdf4" stroke-width="5" stroke-dasharray="16 10"/>'+
+    '<text x="960" y="392" text-anchor="middle" font-family="Pacifico,Fredoka,cursive" font-size="72" fill="#fffdf4">Break</text><text x="960" y="488" text-anchor="middle" font-family="Righteous,Bungee,Fredoka,sans-serif" font-size="84" fill="#ffe08a" letter-spacing="10">TIME</text></g>'+
+    /* side booth windows */
+    '<g><rect x="120" y="200" width="460" height="380" rx="16" fill="url(#bdChrome)"/><rect x="140" y="220" width="420" height="340" rx="8" fill="url(#bdSky)"/><path d="M140,220l140,0l-140,160z" fill="#fff" opacity=".25"/>'+
+    '<rect x="1340" y="200" width="460" height="380" rx="16" fill="url(#bdChrome)"/><rect x="1360" y="220" width="420" height="340" rx="8" fill="url(#bdSky)"/><path d="M1360,220l140,0l-140,160z" fill="#fff" opacity=".25"/></g>'+
+    /* booths */
+    '<g><rect x="90" y="620" width="520" height="250" rx="40" fill="#e2434a"/><rect x="110" y="640" width="480" height="70" rx="30" fill="#f06a70"/><rect x="260" y="700" width="200" height="22" rx="8" fill="#c9d1d6"/><rect x="350" y="720" width="20" height="150" fill="#8d989f"/>'+
+    '<rect x="1310" y="620" width="520" height="250" rx="40" fill="#e2434a"/><rect x="1330" y="640" width="480" height="70" rx="30" fill="#f06a70"/><rect x="1460" y="700" width="200" height="22" rx="8" fill="#c9d1d6"/><rect x="1550" y="720" width="20" height="150" fill="#8d989f"/></g>'+
+    /* coffee mugs on tables */
+    '<g><path d="M300,700h60l-6,-56h-48z" fill="#fffdf4" stroke="#d9d2bd" stroke-width="3"/><path d="M356,656c22,0 22,30 0,30" fill="none" stroke="#fffdf4" stroke-width="8"/>'+
+    '<path d="M1520,700h60l-6,-56h-48z" fill="#fffdf4" stroke="#d9d2bd" stroke-width="3"/><path d="M1576,656c22,0 22,30 0,30" fill="none" stroke="#fffdf4" stroke-width="8"/></g>'+
+    '</svg>';
+  return {timer:{build:build,update:update,destroy:function(){}},breakSvg:breakSvg};
+})();
+</script>
+
+<script>
+/* ===== Teacher screens 5 and 6: themed 5-minute timer (5) and Break Time (6) — teacher only ===== */
+(function(){
+  var T=window.LX_THEME;if(!T)return;
+  var stage=document.getElementById('stage');
+  window.LX_SCREENS=window.LX_SCREENS||[];
+  var TOTAL=300;
+
+  /* ---------- 5: themed timer ---------- */
+  var s5=document.createElement('div');s5.id='lxTimer';s5.className='lxScreen';stage.appendChild(s5);
+  var st='off',left=TOTAL,endAt=0,iv=null,ac=null,master=null,upT=null;
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function playUp(){
+    var c=audio();if(!c||!window.TIMER_SOUNDS)return;
+    var i=Math.floor(Math.random()*TIMER_SOUNDS.length);
+    master=c.createGain();master.connect(c.destination);
+    var t=c.currentTime+.02;master.gain.setValueAtTime(1,t);master.gain.setValueAtTime(1,t+2.75);master.gain.linearRampToValueAtTime(0,t+3);
+    TIMER_SOUNDS[i].play(c,master,t);
+  }
+  function stopSound(){if(master){try{master.disconnect();}catch(e){}master=null;}}
+  function tick(){
+    left=Math.max(0,(endAt-performance.now())/1000);
+    T.timer.update(left,TOTAL,st);
+    if(left<=0){clearInterval(iv);iv=null;st='up';s5.classList.add('lxUp');T.timer.update(0,TOTAL,st);T.timer.destroy();playUp();}
+  }
+  function set5(on){
+    clearInterval(iv);iv=null;clearTimeout(upT);stopSound();
+    s5.classList.toggle('on',on);s5.classList.remove('lxUp');
+    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);T.timer.update(left,TOTAL,st);}
+    else{st='off';s5.innerHTML='';}
+  }
+  s5.addEventListener('click',function(e){
+    e.stopPropagation();audio();
+    if(st==='ready'||st==='paused'){endAt=performance.now()+left*1000;st='run';iv=setInterval(tick,100);tick();}
+    else if(st==='run'){tick();if(st!=='run')return;clearInterval(iv);iv=null;st='paused';T.timer.update(left,TOTAL,st);}
+  });
+  s5.addEventListener('pointerdown',function(e){e.stopPropagation();});
+
+  /* ---------- 6: Break Time ---------- */
+  var s6=document.createElement('div');s6.id='lxBreak';s6.className='lxScreen';stage.appendChild(s6);
+  s6.addEventListener('click',function(e){e.stopPropagation();});
+  function set6(on){s6.classList.toggle('on',on);if(on&&!s6.firstChild)s6.innerHTML=T.breakSvg;}
+
+  LX_SCREENS.push({keys:['5'],isOn:function(){return s5.classList.contains('on');},set:set5},
+                  {keys:['6'],isOn:function(){return s6.classList.contains('on');},set:set6});
 })();
 </script>
 
