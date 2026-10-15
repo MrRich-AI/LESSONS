@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>G10 Unit 13: Success and fame — Reading and vocabulary (Helen Keller), Language focus: Discourse markers showing contrast</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Dancing+Script:wght@600;700&family=Patrick+Hand&family=Cinzel:wght@600;700&family=Oswald:wght@400;500;600&family=Orbitron:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,400;0,600;0,700;0,800;1,400&family=Dancing+Script:wght@600;700&family=Patrick+Hand&family=Cinzel:wght@600;700&family=Oswald:wght@400;500;600&family=Orbitron:wght@700&family=Libre+Baskerville:wght@400;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{
   --teal:#0a8b99; --teal-dark:#06707c; --teal-light:#8ecbd3; --teal-tab:#79c2cc;
@@ -884,6 +884,85 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 .lxScreen.on{display:block;animation:boIn .35s ease}
 .lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
 #lxBreak{cursor:default}
+
+/* ---------- End-of-deck quiz: EXAM-HALL CLEAN ---------- */
+.slide.qz{padding:0;background:#dcd8cf;overflow:hidden;font-family:"Mulish","Segoe UI",sans-serif;color:#1d2433}
+.qz canvas.qzBg{position:absolute;left:0;top:0;width:1920px;height:984px}
+.qz .qzDim{display:none}
+.qz .qzPx{font-family:"Libre Baskerville",Georgia,serif;font-weight:700}
+.qz .qzPen{font-family:"Caveat","Patrick Hand",cursive;font-weight:700;color:#c8102e}
+.qz .qz-scr{position:absolute;left:0;top:0;width:1920px;height:984px;z-index:2;display:none}
+.qz .qz-scr.qz-on{display:block}
+.qz .qzPaper{background:#fffefa;box-shadow:0 1px 0 #d6d1c4,0 18px 40px rgba(40,30,10,.22);border-radius:4px}
+/* title (exam paper cover) */
+.qz .qzTitle{position:absolute;left:50%;top:60px;width:1180px;height:820px;transform:translateX(-50%) rotate(-.6deg);padding:60px 90px;text-align:left;animation:qeSlide .7s cubic-bezier(.2,.9,.3,1)}
+@keyframes qeSlide{from{transform:translate(-50%,80px) rotate(-3deg);opacity:0}}
+.qz .qzT0{display:flex;justify-content:space-between;font-family:"Mulish",sans-serif;font-size:24px;font-weight:800;letter-spacing:3px;color:#5b6475;border-bottom:4px double #1d2433;padding-bottom:18px}
+.qz .qzT1{margin-top:44px;font-size:40px;color:#1d2433}
+.qz .qzT2{margin-top:14px;font-size:120px;line-height:1;color:#1d2433;letter-spacing:-1px}
+.qz .qzT3{margin-top:30px;font-family:"Mulish",sans-serif;font-size:32px;font-weight:700;color:#3b4456}
+.qz .qzRules{margin-top:26px;padding:22px 30px;border:2px solid #1d2433;font-size:28px;line-height:1.5;color:#1d2433}
+.qz .qzRules b{font-weight:800}
+.qz .qzBraille{position:absolute;right:80px;top:150px;display:grid;grid-template-columns:repeat(2,18px);gap:10px 10px}
+.qz .qzBraille i{width:18px;height:18px;border-radius:50%;background:#1d2433;opacity:.85}
+.qz .qzBraille i.o{background:none;border:2px solid #c9c3b4;opacity:1}
+.qz .qzStart{position:absolute;left:50%;top:800px;transform:translateX(-50%);font-family:"Mulish",sans-serif;font-size:38px;font-weight:800;letter-spacing:2px;color:#fff;background:#1f3a68;border:none;border-radius:8px;padding:24px 70px;cursor:pointer;box-shadow:0 6px 0 #0f2244}
+.qz .qzStart:hover{background:#2a4c86}
+/* header */
+.qz .qz-hud{position:absolute;left:90px;right:90px;top:30px;height:66px;display:flex;align-items:center;justify-content:space-between;gap:30px}
+.qz .qz-hudL{font-size:26px;color:#1d2433}
+.qz .qz-pips{display:flex;gap:12px}
+.qz .qz-pip{width:34px;height:34px;border-radius:50%;border:3px solid #8a8f9c;background:#fffefa;transition:all .3s}
+.qz .qz-pip.qz-cur{border-color:#1f3a68;box-shadow:0 0 0 4px rgba(31,58,104,.2)}
+.qz .qz-pip.qz-ok{background:#1f3a68;border-color:#1f3a68}
+.qz .qz-pip.qz-no{background:#fffefa;border-color:#c8102e;position:relative}
+.qz .qz-pip.qz-no::after{content:"✕";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#c8102e;font-weight:900;font-size:20px}
+.qz .qz-hudR{font-family:"Mulish",sans-serif;font-size:26px;font-weight:800;color:#1d2433;background:#fffefa;border:2px solid #1d2433;padding:10px 26px;min-width:200px;text-align:center}
+.qz .qz-hudR b{display:inline-block;font-weight:900;color:#1f3a68}
+.qz .qz-hudR b.qz-bump{animation:qzBump .5s}
+@keyframes qzBump{40%{transform:scale(1.6);color:#c8102e}}
+/* question */
+.qz .qz-qcard{position:absolute;left:150px;right:150px;top:118px;padding:24px 50px 30px 120px;background:#fffefa;background-image:linear-gradient(90deg,transparent 88px,#e8a0a8 88px,#e8a0a8 91px,transparent 91px);box-shadow:0 1px 0 #d6d1c4,0 14px 30px rgba(40,30,10,.18)}
+.qz .qz-qcat{display:inline-block;font-family:"Mulish",sans-serif;font-size:22px;font-weight:800;letter-spacing:3px;padding:6px 16px;margin-bottom:12px;color:#1f3a68;border:2px solid #1f3a68;text-transform:uppercase}
+.qz .qz-qcat.qz-gram{color:#7a1f8a;border-color:#7a1f8a}
+.qz .qz-qcat.qz-read{color:#9a5a00;border-color:#9a5a00}
+.qz .qz-qnum{position:absolute;left:18px;top:26px;width:56px;text-align:center;font-family:"Libre Baskerville",Georgia,serif;font-size:40px;font-weight:700;color:#1d2433}
+.qz .qz-qq{font-family:"Libre Baskerville",Georgia,serif;font-size:42px;line-height:1.38;color:#1d2433}
+.qz .qz-qq .qz-blank{display:inline-block;min-width:190px;border-bottom:3px dotted #1d2433;margin:0 6px}
+.qz .qz-qq .qz-say{font-style:italic;color:#1f3a68}
+.qz .qz-qq.qz-in{animation:qzIn .4s ease}
+@keyframes qzIn{from{opacity:0}to{opacity:1}}
+.qz .qz-answers{position:absolute;left:150px;right:150px;display:grid;grid-template-columns:1fr 1fr;gap:20px 26px}
+.qz .qz-ab{position:relative;display:flex;align-items:center;gap:26px;min-height:116px;padding:16px 70px 16px 24px;font-family:"Mulish",sans-serif;font-size:34px;font-weight:700;line-height:1.24;text-align:left;color:#1d2433;background:#fffefa;border:2px solid #b9b3a5;border-radius:6px;cursor:pointer;box-shadow:0 4px 10px rgba(40,30,10,.1);transition:border-color .15s,background .2s,opacity .3s;animation:qzPop .35s ease backwards}
+.qz .qz-ab:nth-child(2){animation-delay:.06s}.qz .qz-ab:nth-child(3){animation-delay:.12s}.qz .qz-ab:nth-child(4){animation-delay:.18s}
+@keyframes qzPop{from{opacity:0;transform:translateY(12px)}}
+.qz .qz-ab:hover:not([disabled]){border-color:#1f3a68;background:#f4f6fb}
+.qz .qz-ab .qz-k{flex:none;position:relative;width:62px;height:62px;border-radius:50%;border:3px solid #1d2433;display:flex;align-items:center;justify-content:center;font-family:"Libre Baskerville",Georgia,serif;font-size:28px;font-weight:700;color:#1d2433;background:#fffefa;transition:background .25s,color .25s}
+.qz .qz-ab .qz-k small{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);font-family:"Mulish",sans-serif;font-size:15px;font-weight:800;color:#8a8f9c;white-space:nowrap}
+.qz .qz-ab[disabled]{cursor:default}
+.qz .qz-ab.qz-dim{opacity:.45}
+.qz .qz-ab.qz-picked .qz-k{background:#1d2433;color:#fffefa}
+.qz .qz-ab.qz-right{border-color:#1a7f3c;border-width:3px;background:#f1faf3}
+.qz .qz-ab.qz-right::after{content:"✓";position:absolute;right:16px;top:50%;transform:translateY(-55%) rotate(-8deg);font-family:"Caveat",cursive;font-size:84px;font-weight:700;color:#c8102e;animation:qePen .35s ease-out}
+.qz .qz-ab.qz-wrong{border-color:#c8102e;border-width:3px;background:#fdf2f3}
+.qz .qz-ab.qz-wrong::after{content:"✗";position:absolute;right:18px;top:50%;transform:translateY(-55%) rotate(6deg);font-family:"Caveat",cursive;font-size:80px;font-weight:700;color:#c8102e;animation:qePen .35s ease-out}
+@keyframes qePen{from{opacity:0;transform:translateY(-55%) scale(1.8) rotate(-20deg)}}
+.qz .qz-expl{position:absolute;left:150px;right:440px;padding:12px 24px;font-family:"Caveat","Patrick Hand",cursive;font-size:40px;font-weight:700;line-height:1.12;color:#c8102e;background:rgba(255,254,250,.85);border-left:4px solid #c8102e;opacity:0;transform:translateY(10px);transition:all .35s}
+.qz .qz-expl b{color:#1a7f3c}.qz .qz-expl b.qz-no{color:#c8102e}
+.qz .qz-expl.qz-on{opacity:1;transform:none}
+.qz .qz-nextB{position:absolute;right:150px;font-family:"Mulish",sans-serif;font-size:30px;font-weight:800;color:#fff;background:#1f3a68;border:none;border-radius:8px;padding:22px 40px;cursor:pointer;box-shadow:0 6px 0 #0f2244;opacity:0;pointer-events:none;transition:opacity .3s}
+.qz .qz-nextB.qz-on{opacity:1;pointer-events:auto}
+.qz .qz-plus{position:absolute;font-family:"Caveat",cursive;font-size:56px;font-weight:700;color:#c8102e;pointer-events:none;animation:qzPlus 1s forwards;z-index:5}
+@keyframes qzPlus{to{transform:translateY(-90px);opacity:0}}
+/* results (marked paper) */
+.qz .qz-res{position:absolute;left:50%;top:60px;width:1100px;height:660px;transform:translateX(-50%) rotate(.5deg);padding:56px 80px;text-align:center;background:#fffefa;box-shadow:0 1px 0 #d6d1c4,0 18px 40px rgba(40,30,10,.22)}
+.qz .qz-resT{font-size:50px;color:#1d2433;border-bottom:4px double #1d2433;padding-bottom:20px}
+.qz .qz-resS{position:relative;display:inline-block;margin-top:40px;padding:10px 60px;font-family:"Caveat",cursive;font-size:200px;line-height:1;color:#c8102e}
+.qz .qz-resS::before{content:"";position:absolute;inset:-6px -10px;border:7px solid #c8102e;border-radius:50%;transform:rotate(-4deg);clip-path:inset(0 0 0 0);animation:qeCircle .8s ease-out}
+@keyframes qeCircle{from{clip-path:inset(0 100% 0 0)}}
+.qz .qz-resM{margin-top:18px;font-family:"Caveat",cursive;font-size:56px;color:#c8102e}
+.qz .qz-resRow{margin-top:26px;display:flex;justify-content:center;gap:12px}
+.qz .qz-again{position:absolute;left:50%;top:790px;transform:translateX(-50%);font-family:"Mulish",sans-serif;font-size:32px;font-weight:800;color:#1f3a68;background:#fffefa;border:3px solid #1f3a68;border-radius:8px;padding:20px 48px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -1112,6 +1191,40 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     </div>
     <div class="wbnote rise d3">Complete the activities in your Workbook.</div>
   </section>
+
+  <!-- ===== End-of-deck quiz ===== -->
+  <section class="slide qz" data-title="Section D Quiz" data-page="">
+    <canvas class="qzBg" width="1920" height="984"></canvas>
+    <div class="qzDim"></div>
+    <div class="qz-scr qz-sTitle qz-on">
+      <div class="qzTitle qzPaper">
+        <div class="qzT0"><span>GRADE 10 · ENGLISH AS A SECOND LANGUAGE</span><span>UNIT 13 · SECTION D</span></div>
+        <div class="qzBraille"><i></i><i></i><i></i><i></i><i></i><i class="o"></i></div>
+        <div class="qzT1 qzPx">Reading, vocabulary &amp; discourse markers</div>
+        <div class="qzT2 qzPx">Quiz</div>
+        <div class="qzT3">10 questions · 10 marks</div>
+        <div class="qzRules"><b>Instructions</b><br>Answer <b>all</b> questions. Choose <b>one</b> answer: click it or press keys <b>1–4</b> (A–D).<br>Each answer is marked straight away.</div>
+      </div>
+      <button class="qzStart">Begin ▶</button>
+    </div>
+    <div class="qz-scr qz-sPlay">
+      <div class="qz-hud"><div class="qz-hudL qzPx">Unit 13 · Section D</div><div class="qz-pips"></div><div class="qz-hudR qzPx">Score <b>0</b></div></div>
+      <div class="qz-qcard"><div class="qz-qnum"></div><div class="qz-qcat"></div><div class="qz-qq"></div></div>
+      <div class="qz-answers"></div>
+      <div class="qz-expl"></div>
+      <button class="qz-nextB">Next ▶</button>
+    </div>
+    <div class="qz-scr qz-sDone">
+      <div class="qz-res">
+        <div class="qz-resT qzPx">Section D Quiz – Result</div>
+        <div class="qz-resS">0/10</div>
+        <div class="qz-resM"></div>
+        <div class="qz-resRow qz-pips"></div>
+      </div>
+      <button class="qz-again">↺ Retake quiz</button>
+    </div>
+  </section>
+
   <!-- ===== Open your book: film countdown ===== -->
   <div id="bridge"><div class="fl-wrap"><div class="fl-sweep"></div><div class="fl-cross"></div><div class="fl-ring r1"></div><div class="fl-ring r2"></div><div class="fl-num n3">3</div><div class="fl-num n2">2</div><div class="fl-num n1">1</div><div class="fl-scratch"></div></div><div class="fl-burn"></div><div class="fl-page"><div class="fl-text"><span class="fl-a">Open your book</span><span class="fl-bar"></span><span class="fl-b"><span class="chev">›</span> Unit 13 · p. 185</span></div></div></div>
 
@@ -2231,6 +2344,225 @@ var LX_THEME=(function(){
 
   LX_SCREENS.push({keys:['5'],isOn:function(){return s5.classList.contains('on');},set:set5},
                   {keys:['6'],isOn:function(){return s6.classList.contains('on');},set:set6});
+})();
+</script>
+
+
+<script>
+/* ===== End-of-deck quiz questions — edit here =====
+   cat: "vocab" | "read" | "speak"   q: question (use ___ for a gap, «…» for a spoken line)
+   a: answers, the FIRST one is correct (order is shuffled on screen)   why: short explanation */
+var QUIZ = [
+ {
+  "cat": "vocab",
+  "q": "Everyone in our ___ helps with the cooking – my parents, my grandmother and my two brothers.",
+  "a": [
+   "household",
+   "circumstances",
+   "survivor",
+   "signal"
+  ],
+  "why": "household = a group of people who live together."
+ },
+ {
+  "cat": "vocab",
+  "q": "I get really ___ when my laptop stops working in the middle of my homework.",
+  "a": [
+   "frustrated",
+   "severe",
+   "maintained",
+   "rudimentary"
+  ],
+  "why": "frustrated = annoyed because you can’t do what you want to do."
+ },
+ {
+  "cat": "vocab",
+  "q": "After three years of lessons, Linh is now ___ in Korean – she can read and speak it easily.",
+  "a": [
+   "proficient",
+   "proficiency",
+   "proficiently",
+   "rudimentary"
+  ],
+  "why": "After ‘is now’ we need an adjective: proficient. proficiency is the noun."
+ },
+ {
+  "cat": "vocab",
+  "q": "Which -ly word is NOT an adverb?",
+  "a": [
+   "lovely",
+   "quickly",
+   "previously",
+   "nearly"
+  ],
+  "why": "lovely is an adjective (a lovely day). Other -ly words that aren’t adverbs: friendly, family, apply."
+ },
+ {
+  "cat": "vocab",
+  "q": "Which adverb is spelled correctly?",
+  "a": [
+   "dramatically",
+   "dramaticly",
+   "dramaticaly",
+   "dramaticlly"
+  ],
+  "why": "Adjectives ending in -ic add -ally: dramatic → dramatically."
+ },
+ {
+  "cat": "read",
+  "q": "Some paragraphs in a biography are missing their opening words (e.g. ‘In 1886’, ‘Eventually’). What should you scan each paragraph for?",
+  "a": [
+   "Clues about time and order – ages, dates and what happened before or after",
+   "The longest word in the paragraph",
+   "Any word you don’t know",
+   "The name of the writer"
+  ],
+  "why": "Time phrases must match the events in the paragraph, so look for ages, dates and sequence."
+ },
+ {
+  "cat": "read",
+  "q": "«After months of failed tests, the scientists finally had a breakthrough and the new medicine worked.» What does breakthrough probably mean?",
+  "a": [
+   "an important success after a difficult time",
+   "a serious accident",
+   "a long holiday",
+   "a broken machine"
+  ],
+  "why": "‘months of failed tests’ and ‘finally … worked’ are the clues – use the words around a new word."
+ },
+ {
+  "cat": "gram",
+  "q": "___ the heavy rain, the football match went ahead.",
+  "a": [
+   "Despite",
+   "Although",
+   "However",
+   "Even though"
+  ],
+  "why": "Despite / In spite of + noun (the heavy rain). Although / Even though need a full clause (it rained heavily)."
+ },
+ {
+  "cat": "gram",
+  "q": "Nam was exhausted after the race. ___, he stayed to cheer for his teammates.",
+  "a": [
+   "Nevertheless",
+   "Despite",
+   "Although",
+   "In spite of"
+  ],
+  "why": "Nevertheless / However / Nonetheless start a new sentence and are followed by a comma."
+ },
+ {
+  "cat": "gram",
+  "q": "Which sentence is correct?",
+  "a": [
+   "Even though he was nervous, he gave a brilliant speech.",
+   "Despite he was nervous, he gave a brilliant speech.",
+   "In spite of he was nervous, he gave a brilliant speech.",
+   "However he was nervous, he gave a brilliant speech."
+  ],
+  "why": "Even though / Although + subject + verb. Despite / In spite of need a noun or -ing form (Despite being nervous …)."
+ }
+];
+/* ===== end of quiz questions ===== */
+</script>
+<script>
+(function(){
+  var sl=document.querySelector('.slide.qz');if(!sl)return;
+  var stage=document.getElementById('stage'),cv=sl.querySelector('canvas.qzBg'),cx=cv.getContext('2d');
+  var W=1920,H=984,HZ=600,t0=performance.now(),raf=null;
+
+  /* ---------- background: exam-hall desk, wall clock, braille margin ---------- */
+  var tex=document.createElement('canvas');tex.width=W;tex.height=H;(function(){var t=tex.getContext('2d');t.fillStyle='#dcd8cf';t.fillRect(0,0,W,H);for(var i=0;i<26000;i++){t.fillStyle='rgba('+(Math.random()<.5?'255,255,255':'90,80,60')+','+(Math.random()*.06)+')';t.fillRect(Math.random()*W,Math.random()*H,2,2);}
+    for(var y=0;y<H;y+=6){t.fillStyle='rgba(120,100,70,'+(.012+.012*Math.sin(y*.05))+')';t.fillRect(0,y,W,3);}
+    /* braille column down the left margin */
+    var by=140;for(var k=0;k<30;k++){for(var r=0;r<3;r++)for(var c=0;c<2;c++){t.beginPath();t.arc(46+c*16,by+r*16,4.2,0,7);t.fillStyle=Math.random()<.5?'rgba(29,36,51,.22)':'rgba(29,36,51,.06)';t.fill();}by+=62;if(by>H-120)break;}
+    /* pencil */
+    t.save();t.translate(1830,700);t.rotate(-1.2);t.fillStyle='#f2b51b';t.fillRect(-180,-10,300,20);t.fillStyle='#e9c79a';t.beginPath();t.moveTo(120,-10);t.lineTo(160,0);t.lineTo(120,10);t.fill();t.fillStyle='#333';t.beginPath();t.moveTo(148,-3);t.lineTo(160,0);t.lineTo(148,3);t.fill();t.fillStyle='#c0c0c0';t.fillRect(-200,-10,22,20);t.fillStyle='#e88';t.fillRect(-222,-10,22,20);t.restore();})();
+  function draw(now){
+    cx.drawImage(tex,0,0);
+    /* wall clock (real time) bottom-left */
+    var d=new Date(),X=72,Y=905,R=58;cx.save();cx.beginPath();cx.arc(X,Y,R+6,0,7);cx.fillStyle='#1d2433';cx.fill();cx.beginPath();cx.arc(X,Y,R,0,7);cx.fillStyle='#fffefa';cx.fill();
+    for(var i=0;i<12;i++){var an=i*Math.PI/6;cx.strokeStyle='#1d2433';cx.lineWidth=i%3?2:4;cx.beginPath();cx.moveTo(X+Math.sin(an)*(R-6),Y-Math.cos(an)*(R-6));cx.lineTo(X+Math.sin(an)*(R-14),Y-Math.cos(an)*(R-14));cx.stroke();}
+    function hand(an,l,w,c){cx.strokeStyle=c;cx.lineWidth=w;cx.lineCap='round';cx.beginPath();cx.moveTo(X,Y);cx.lineTo(X+Math.sin(an)*l,Y-Math.cos(an)*l);cx.stroke();}
+    var s=d.getSeconds()+d.getMilliseconds()/1000,m=d.getMinutes()+s/60,h=d.getHours()%12+m/60;
+    hand(h*Math.PI/6,R*.5,6,'#1d2433');hand(m*Math.PI/30,R*.78,4,'#1d2433');hand(s*Math.PI/30,R*.85,2,'#c8102e');cx.beginPath();cx.arc(X,Y,4,0,7);cx.fillStyle='#c8102e';cx.fill();cx.restore();
+  }
+
+  function loop(now){draw(now);raf=sl.classList.contains('active')?requestAnimationFrame(loop):null;}
+  function wake(){if(!raf&&sl.classList.contains('active'))raf=requestAnimationFrame(loop);}
+  new MutationObserver(wake).observe(sl,{attributes:true,attributeFilter:['class']});draw(performance.now());wake();
+  var ac=null;function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  function tone(f,d,w,v,dt){var c=audio();if(!c)return;var t=c.currentTime+(dt||0),o=c.createOscillator(),g=c.createGain();o.type=w||'triangle';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(v||.15,t+.012);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+.02);}
+  function noise(d,v,dt,lo,hi){var c=audio();if(!c)return;var n=c.sampleRate*d,buf=c.createBuffer(1,n,c.sampleRate),x=buf.getChannelData(0);for(var i=0;i<n;i++)x[i]=Math.random()*2-1;var s=c.createBufferSource();s.buffer=buf;var f=c.createBiquadFilter();f.type='bandpass';f.frequency.value=lo||1500;f.Q.value=hi||.6;var g=c.createGain(),t=c.currentTime+(dt||0);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+.08);g.gain.setValueAtTime(v,t+d*.6);g.gain.exponentialRampToValueAtTime(.0001,t+d);s.connect(f);f.connect(g);g.connect(c.destination);s.start(t);s.stop(t+d+.05);}
+
+  var SND={coin:function(){tone(660,.12,'sine',.12);tone(880,.25,'sine',.1,.1);},
+    ok:function(){noise(.12,.12,0,4500,1.2);tone(1046,.25,'sine',.12,.05);},
+    no:function(){noise(.18,.14,0,2500,1);tone(196,.3,'triangle',.12,.04);},
+    blip:function(){noise(.25,.08,0,3000,.8);},
+    end:function(){noise(.5,.12,0,3800,1);[523,659,784].forEach(function(f,i){tone(f,.4,'sine',.12,.5+i*.15);});}};
+
+  /* ---------- quiz logic ---------- */
+  var $=function(s){return sl.querySelector(s);};
+  var scr={t:$('.qz-sTitle'),p:$('.qz-sPlay'),d:$('.qz-sDone')};
+  var catName={vocab:'Vocabulary',read:'Reading skills',speak:'Speaking',gram:'Language focus',listen:'Listening skills',write:'Writing skills'};
+  var qi=0,score=0,answered=false,res=[],order=[];
+  
+  function show(k){['t','p','d'].forEach(function(x){scr[x].classList.toggle('qz-on',x===k);});sl.classList.toggle('qz-playing',k==='p');sl.classList.toggle('qz-done',k==='d');}
+  function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function fmtQ(s){return esc(s).replace(/___/g,'<span class="qz-blank"></span>').replace(/«(.*?)»/g,'<span class="qz-say">“$1”</span>');}
+  function pips(el){el.innerHTML='';QUIZ.forEach(function(_,i){var d=document.createElement('div');d.className='qz-pip'+(res[i]===true?' qz-ok':res[i]===false?' qz-no':'')+(el.closest('.qz-sPlay')&&i===qi?' qz-cur':'');el.appendChild(d);});}
+  function start(){qi=0;score=0;res=[];$('.qz-hudR b').textContent='0';show('p');SND.coin();ask();}
+  function ask(){
+    answered=false;var Q=QUIZ[qi];var qn=sl.querySelector('.qz-qnum');if(qn)qn.textContent=(qi+1)+'.';
+    var cat=$('.qz-qcat');cat.textContent=catName[Q.cat]||'';cat.className='qz-qcat qzPx qz-'+Q.cat;
+    var qq=$('.qz-qq');qq.innerHTML=fmtQ(Q.q);qq.classList.remove('qz-in');void qq.offsetWidth;qq.classList.add('qz-in');
+    order=shuffle(Q.a.map(function(t,i){return {t:t,ok:i===0};}));
+    var box=$('.qz-answers');box.innerHTML='';
+    order.forEach(function(o,i){var b=document.createElement('button');b.className='qz-ab';b.innerHTML='<span class="qz-k">'+'ABCD'[i]+'<small>key '+(i+1)+'</small></span><span>'+esc(o.t)+'</span>';b.onclick=function(e){e.stopPropagation();pick(i);};box.appendChild(b);});
+    var card=$('.qz-qcard');box.style.top=(card.offsetTop+card.offsetHeight+30)+'px';
+    $('.qz-expl').classList.remove('qz-on');$('.qz-nextB').classList.remove('qz-on');pips($('.qz-sPlay .qz-pips'));
+  }
+  function pick(i){
+    if(answered)return;answered=true;var bs=sl.querySelectorAll('.qz-ab'),ok=order[i].ok;
+    bs[i].classList.add('qz-picked');bs.forEach(function(b,j){b.disabled=true;if(order[j].ok)b.classList.add('qz-right');else if(j===i)b.classList.add('qz-wrong');else b.classList.add('qz-dim');});
+    res[qi]=ok;if(ok){score++;var sb=$('.qz-hudR b');sb.textContent=score;sb.classList.remove('qz-bump');void sb.offsetWidth;sb.classList.add('qz-bump');SND.ok();
+      var r=bs[i].getBoundingClientRect(),sr=sl.getBoundingClientRect(),k=sr.width/1920,p=document.createElement('div');p.className='qz-plus qzPx';p.textContent='+1';p.style.left=((r.right-sr.left)/k-120)+'px';p.style.top=((r.top-sr.top)/k-10)+'px';sl.appendChild(p);setTimeout(function(){p.remove();},1000);}
+    else SND.no();
+    var ex=$('.qz-expl');ex.innerHTML=(ok?'<b>Correct!</b> ':'<b class="qz-no">Not quite.</b> ')+esc(QUIZ[qi].why);
+    var box=$('.qz-answers'),yb=box.offsetTop+box.offsetHeight;ex.style.top=(yb+30)+'px';ex.style.bottom='auto';
+    ex.classList.add('qz-on');var nb=$('.qz-nextB');nb.textContent=qi===QUIZ.length-1?'Results ▶':'Next ▶';nb.style.top=(yb+24)+'px';nb.style.bottom='auto';nb.classList.add('qz-on');
+    pips($('.qz-sPlay .qz-pips'));
+  }
+  function next(){if(!answered)return;SND.blip();if(qi<QUIZ.length-1){qi++;ask();}else finish();}
+  function finish(){
+    show('d');var n=QUIZ.length,p=score/n;
+    $('.qz-resS').textContent=score+'/'+n;
+    $('.qz-resM').textContent=p===1?'Excellent – full marks!':p>=.8?'Very good work!':p>=.5?'Good effort – revise the unit':'Keep revising – try again';
+    pips($('.qz-sDone .qz-pips'));SND.end();
+  }
+  $('.qzStart').onclick=function(e){e.stopPropagation();sl.classList.add('qz-started');start();};
+  $('.qz-nextB').onclick=function(e){e.stopPropagation();next();};
+  $('.qz-again').onclick=function(e){e.stopPropagation();start();};
+  sl.addEventListener('click',function(e){e.stopPropagation();});
+
+  /* keys on the quiz slide: 1–4 answer (A–D), Space/→/Enter next; ← still goes back a slide */
+  window.addEventListener('keydown',function(e){
+    if(!sl.classList.contains('active')||e.defaultPrevented)return;
+    var busy=['blackout','whiteout','zoomLayer','startGate'].some(function(id){var el=document.getElementById(id);return el&&(id==='startGate'||el.classList.contains('on'));});
+    if(document.querySelector('.lxScreen.on'))busy=true;
+    var cont=document.getElementById('contents');if(busy||(cont&&cont.classList.contains('open')))return;
+    var k=e.key,adv=(k===' '||k==='ArrowRight'||k==='Enter'||k==='PageDown');
+    if(scr.t.classList.contains('qz-on')){if(adv){e.preventDefault();e.stopImmediatePropagation();sl.classList.add('qz-started');start();}return;}
+    if(scr.p.classList.contains('qz-on')){
+      var n='1234'.indexOf(k);
+      if(n>=0&&k.length===1&&!answered&&n<order.length){e.preventDefault();e.stopImmediatePropagation();pick(n);return;}
+      if(adv){e.preventDefault();e.stopImmediatePropagation();next();}
+      return;
+    }
+    if(scr.d.classList.contains('qz-on')&&adv){e.preventDefault();e.stopImmediatePropagation();}
+  },true);
 })();
 </script>
 
