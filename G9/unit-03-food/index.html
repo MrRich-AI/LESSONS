@@ -636,6 +636,91 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 #lxTimer.lxUp .lxLabel{opacity:0}
 .lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
 #lxBreak{cursor:default}
+
+/* stage never scrolls (keeps every slide in place) */
+#stage{overflow:clip}
+
+/* ---------- Keyboard cheat sheet (? key) ---------- */
+#lxHelp{position:absolute;inset:0;z-index:96;display:none;align-items:center;justify-content:center;background:rgba(8,20,24,.72)}
+#lxHelp.on{display:flex;animation:boIn .25s ease}
+#lxHelp .hp{width:1500px;max-height:900px;background:#fff;border-radius:28px;border-top:14px solid var(--teal);box-shadow:0 30px 80px rgba(0,0,0,.45);padding:34px 48px 30px;font-family:"Mulish","Segoe UI",sans-serif;color:#1d1d1f}
+#lxHelp h2{margin:0 0 20px;font-size:46px;font-weight:800;color:var(--teal-dark);display:flex;justify-content:space-between;align-items:baseline}
+#lxHelp h2 small{font-size:24px;font-weight:700;color:#6a6a70}
+#lxHelp .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 56px}
+#lxHelp h3{margin:14px 0 6px;font-size:24px;letter-spacing:3px;text-transform:uppercase;color:var(--pink)}
+#lxHelp .row{display:flex;align-items:center;gap:18px;font-size:28px;line-height:1.25;padding:7px 0;border-bottom:2px solid #eef3f4}
+#lxHelp .keys{flex:none;min-width:210px;display:flex;gap:8px;flex-wrap:wrap}
+#lxHelp kbd{display:inline-flex;align-items:center;justify-content:center;min-width:50px;height:46px;padding:0 12px;border-radius:10px;background:#f1f6f7;border:2px solid #b9d6da;border-bottom-width:5px;font:800 24px "Mulish",sans-serif;color:#06707c}
+#lxHelp kbd.ic{font-size:26px}
+/* ---------- Student controls next to the page number ---------- */
+.lxStu{display:none;gap:10px;margin-top:22px;pointer-events:auto}
+body.student .lxStu{display:flex}
+.lxStu button{height:52px;padding:0 18px;border-radius:26px;border:3px solid var(--teal);background:#fff;color:var(--teal-dark);font:800 24px "Mulish",sans-serif;cursor:pointer;box-shadow:0 3px 8px rgba(0,0,0,.12);display:inline-flex;align-items:center;gap:8px}
+.lxStu button.on{background:var(--teal);color:#fff}
+[data-vitext].viOn{color:#57309a}
+.act>[data-vitext].viOn{font-style:normal;font-size:.94em}
+/* ---------- Read-aloud word highlight ---------- */
+::highlight(lxword){background-color:#fbb81b;color:#000}
+/* ---------- Words from today ---------- */
+.slide.wft .wftHead{display:flex;align-items:baseline;gap:22px;margin-bottom:18px}
+.slide.wft .wftTitle{font-size:56px;font-weight:800;color:var(--teal-dark);display:flex;align-items:center;gap:18px}
+.slide.wft .wftTitle i{font-style:normal;display:inline-flex;width:64px;height:64px;border-radius:16px;background:var(--teal);color:#fff;align-items:center;justify-content:center;font-size:38px}
+.slide.wft .wftSub{font-size:28px;font-weight:700;color:#6a6a70}
+.slide.wft .wftList{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:114px;gap:12px 40px}
+.slide.wft .wftItem{border-left:10px solid var(--c,#0a8b99);background:#f6fafb;border-radius:0 16px 16px 0;padding:9px 22px;overflow:hidden}
+.slide.wft .wftItem .wftW{font-size:34px;font-weight:800;color:#1d1d1f;line-height:1.1}
+.slide.wft .wftItem .wftW small{font-size:22px;font-weight:700;color:var(--teal-dark);margin-left:12px}
+.slide.wft .wftItem .wftD{font-size:23px;line-height:1.22;color:#3a3a40;margin-top:3px}
+.slide.wft .wftCards{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:226px;gap:20px}
+.slide.wft .wftCard{perspective:1400px;cursor:pointer}
+.slide.wft .wftCard .wftIn{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.slide.wft .wftCard.wftOn .wftIn{transform:rotateY(180deg)}
+.slide.wft .wftCard .wftF,.slide.wft .wftCard .wftBk{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px 20px;box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.slide.wft .wftCard .wftF{background:var(--c,#0a8b99);color:#fff}
+.slide.wft .wftCard .wftF .wftW{font-size:40px;font-weight:800;line-height:1.1}
+.slide.wft .wftCard .wftF .wftW small{display:block;font-size:22px;font-weight:700;opacity:.9;margin-top:8px}
+.slide.wft .wftCard .wftF .spkBtn{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.25)}
+.slide.wft .wftCard .wftF .wftTurn{position:absolute;bottom:10px;font-size:18px;font-weight:700;opacity:.8}
+.slide.wft .wftCard .wftBk{background:#fff;border:5px solid var(--c,#0a8b99);transform:rotateY(180deg)}
+.slide.wft .wftCard .wftBk .wftD{font-size:22px;line-height:1.25;color:#1d1d1f}
+.slide.wft .wftCard .wftBk .wftV{margin-top:10px;padding-top:8px;border-top:3px solid #e3eef0;font-size:24px;font-weight:800;color:var(--teal-dark)}
+.slide.wft .wftBar{position:absolute;right:70px;top:136px;display:flex;gap:12px}
+.slide.wft .wftBar button{height:54px;padding:0 24px;border-radius:27px;border:3px solid var(--teal);background:#fff;color:var(--teal-dark);font:800 24px "Mulish",sans-serif;cursor:pointer}
+/* ---------- Presenter view (P) ---------- */
+body.presenter{background:#14191c}
+body.presenter #viewport{display:block}
+body.presenter #stage{position:absolute;left:var(--pvx);top:var(--pvy);transform-origin:0 0!important;transform:scale(var(--pvk))!important;pointer-events:none;box-shadow:0 0 0 3px #2b3a40}
+body.presenter #startGate{display:none!important}
+body.presenter .slide.active .pvPending{outline:5px dashed #f39a3c;outline-offset:3px}
+#pvUI{display:none}
+body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;color:#e8f1f3}
+#pvBar{position:fixed;left:0;right:0;top:0;height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;background:#0d1214;border-bottom:2px solid #0a8b99;font-size:16px;z-index:5}
+#pvBar .t{font-weight:800;font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:34vw}
+#pvBar .c{font-weight:800;color:#8ecbd3;white-space:nowrap}
+#pvBar .sp{flex:1}
+#pvBar button{height:36px;padding:0 12px;border-radius:8px;border:1px solid #3c5057;background:#1e2a2e;color:#e8f1f3;font:700 15px "Mulish",sans-serif;cursor:pointer;white-space:nowrap}
+#pvBar button.big{background:#0a8b99;border-color:#0a8b99;padding:0 18px}
+#pvBar .clk{font-variant-numeric:tabular-nums;font-weight:800;color:#fbb81b;cursor:pointer;white-space:nowrap}
+#pvBar .flag{display:none;padding:4px 10px;border-radius:6px;background:#e6175c;color:#fff;font-weight:800}
+#pvBar .flag.on{display:inline-block}
+#pvSide{position:fixed;top:64px;right:12px;bottom:12px;display:flex;flex-direction:column;gap:10px}
+#pvSide .lab{font-size:13px;font-weight:800;letter-spacing:2px;color:#8ecbd3;text-transform:uppercase}
+#pvNextBox{position:relative;overflow:hidden;background:#fff;border-radius:4px;flex:none}
+#pvNextBox .pvClip{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;pointer-events:none}
+#pvNextBox .pvClip .slide{opacity:1!important;visibility:visible!important;transition:none}
+#pvNextBox .pvClip .rise,#pvNextBox .pvClip .clue{opacity:1!important;transform:none!important;animation:none!important}
+#pvNextBox .pvClip *{animation-play-state:paused!important}
+#pvNextBox .pvEnd{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#1e2a2e;color:#8ecbd3;font-weight:800;font-size:18px}
+#pvNotes{flex:1;min-height:80px;overflow:auto;background:#1e2a2e;border-radius:8px;padding:12px 16px;font-size:18px;line-height:1.45}
+#pvNotes ul{margin:4px 0;padding-left:20px}
+#pvNotes li{margin:3px 0}
+#pvNotes .none{color:#7d9096;font-style:italic}
+#pvLegend{position:fixed;left:12px;bottom:8px;font-size:13px;color:#8ecbd3}
+#pvLegend b{display:inline-block;width:22px;height:12px;border:2px dashed #f39a3c;vertical-align:-2px;margin-right:6px}
+#pvWait{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);display:none;padding:22px 30px;border-radius:12px;background:#0d1214;border:2px solid #e6175c;font-size:20px;font-weight:700;text-align:center;z-index:9}
+#pvWait.on{display:block}
+#lxToast{position:absolute;left:50%;bottom:130px;transform:translateX(-50%);z-index:97;padding:16px 28px;border-radius:16px;background:#1d1d1f;color:#fff;font:700 28px "Mulish",sans-serif;opacity:0;transition:opacity .3s;pointer-events:none}
+#lxToast.on{opacity:1}
 </style>
 </head>
 <body>
@@ -792,7 +877,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
       <div class="sec rise d1"><b>A</b>Watch and talk</div>
       <div class="row rise d2">
         <div class="vidicon"><svg width="56" height="56" viewBox="0 0 24 24" fill="#fff"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h10A1.5 1.5 0 0 1 16 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 17.5z"/><path d="M17 10l4.2-2.6c.4-.2.8 0 .8.5v8.2c0 .5-.4.7-.8.5L17 14z"/></svg></div>
-        <div class="act"><span class="n">1</span><span>Watch the video in the Digital Coursebook about food. Your teacher will give you a task to complete.</span></div>
+        <div class="act"><span class="n">1</span><span data-vitext="Xem video về đồ ăn trong Sách học điện tử (Digital Coursebook). Giáo viên sẽ giao cho em một nhiệm vụ để hoàn thành.">Watch the video in the Digital Coursebook about food. Your teacher will give you a task to complete.</span></div>
       </div>
     </div>
   </section>
@@ -802,9 +887,9 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="txt rise d2">
-        <div class="act"><span class="n">1</span><span>Look at the pictures. What does each one show? Discuss your ideas with a partner and write down any words or phrases you can think of.</span></div>
+        <div class="act"><span class="n">1</span><span data-vitext="Hãy nhìn các bức ảnh. Mỗi bức ảnh cho thấy điều gì? Thảo luận với bạn cùng cặp và ghi lại bất kỳ từ hoặc cụm từ nào em nghĩ ra.">Look at the pictures. What does each one show? Discuss your ideas with a partner and write down any words or phrases you can think of.</span></div>
         <div class="example">Example: <i>1 rice with chopsticks</i></div>
-        <div class="hint"><span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center">?</span>Click a picture to reveal ideas</div>
+        <div class="hint"><span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center">?</span><span data-vitext="Bấm vào một bức ảnh để xem gợi ý">Click a picture to reveal ideas</span></div>
       </div>
       <div class="grid">
         <div class="row">
@@ -823,7 +908,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 4: B2 ===== -->
   <section class="slide s4" data-title="B2 Fast food — discussion" data-page="38">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">2</span><span>Discuss these questions in small groups.</span></div>
+    <div class="act rise d1"><span class="n">2</span><span data-vitext="Thảo luận các câu hỏi sau theo nhóm nhỏ.">Discuss these questions in small groups.</span></div>
     <div class="qgrid">
       <div class="qcard rise d2">
         <div class="qq"><span class="l">a</span><span>What is ‘fast food’? Do you think the food in the pictures is fast food? Why, or why not?</span></div>
@@ -863,10 +948,10 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="left">
-        <div class="act rise d1" style="font-size:32px;margin-bottom:6px"><span class="n">3</span><span>Look at the different foods in the box.</span></div>
+        <div class="act rise d1" style="font-size:32px;margin-bottom:6px"><span class="n">3</span><span data-vitext="Hãy xem các loại đồ ăn trong khung.">Look at the different foods in the box.</span></div>
         <div class="wordbox rise d2" id="wordbox"></div>
-        <div class="sub rise d3"><span class="l">a</span><span>Copy the diagram opposite and write the name of each food in the most appropriate area. Which foods can go in the middle section (both fast and healthy)? There are no right or wrong answers, but explain your choices to a partner.</span></div>
-        <div class="sub rise d3"><span class="l">b</span><span>Think of some more types of food that could go in each group. What helps you to decide?</span></div>
+        <div class="sub rise d3"><span class="l">a</span><span data-vitext="Vẽ lại sơ đồ bên cạnh và viết tên mỗi loại đồ ăn vào vùng phù hợp nhất. Những đồ ăn nào có thể nằm ở phần giữa (vừa nhanh vừa lành mạnh)? Không có câu trả lời đúng hay sai, nhưng hãy giải thích lựa chọn của em với bạn cùng cặp.">Copy the diagram opposite and write the name of each food in the most appropriate area. Which foods can go in the middle section (both fast and healthy)? There are no right or wrong answers, but explain your choices to a partner.</span></div>
+        <div class="sub rise d3"><span class="l">b</span><span data-vitext="Hãy nghĩ thêm một số loại đồ ăn có thể xếp vào mỗi nhóm. Điều gì giúp em quyết định?">Think of some more types of food that could go in each group. What helps you to decide?</span></div>
         <div class="idea ans rise d4" id="ideas3b"><div class="cover">3b — click for ideas</div><div class="body">
           <b>Fast:</b> hot dogs, fried chicken, doughnuts, instant noodles<br>
           <b>Both:</b> sushi, wraps, yoghurt, nuts<br>
@@ -876,7 +961,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
       </div>
       <div class="rise d3">
         <div class="vennbar">
-          <span class="note" id="vennNote">Drag the words into the diagram</span>
+          <span class="note" id="vennNote" data-vitext="Kéo các từ vào sơ đồ">Drag the words into the diagram</span>
           <span style="display:flex;gap:12px"><button class="minibtn" id="resetVenn">↺ Reset</button><button class="minibtn pink" id="suggestBtn">Check answers</button></span>
         </div>
         <div class="venn" id="venn">
@@ -898,7 +983,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="left">
-        <div class="act rise d2"><span class="n">4</span><span>You are going to read an online article called ‘Things they don’t tell you about fast food’ (Text 3.1). First, discuss in small groups what kind of things fast-food producers might want to keep hidden from consumers.</span></div>
+        <div class="act rise d2"><span class="n">4</span><span data-vitext="Em sẽ đọc một bài báo trực tuyến có tên ‘Những điều họ không nói với bạn về đồ ăn nhanh’ (Bài đọc 3.1). Trước tiên, hãy thảo luận theo nhóm nhỏ về những điều mà các nhà sản xuất đồ ăn nhanh có thể muốn giấu người tiêu dùng.">You are going to read an online article called ‘Things they don’t tell you about fast food’ (Text 3.1). First, discuss in small groups what kind of things fast-food producers might want to keep hidden from consumers.</span></div>
         <div class="example rise d2">Example: <i>The ingredients in fast food are often poor-quality.</i></div>
         <div class="ideas">
           <div class="ans rise d3"><div class="cover">Idea 1</div><div class="body">How many calories the food really contains</div></div>
@@ -921,7 +1006,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 7: B5 ===== -->
   <section class="slide s7" data-title="B5 True or false? (predictions)" data-page="39" data-noanswers="Predictions only — check in B6">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">5</span><span>Read the five statements below. Which ones do you think are true? Discuss this in your groups, giving reasons for your decisions.</span></div>
+    <div class="act rise d1"><span class="n">5</span><span data-vitext="Đọc năm nhận định dưới đây. Theo em, nhận định nào đúng? Thảo luận trong nhóm và nêu lý do cho quyết định của các em.">Read the five statements below. Which ones do you think are true? Discuss this in your groups, giving reasons for your decisions.</span></div>
     <div class="stmts">
       <div class="stmt rise d2"><span class="l">a</span><span class="t">A lot of us consider fast food to be cheap.</span><div class="vote"></div></div>
       <div class="stmt rise d3"><span class="l">b</span><span class="t">Food that looks healthy may in fact be the opposite.</span><div class="vote"></div></div>
@@ -936,7 +1021,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 8: B6 ===== -->
   <section class="slide s7 s8" data-rev="1" data-title="B6 Scan Text 3.1 — check B5" data-page="39">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">6</span><span>Now scan the text and check your answers to Activity B5. Say in which paragraph you found the relevant information. (Do not worry about the gaps in the text.)</span></div>
+    <div class="act rise d1"><span class="n">6</span><span data-vitext="Bây giờ hãy đọc quét bài đọc và kiểm tra câu trả lời của em ở Hoạt động B5. Cho biết em tìm thấy thông tin liên quan ở đoạn nào. (Đừng lo về các chỗ trống trong bài.)">Now scan the text and check your answers to Activity B5. Say in which paragraph you found the relevant information. (Do not worry about the gaps in the text.)</span></div>
     <div class="stmts">
       <div class="stmt rise d2"><span class="l">a</span><span class="t">A lot of us consider fast food to be cheap.</span><div class="ans tf"><div class="cover">Reveal</div><div class="body">✓ True <span class="pp">· paragraph 5</span></div></div></div>
       <div class="stmt rise d3"><span class="l">b</span><span class="t">Food that looks healthy may in fact be the opposite.</span><div class="ans tf"><div class="cover">Reveal</div><div class="body">✓ True <span class="pp">· paragraph 4</span></div></div></div>
@@ -949,7 +1034,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 
   <!-- ===== Slide 9: Text 3.1 part 1 ===== -->
   <section class="slide s9 big" data-title="Text 3.1 (paragraphs 1–3) — gaps a–e" data-page="39">
-    <div class="t31head rise d1"><span class="lbl">Text 3.1</span><span class="tip">Click a gap to reveal the B8 answer</span></div>
+    <div class="t31head rise d1"><span class="lbl">Text 3.1</span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8">Click a gap to reveal the B8 answer</span></div>
     <div class="t31box rise d2">
       <h4>Things they don’t tell you about fast food</h4>
       <div class="t31cols">
@@ -962,7 +1047,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 
   <!-- ===== Slide 10: Text 3.1 part 2 ===== -->
   <section class="slide s10" data-title="Text 3.1 (paragraphs 4–7) — gaps f–j" data-page="40">
-    <div class="t31head rise d1"><span class="lbl">Text 3.1 <span style="font-size:30px;color:var(--muted)">(continued)</span></span><span class="tip">Click a gap to reveal the B8 answer</span></div>
+    <div class="t31head rise d1"><span class="lbl">Text 3.1 <span style="font-size:30px;color:var(--muted)">(continued)</span></span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8">Click a gap to reveal the B8 answer</span></div>
     <div class="t31box rise d2">
       <div class="t31cols">
         <p><span class="pn">[4]</span> Just because something on the menu sounds healthy, that doesn’t mean it is, and this is our third secret: food that sounds healthy is sometimes worse than food that seems like it’s bad for you. As an example, one fast-food restaurant offers a thin-based pizza with plenty of vegetables and without any cheese or meat. It sounds as healthy as you can get with pizza, right? But just two slices of this contain 1300 calories, 60 g of fat and a large amount of <span class="clue" data-def="a chemical found in salt; too much is bad for your health" data-vi="natri">sodium</span>, <span class="gap ans-ph"><b>(f)</b><span class="g-blank">. . .</span><span class="g-ans">guaranteed</span></span> to send your blood <span class="gap ans-ph"><b>(g)</b><span class="g-blank">. . .</span><span class="g-ans">pressure</span></span> <span class="clue" data-def="going up very quickly" data-vi="tăng vọt">rocketing</span>. In some fast-food <strong>outlets</strong>, even the salad options were found to be <strong>sprinkled</strong> with chemicals to keep them looking fresh. Our advice? Don’t be fooled into buying something just because it sounds healthy. Read all the information very carefully before you order.</p>
@@ -976,10 +1061,10 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 11: B7 ===== -->
   <section class="slide s11" data-rev="1" data-title="B7 Match the words and definitions" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">7</span><span>Work in pairs. Match each word in the table with the correct definition. Then use any resources available to check your answers.</span></div>
+    <div class="act rise d1"><span class="n">7</span><span data-vitext="Làm việc theo cặp. Ghép mỗi từ trong bảng với định nghĩa đúng. Sau đó dùng các tài liệu có sẵn để kiểm tra câu trả lời.">Work in pairs. Match each word in the table with the correct definition. Then use any resources available to check your answers.</span></div>
     <div class="wrap">
       <table class="mtable rise d2">
-        <tr><th>Word</th><th>Definition <span class="thnote">click a definition to reveal the answer</span></th></tr>
+        <tr><th>Word</th><th>Definition <span class="thnote" data-vitext="bấm vào một định nghĩa để xem đáp án">click a definition to reveal the answer</span></th></tr>
         <tr><td>actual (adjective)</td><td class="def ans-ph"><span class="orig">by a large amount</span><span class="q">?</span><span class="slide-ans">real</span></td></tr>
         <tr><td>considerably (adverb)</td><td class="def ans-ph"><span class="orig">eating</span><span class="q">?</span><span class="slide-ans">by a large amount</span></td></tr>
         <tr><td>consuming (verb)</td><td class="def ans-ph"><span class="orig">just, only</span><span class="q">?</span><span class="slide-ans">eating</span></td></tr>
@@ -1002,7 +1087,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 12: B8 ===== -->
   <section class="slide s12" data-rev="1" data-title="B8 Which word goes in each gap?" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">8</span><span>In your pairs, decide which word from Activity B7 goes in which gap in Text 3.1.</span></div>
+    <div class="act rise d1"><span class="n">8</span><span data-vitext="Theo cặp, hãy quyết định từ nào trong Hoạt động B7 điền vào chỗ trống nào trong Bài đọc 3.1.">In your pairs, decide which word from Activity B7 goes in which gap in Text 3.1.</span></div>
     <div class="gapgrid">
       <div class="gcard rise d2"><span class="gl">(a)</span><span class="ctx">Fast food may <i>seem</i> quite <u>. . .</u> , but it has more secrets …</span><div class="ans"><div class="cover">Reveal</div><div class="body">harmless</div></div></div>
       <div class="gcard rise d2"><span class="gl">(f)</span><span class="ctx">… a large amount of sodium, <u>. . .</u> to send your blood …</span><div class="ans"><div class="cover">Reveal</div><div class="body">guaranteed</div></div></div>
@@ -1020,7 +1105,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
   <!-- ===== Slide 13: B9 ===== -->
   <section class="slide s13" data-title="B9 Write sentences with the words" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">9</span><span>Divide the ten words between you and write sentences using your five words. Then swap your sentences and check each other’s work. Has your partner used the words correctly?</span></div>
+    <div class="act rise d1"><span class="n">9</span><span data-vitext="Chia mười từ cho hai bạn và mỗi bạn viết câu với năm từ của mình. Sau đó đổi câu cho nhau và kiểm tra bài của bạn. Bạn em đã dùng các từ đúng chưa?">Divide the ten words between you and write sentences using your five words. Then swap your sentences and check each other’s work. Has your partner used the words correctly?</span></div>
     <div class="sgrid">
       <div class="scard rise d2"><span class="w">actual</span><div class="ans"><div class="cover"></div><div class="body">The actual cost of the meal was much higher than the price on the menu.</div></div></div>
       <div class="scard rise d2"><span class="w">harmless</span><div class="ans"><div class="cover"></div><div class="body">A small piece of chocolate after dinner is fairly harmless.</div></div></div>
@@ -1463,6 +1548,194 @@ var TIMER_SOUNDS=(function(){
 </script>
 
 <script>
+/* ===== "Words from today" — vocabulary-exercise words (CLUE / VISCLUE words are collected automatically) =====
+   slide: the data-title of the slide the word belongs to (sets the order)   w: word   d: meaning   v: Vietnamese */
+var LESSON_WORDS = [
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "pretzel",
+  "d": "a baked bread snack, twisted into a knot and salted",
+  "v": "bánh quy xoắn (pretzel)"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "goulash",
+  "d": "a Hungarian meat and vegetable stew with paprika",
+  "v": "món hầm Hungary (goulash)"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "vegetable pie",
+  "d": "vegetables baked in a pastry case",
+  "v": "bánh nướng nhân rau"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "moussaka",
+  "d": "a Greek baked dish of aubergine, minced meat and white sauce",
+  "v": "món cà tím nướng Hy Lạp (moussaka)"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "miso soup",
+  "d": "a Japanese soup made with miso paste, tofu and seaweed",
+  "v": "súp miso"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "falafel",
+  "d": "fried balls of crushed chickpeas, from the Middle East",
+  "v": "viên đậu gà chiên (falafel)"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "shawarma",
+  "d": "thin slices of grilled meat in flatbread, from the Middle East",
+  "v": "bánh mì cuộn thịt nướng (shawarma)"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "chips",
+  "d": "long pieces of fried potato",
+  "v": "khoai tây chiên"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "hotpot",
+  "d": "a slow-cooked meat and potato stew (in Asia, also a shared soup cooked at the table)",
+  "v": "món hầm; lẩu"
+ },
+ {
+  "slide": "B3 Fast food or healthy food?",
+  "w": "satay",
+  "d": "grilled meat on skewers with peanut sauce, from Southeast Asia",
+  "v": "thịt xiên nướng sốt đậu phộng (sa tế)"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "actual",
+  "pos": "(adj)",
+  "d": "real",
+  "v": "thực tế, thật sự"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "considerably",
+  "pos": "(adv)",
+  "d": "by a large amount",
+  "v": "đáng kể"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "consume",
+  "pos": "(v)",
+  "d": "to eat or drink",
+  "v": "tiêu thụ, ăn uống"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "fool",
+  "pos": "(v)",
+  "d": "to trick someone",
+  "v": "đánh lừa"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "guaranteed",
+  "pos": "(adj)",
+  "d": "sure to happen",
+  "v": "chắc chắn xảy ra"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "harmless",
+  "pos": "(adj)",
+  "d": "safe, not dangerous",
+  "v": "vô hại"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "majority",
+  "pos": "(n)",
+  "d": "the largest part of a group",
+  "v": "phần lớn, đa số"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "pressure",
+  "pos": "(n)",
+  "d": "stress (blood pressure = the force of blood in your body)",
+  "v": "áp lực; huyết áp"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "simply",
+  "pos": "(adv)",
+  "d": "just, only",
+  "v": "chỉ, đơn giản là"
+ },
+ {
+  "slide": "B7 Match the words and definitions",
+  "w": "underestimate",
+  "pos": "(v)",
+  "d": "to think something is less or smaller than it really is",
+  "v": "đánh giá thấp"
+ }
+];
+/* Vietnamese for glossary-box words (glossary words are collected automatically) */
+var LESSON_WORDS_VI = {"participants": "người tham gia", "outlets": "cửa hàng, điểm bán", "sprinkled": "rắc lên"};
+/* ===== end of word list ===== */
+(function(){
+  var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(location.search+location.hash);
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var quiz=document.querySelector('.slide.qz'),seen={},words=[];
+  var COLS=['#0a8b99','#e6175c','#57309a','#ef7d22','#5ea72c','#2a76c2','#e89b14','#2b2f6b'];
+  function add(o){var k=(o.w||'').toLowerCase().trim();if(!k||seen[k])return;seen[k]=1;words.push(o);}
+  slides.forEach(function(s){
+    if(s===quiz)return;
+    LESSON_WORDS.filter(function(x){return x.slide===s.dataset.title;}).forEach(add);
+    s.querySelectorAll('.gloss p').forEach(function(p){
+      var m=/^\s*([^(:]+?)\s*\(([^)]+)\)\s*:\s*([\s\S]+)$/.exec(p.textContent.replace(/\s+/g,' '));if(!m)return;
+      var ab={noun:'n',verb:'v',adjective:'adj',adverb:'adv'}[m[2].trim()]||m[2].trim();
+      add({w:m[1],pos:'('+ab+')',d:m[3].trim(),v:(window.LESSON_WORDS_VI||{})[m[1].trim()]||''});
+    });
+    s.querySelectorAll('.clue[data-head], .clue[data-def], [data-vword]').forEach(function(c){
+      if(c.classList.contains('clue'))add({w:c.dataset.head||c.textContent.replace(/\s+/g,' ').trim(),d:c.dataset.def||'',v:c.dataset.vi||''});
+      else add({w:c.dataset.vword,d:c.dataset.vdef||'',v:c.dataset.vvi||''});
+    });
+  });
+  LESSON_WORDS.filter(function(x){return !x.slide;}).forEach(add);
+  if(!words.length)return;
+  function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+  function wHtml(o){return esc(o.w)+(o.pos?'<small>'+esc(o.pos)+'</small>':'');}
+  var per=12,pages=Math.ceil(words.length/per),ref=quiz||null,parent=(quiz||slides[slides.length-1]).parentNode;
+  for(var p=0;p<pages;p++){
+    var chunk=words.slice(p*per,p*per+per),sec=document.createElement('section');
+    sec.className='slide wft';sec.dataset.page='';
+    sec.dataset.title='Words from today'+(pages>1?' ('+(p+1)+'/'+pages+')':'');
+    var head='<div class="wftHead rise d1"><div class="wftTitle"><i>★</i>Words from today</div><div class="wftSub">'+(pages>1?(p+1)+' / '+pages+' · ':'')+
+      (STUDENT?'Click a card to see the meaning':words.length+' words from this lesson')+'</div></div>';
+    var body='';
+    if(STUDENT){
+      body='<div class="wftBar"><button class="wftAll">↻ Flip all</button></div><div class="wftCards rise d2">'+chunk.map(function(o,i){
+        return '<div class="wftCard" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftIn"><div class="wftF"><div class="wftW">'+wHtml(o)+'</div><div class="wftTurn">tap to flip ↻</div></div>'+
+          '<div class="wftBk"><div class="wftD">'+esc(o.d)+'</div>'+(o.v?'<div class="wftV">🇻🇳 '+esc(o.v)+'</div>':'')+'</div></div></div>';}).join('')+'</div>';
+    }else{
+      body='<div class="wftList rise d2">'+chunk.map(function(o,i){
+        return '<div class="wftItem" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftW">'+wHtml(o)+'</div><div class="wftD">'+esc(o.d)+'</div></div>';}).join('')+'</div>';
+    }
+    sec.innerHTML=head+body;
+    parent.insertBefore(sec,ref);
+    if(STUDENT){
+      (function(sec){
+        sec.querySelectorAll('.wftCard').forEach(function(c){c.addEventListener('click',function(e){e.stopPropagation();c.classList.toggle('wftOn');});});
+        var all=sec.querySelector('.wftAll');all.addEventListener('click',function(e){e.stopPropagation();var cs=sec.querySelectorAll('.wftCard'),any=[].some.call(cs,function(c){return !c.classList.contains('wftOn');});cs.forEach(function(c){c.classList.toggle('wftOn',any);});});
+      })(sec);
+    }
+  }
+})();
+</script>
+<script>
 (function(){
   var stage=document.getElementById('stage');
   var scale=1;
@@ -1800,6 +2073,274 @@ var TIMER_SOUNDS=(function(){
 </script>
 
 <script>
+/* ===== Teacher notes for presenter view (P) — keyed by slide title; edit here ===== */
+var LESSON_NOTES = {
+ "Where is it from?": [
+  "Warmer: 6 foods – teams guess the country before the reveal.",
+  "Ask: Have you tried it? Would you like to?"
+ ],
+ "Where is it from? 1 — Pizza": [
+  "Answer: ITALY (modern pizza comes from Naples)."
+ ],
+ "Where is it from? 2 — Sushi": [
+  "Answer: JAPAN – it began as a way of preserving fish."
+ ],
+ "Where is it from? 3 — Tacos": [
+  "Answer: MEXICO – corn tortillas have a very long history."
+ ],
+ "Where is it from? 4 — Buffalo wings": [
+  "Answer: the UNITED STATES – invented in Buffalo, New York, in the 1960s.",
+  "Fun fact: they’re chicken, not buffalo!"
+ ],
+ "Where is it from? 5 — Injera with doro wat": [
+  "Answer: ETHIOPIA – shared from one platter and eaten by hand."
+ ],
+ "Where is it from? 6 — Fried crickets": [
+  "Answer: Southeast Asia – Vietnam, Thailand, Laos, Cambodia.",
+  "Ask: Would you eat them? Why / why not?"
+ ],
+ "Unit 3: Food — introduction": [
+  "Read the learning intentions together.",
+  "Skills focus: writing a review (later in the unit).",
+  "Quick poll: Who ate fast food this week?"
+ ],
+ "A1 Watch and talk": [
+  "Play the video from the Digital Coursebook (not embedded here).",
+  "Suggested task: list every food you see; tick the ones you like.",
+  "Pairs compare (about 5 min)."
+ ],
+ "B1 What does each picture show?": [
+  "Pairs list words and phrases for each picture (2 min).",
+  "Click a picture to show the ideas.",
+  "Push for adjectives: crispy, fresh, greasy, spicy."
+ ],
+ "B2 Fast food — discussion": [
+  "Small groups discuss a–d (5 min), then reveal ideas.",
+  "d is a good debate: are ‘traditional’ foods always healthy?"
+ ],
+ "B3 Fast food or healthy food?": [
+  "Students drag foods into the diagram – no right or wrong answers.",
+  "Hover a food word for 2 s to see a photo card.",
+  "3b: ask what helps them decide (cooking method, speed, fat / salt / sugar)."
+ ],
+ "B4 What do fast-food producers hide?": [
+  "Groups brainstorm 3–4 ideas before revealing.",
+  "Good lead-in to Text 3.1."
+ ],
+ "B5 True or false? (predictions)": [
+  "Predictions only – mark the class’s guesses on the board.",
+  "They check in B6."
+ ],
+ "B6 Scan Text 3.1 — check B5": [
+  "Answers: all five are TRUE – a ¶5, b ¶4, c ¶3, d ¶2, e ¶6.",
+  "Scan, don’t read every word – set a 2-minute limit."
+ ],
+ "Text 3.1 (paragraphs 1–3) — gaps a–e": [
+  "Gaps: a harmless, b majority, c consuming, d actual, e underestimated.",
+  "Hover the green words for word cards."
+ ],
+ "Text 3.1 (paragraphs 4–7) — gaps f–j": [
+  "Gaps: f guaranteed, g pressure, h considerably, i simply, j fooled."
+ ],
+ "B7 Match the words and definitions": [
+  "Answers: actual = real, considerably = by a large amount, consuming = eating, fooled = tricked, guaranteed = sure to happen, harmless = safe, majority = largest part, pressure = stress, simply = just / only, underestimated = thought it was less.",
+  "Click a definition to reveal."
+ ],
+ "B8 Which word goes in each gap?": [
+  "a harmless, b majority, c consuming, d actual, e underestimated, f guaranteed, g pressure, h considerably, i simply, j fooled."
+ ],
+ "B9 Write sentences with the words": [
+  "A takes the first five words, B the last five.",
+  "Swap and check; sample sentences are behind the reveals."
+ ],
+ "Words from today": [
+  "Recap: say a word – students give the meaning (or the reverse).",
+  "Pair quiz: A covers the meanings, B tests A.",
+  "Students can review these as flashcards at home."
+ ],
+ "Food Quiz": [
+  "10 questions – keys 1–4 answer, → next.",
+  "Exit ticket: students write their score on a sticky note.",
+  "Review any question most of the class got wrong."
+ ]
+};
+/* answer boxes in this deck (presenter view marks the ones not yet shown on the projector) */
+var LESSON_REVEALS = ".ans, .ans-ph";
+/* ===== end of teacher notes ===== */
+</script>
+<script>
+/* ===== Lesson tools 2: ? cheat sheet, P presenter view, VI instructions + read-aloud speed (student) ===== */
+(function(){
+  var stage=document.getElementById('stage');
+  var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(location.search+location.hash);
+  var PRESENTER=!STUDENT&&/(^|[?&#])presenter\b/i.test(location.search+location.hash);
+  function slides(){return [].slice.call(document.querySelectorAll('#stage > .slide, #stage .slide'));}
+  function curIdx(){var a=document.querySelector('#stage .slide.active');return slides().indexOf(a);}
+  function revs(s){return s?[].slice.call(s.querySelectorAll(window.LESSON_REVEALS||'.rv, .ans.clk')):[];}
+  function gotoSlide(i){var li=document.querySelectorAll('#contentsList li')[i];if(li)li.click();}
+  function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+  stage.addEventListener('scroll',function(){if(stage.scrollTop||stage.scrollLeft){stage.scrollTop=0;stage.scrollLeft=0;}});
+  var toast=document.createElement('div');toast.id='lxToast';stage.appendChild(toast);var toT=null;
+  function say(t){toast.textContent=t;toast.classList.add('on');clearTimeout(toT);toT=setTimeout(function(){toast.classList.remove('on');},3200);}
+
+  /* ---------- ? cheat sheet ---------- */
+  var help=document.createElement('div');help.id='lxHelp';
+  function K(){return [].slice.call(arguments).map(function(k){return '<kbd'+(k.length>2&&/^\W/.test(k)?' class="ic"':'')+'>'+k+'</kbd>';}).join('');}
+  function R(keys,txt){return '<div class="row"><span class="keys">'+keys+'</span><span>'+txt+'</span></div>';}
+  var colA,colB;
+  if(STUDENT){
+    colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / show the next answer')+R(K('←'),'Go back / hide the last answer')+R(K('☰'),'Contents: jump to any slide')+
+      '<h3>Answers</h3>'+R(K('click'),'Click an answer box to show it')+R(K('Reveal all'),'Show (or hide) every answer on the slide');
+    colB='<h3>Help with reading</h3>'+R(K('🔊'),'Listen to a text, word or phrase')+R(K('🐢'),'Read-aloud speed: Slow / Normal')+R(K('VI'),'Instructions in Vietnamese')+R(K('🔍'),'Zoom in on a text or picture')+R(K('hold'),'Hold the mouse on a dotted word for 2 seconds: word card')+
+      '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Choose an answer')+R(K('→','Enter'),'Next question')+R(K('?','Esc'),'Open / close this help');
+  }else{
+    colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
+      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen');
+    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡'),'Pick a student')+R(K('⏱'),'Slide timer')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
+      '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
+  }
+  help.innerHTML='<div class="hp"><h2>Keyboard shortcuts <small>press ? or Esc to close</small></h2><div class="cols"><div>'+colA+'</div><div>'+colB+'</div></div></div>';
+  stage.appendChild(help);
+  help.addEventListener('click',function(e){e.stopPropagation();help.classList.remove('on');});
+  function helpToggle(on){help.classList.toggle('on',on===undefined?!help.classList.contains('on'):on);}
+
+  /* ---------- VI instructions + read-aloud speed (student mode) ---------- */
+  if(STUDENT){
+    var tl=document.querySelector('.topbar .tl'),box=document.createElement('div');box.className='lxStu';
+    box.innerHTML='<button class="viB" title="Instructions in Vietnamese">VI</button><button class="spB" title="Read-aloud speed">🐢 <span>Normal</span></button>';
+    var pb=tl&&tl.querySelector('.pagebadge');if(pb)pb.after(box);else if(tl)tl.appendChild(box);
+    var viB=box.querySelector('.viB'),spB=box.querySelector('.spB');
+    function setVI(on){
+      viB.classList.toggle('on',on);ls('lxVI',on?'1':'0');
+      document.querySelectorAll('[data-vitext]').forEach(function(el){
+        if(on){if(el._en===undefined)el._en=el.innerHTML;el.textContent=el.dataset.vitext;el.classList.add('viOn');}
+        else if(el._en!==undefined){el.innerHTML=el._en;el._en=undefined;el.classList.remove('viOn');}
+      });
+      viB.textContent=on?'EN':'VI';viB.title=on?'Instructions in English':'Instructions in Vietnamese';
+    }
+    function setSlow(on){window.lxSlow=on;spB.classList.toggle('on',on);spB.querySelector('span').textContent=on?'Slow':'Normal';ls('lxSlow',on?'1':'0');}
+    [viB,spB].forEach(function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});});
+    viB.addEventListener('click',function(e){e.stopPropagation();setVI(!viB.classList.contains('on'));});
+    spB.addEventListener('click',function(e){e.stopPropagation();setSlow(!window.lxSlow);});
+    if(!document.querySelector('[data-vitext]'))viB.style.display='none';
+    setSlow(ls('lxSlow')==='1');if(ls('lxVI')==='1')setVI(true);
+  }
+
+  /* ---------- Presenter view: the projector window ---------- */
+  var pres=null,sendT=null;
+  function state(){
+    var i=curIdx(),s=slides()[i];
+    return {lx:'state',i:i,n:slides().length,title:s?s.dataset.title:'',shown:revs(s).map(function(e){return e.classList.contains('shown');}),
+      bo:!!document.querySelector('#blackout.on'),wo:!!document.querySelector('#whiteout.on'),t5:!!document.querySelector('#lxTimer.on'),t6:!!document.querySelector('#lxBreak.on')};
+  }
+  function send(){if(pres&&!pres.closed){try{pres.postMessage(state(),'*');}catch(e){}}}
+  function sendSoon(){clearTimeout(sendT);sendT=setTimeout(send,90);}
+  function openPresenter(){
+    var url=location.href.split('#')[0];url+=(url.indexOf('?')>=0?'&':'?')+'presenter';
+    var w=window.open(url,'lxPresenter','popup=yes,width=1500,height=900');
+    if(!w){say('Allow pop-ups for this page to open presenter view');return;}
+    pres=w;try{w.focus();}catch(e){}
+    say('Presenter view opened – drag it to your laptop screen');
+  }
+  if(!STUDENT&&!PRESENTER){
+    new MutationObserver(function(){if(pres)sendSoon();}).observe(stage,{subtree:true,attributes:true,attributeFilter:['class']});
+    window.addEventListener('message',function(e){
+      var d=e.data;if(!d||!d.lx)return;
+      if(d.lx==='hello'){pres=e.source;send();}
+      else if(d.lx==='key'){
+        var ev=new KeyboardEvent('keydown',{key:d.key,code:d.code||'',bubbles:true,cancelable:true});
+        (document.activeElement&&document.activeElement!==document.body?document.activeElement:document.body).dispatchEvent(ev);
+      }
+      else if(d.lx==='go'){gotoSlide(d.i);}
+    });
+  }
+
+  /* ---------- Presenter view: the laptop window ---------- */
+  if(PRESENTER){
+    document.body.classList.add('presenter');
+    var ui=document.createElement('div');ui.id='pvUI';
+    ui.innerHTML='<div id="pvBar"><button class="big" data-k="ArrowLeft">◀ Back</button><button class="big" data-k="ArrowRight">Next ▶</button>'+
+      '<span class="c" id="pvCount"></span><span class="t" id="pvTitle"></span><span class="flag" id="pvFlag"></span><span class="sp"></span>'+
+      '<button data-k="b">B</button><button data-k="w">W</button><button data-k="5">5</button><button data-k="6">6</button><button data-k="Escape">Esc</button>'+
+      '<span class="clk" id="pvClock" title="Click to reset the lesson timer"></span></div>'+
+      '<div id="pvSide"><div class="lab">Next slide</div><div id="pvNextBox"></div><div class="lab">Teacher notes</div><div id="pvNotes"></div></div>'+
+      '<div id="pvLegend"><b></b>orange dashes = answer not yet shown on the projector · keys and buttons here control the projector</div>'+
+      '<div id="pvWait">Waiting for the projector window…<br><small>Open presenter view by pressing P in the lesson.</small></div>';
+    document.body.appendChild(ui);
+    var op=window.opener,got=false,last=-1,t0=Date.now();
+    function post(m){if(op&&!op.closed){try{op.postMessage(m,'*');}catch(e){}}}
+    function key(k,code){post({lx:'key',key:k,code:code||(k===' '?'Space':'')});}
+    ui.querySelectorAll('#pvBar button[data-k]').forEach(function(b){b.addEventListener('click',function(){key(b.dataset.k);});});
+    var nb=document.getElementById('pvNextBox'),notes=document.getElementById('pvNotes');
+    function layout(){
+      var W=window.innerWidth,H=window.innerHeight,side=Math.max(300,Math.round(W*0.3)),avW=W-side-36,avH=H-52-34-12;
+      var k=Math.min(avW/1920,avH/1080);
+      document.documentElement.style.setProperty('--pvk',k);document.documentElement.style.setProperty('--pvx','12px');document.documentElement.style.setProperty('--pvy','62px');
+      var sd=document.getElementById('pvSide');sd.style.width=side+'px';
+      var nk=side/1920;nb.style.width=side+'px';nb.style.height=Math.round(1080*nk)+'px';var cl=nb.querySelector('.pvClip');if(cl)cl.style.transform='scale('+nk+')';
+    }
+    window.addEventListener('resize',layout);
+    function esc(t){return String(t||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+    function showNotes(title){
+      var n=(window.LESSON_NOTES||{})[title]||(window.LESSON_NOTES||{})[String(title).replace(/\s*\(\d+\/\d+\)$/,'')];
+      if(!n){notes.innerHTML='<span class="none">No notes for this slide.</span>';return;}
+      var a=[].concat(n);notes.innerHTML='<ul>'+a.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul>';
+    }
+    function showNext(i){
+      var s=slides()[i+1];nb.innerHTML='';
+      if(!s){nb.innerHTML='<div class="pvEnd">End of the lesson</div>';layout();return;}
+      var clip=document.createElement('div');clip.className='pvClip';var c=s.cloneNode(true);
+      c.removeAttribute('id');c.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id');});c.classList.add('active');
+      clip.appendChild(c);nb.appendChild(clip);layout();
+    }
+    function apply(d){
+      got=true;document.getElementById('pvWait').classList.remove('on');
+      if(d.i!==last){
+        if(curIdx()!==d.i)gotoSlide(d.i);
+        last=d.i;showNext(d.i);showNotes(d.title);
+        document.getElementById('pvTitle').textContent=d.title;document.getElementById('pvCount').textContent=(d.i+1)+' / '+d.n;
+      }
+      var s=slides()[d.i],rs=revs(s);
+      rs.forEach(function(e,j){if(!e.classList.contains('shown'))e.classList.add('shown');e.classList.toggle('pvPending',!d.shown[j]);});
+      var f=d.bo?'BLACKOUT ON':d.wo?'WHITEOUT ON':d.t5?'5-MIN TIMER ON':d.t6?'BREAK SCREEN ON':'',fl=document.getElementById('pvFlag');fl.textContent=f;fl.classList.toggle('on',!!f);
+    }
+    window.addEventListener('message',function(e){var d=e.data;if(d&&d.lx==='state'&&(e.source===op||!op)){op=e.source;apply(d);}});
+    /* every key in this window controls the projector */
+    window.addEventListener('keydown',function(e){
+      if(e.ctrlKey||e.metaKey||e.altKey)return;
+      var k=e.key;if(['Shift','Control','Alt','Meta','Tab'].indexOf(k)>=0||/^F\d+$/.test(k))return;
+      e.preventDefault();e.stopImmediatePropagation();
+      if(k==='p'||k==='P')return;
+      key(k,e.code);
+    },true);
+    var clock=document.getElementById('pvClock');
+    clock.addEventListener('click',function(){t0=Date.now();});
+    setInterval(function(){var s=Math.floor((Date.now()-t0)/1000),d=new Date();clock.textContent='⏱ '+Math.floor(s/60)+':'+('0'+s%60).slice(-2)+'   🕒 '+d.getHours()+':'+('0'+d.getMinutes()).slice(-2);},500);
+    function hello(){post({lx:'hello'});}
+    window.addEventListener('load',function(){
+      var g=document.getElementById('startGate');if(g)g.click();
+      layout();hello();setTimeout(function(){if(!got)document.getElementById('pvWait').classList.add('on');},1500);
+    });
+    setInterval(function(){if(!op||op.closed){document.getElementById('pvWait').classList.add('on');}else hello();},4000);
+    layout();
+    return;
+  }
+
+  /* ---------- keys: ? help, P presenter (runs before the other key handlers) ---------- */
+  window.addEventListener('keydown',function(e){
+    var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.isContentEditable))return;
+    if(e.ctrlKey||e.metaKey||e.altKey)return;
+    var k=e.key;
+    if(help.classList.contains('on')){if(k!=='Shift'){helpToggle(false);e.preventDefault();e.stopImmediatePropagation();}return;}
+    if(k==='?'||(k==='/'&&e.shiftKey)){helpToggle(true);e.preventDefault();e.stopImmediatePropagation();return;}
+    if(!STUDENT&&(k==='p'||k==='P')){
+      if(document.querySelector('.lxScreen.on,#blackout.on,#whiteout.on'))return;
+      openPresenter();e.preventDefault();e.stopImmediatePropagation();
+    }
+  },true);
+})();
+</script>
+<script>
 /* ===== Lesson extras: student mode, blackout, click-to-zoom, read-aloud ===== */
 var LESSON_EXTRAS = {
   zoom: ".t31box, .txt31 .card, .photo, .grid .ph, .miso",
@@ -1879,19 +2420,48 @@ var LESSON_EXTRAS = {
   }
   function genderOf(el){var x=el&&el.closest&&el.closest('[data-voice]');return x&&x.dataset.voice==='female'?'female':'male';}
   if(synth&&synth.onvoiceschanged!==undefined)synth.onvoiceschanged=function(){};
+  /* karaoke word highlight (CSS Custom Highlight API – Chrome/Edge; other browsers just highlight the paragraph) */
+  var HL=!!(window.CSS&&CSS.highlights&&window.Highlight);
+  function clearWord(){if(HL)CSS.highlights.delete('lxword');}
   function stopSpeak(){
-    if(synth)synth.cancel();
+    if(synth)synth.cancel();clearWord();
     if(curBtn)curBtn.classList.remove('on');if(curHl)curHl.classList.remove('reading-now');curBtn=curHl=curSrc=null;
   }
-  function speak(text,btn,hl,src,rate,gender){
+  /* text of an element + a map from each spoken character back to the page (for word highlighting) */
+  function textMap(root,skip){
+    var str='',map=[],sp=true;
+    function put(ch,ref){if(/\s/.test(ch)){if(sp)return;ch=' ';sp=true;}else sp=false;str+=ch;map.push(ref);}
+    (function walk(n){
+      if(n.nodeType===3){for(var i=0;i<n.data.length;i++)put(n.data[i],[n,i]);return;}
+      if(n.nodeType!==1||n.matches(skip))return;
+      if(n.classList.contains('gap')){var a=n.querySelector('.g-ans'),t=n.classList.contains('shown')&&a?a.textContent:'blank';put(' ',null);for(var j=0;j<t.length;j++)put(t[j],[n,-1]);put(' ',null);return;}
+      for(var c=n.firstChild;c;c=c.nextSibling)walk(c);
+    })(root);
+    while(str.length&&str[str.length-1]===' '){str=str.slice(0,-1);map.pop();}
+    return {str:str,map:map};
+  }
+  function markWord(tm,ci,cl){
+    if(!HL||!tm)return;
+    if(!cl){var m=/\S+/.exec(tm.str.slice(ci));cl=m?m.index+m[0].length:1;}
+    var a=null,b=null;for(var i=ci;i<Math.min(ci+cl,tm.map.length);i++){if(tm.map[i]){if(!a)a=tm.map[i];b=tm.map[i];}}
+    if(!a)return;
+    try{var r=document.createRange();
+      if(a[1]<0)r.setStartBefore(a[0]);else r.setStart(a[0],a[1]);
+      if(b[1]<0)r.setEndAfter(b[0]);else r.setEnd(b[0],b[1]+1);
+      CSS.highlights.set('lxword',new Highlight(r));}catch(e){}
+  }
+  function speak(text,btn,hl,src,rate,gender,tm){
     if(!synth)return;
     var same=btn&&btn===curBtn;stopSpeak();if(same)return;
-    text=(text||'').replace(/\s+/g,' ').trim();if(!text)return;
-    var u=new SpeechSynthesisUtterance(text),v=usVoice(gender||genderOf(hl||btn));if(v)u.voice=v;u.lang='en-US';u.rate=rate||0.92;
+    if(tm)text=tm.str;else text=(text||'').replace(/\s+/g,' ').trim();if(!text)return;
+    var u=new SpeechSynthesisUtterance(text),v=usVoice(gender||genderOf(hl||btn));if(v)u.voice=v;u.lang='en-US';
+    u.rate=(rate||0.92)*(window.lxSlow?0.7:1);
     curBtn=btn;curHl=hl;curSrc=src||null;if(btn)btn.classList.add('on');if(hl)hl.classList.add('reading-now');
+    if(tm)u.onboundary=function(ev){if(curBtn===btn&&(!ev.name||ev.name==='word'))markWord(tm,ev.charIndex,ev.charLength);};
     u.onend=u.onerror=function(){if(curBtn===btn){stopSpeak();}};
     synth.speak(u);
   }
+  window.lxSay=function(text,btn){speak(text,btn,null,null,0.88);};
   function mkBtn(small){var b=document.createElement('button');b.className='spkBtn'+(small?' sm':'');b.title='Listen';b.setAttribute('aria-label','Listen');b.innerHTML=ICON_SPK;
     b.addEventListener('pointerdown',function(e){e.stopPropagation();});return b;}
   function paraText(p){
@@ -1903,13 +2473,19 @@ var LESSON_EXTRAS = {
   if(STUDENT&&synth){
     qa(LESSON_EXTRAS.readParagraphs).forEach(function(p){
       var b=mkBtn(false),pn=p.querySelector('.pn');
-      b.addEventListener('click',function(e){e.stopPropagation();speak(paraText(p),b,p,null,0.9);});
+      b.addEventListener('click',function(e){e.stopPropagation();speak('',b,p,null,0.9,null,textMap(p,'.pn,.spkBtn,.zmBtn,script,style'));});
       if(pn)pn.after(b);else p.insertBefore(b,p.firstChild);
     });
     qa([LESSON_EXTRAS.readTerms,LESSON_EXTRAS.readPhrases].filter(Boolean).join(',')).forEach(function(t){
       var b=mkBtn(true);
-      b.addEventListener('click',function(e){e.stopPropagation();var c=t.cloneNode(true);c.querySelectorAll('.spkBtn,.zmBtn,small').forEach(function(x){x.remove();});speak(c.textContent,b,t,null,0.88);});
+      b.addEventListener('click',function(e){e.stopPropagation();speak('',b,t,null,0.88,null,textMap(t,'.spkBtn,.zmBtn,small,script,style'));});
       t.appendChild(b);
+    });
+    /* flashcards on the "Words from today" slides: speaker reads the word */
+    document.querySelectorAll('.slide.wft .wftCard .wftF').forEach(function(f){
+      var b=mkBtn(true),w=f.querySelector('.wftW');
+      b.addEventListener('click',function(e){e.stopPropagation();var c=w.cloneNode(true);c.querySelectorAll('small').forEach(function(x){x.remove();});speak(c.textContent,b,null,null,0.85);});
+      f.appendChild(b);
     });
     /* CLUE / VISCLUE cards read the word and its meaning when they open */
     [['cluecard','.cw','.cd'],['visclue','.vword','.vdef']].forEach(function(x){
