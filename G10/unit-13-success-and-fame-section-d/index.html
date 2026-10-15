@@ -997,22 +997,22 @@ body.student .lxStu{display:flex}
 .slide.wft .wftSub{font-size:28px;font-weight:700;color:#6a6a70}
 .slide.wft .wftList{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:114px;gap:12px 40px}
 .slide.wft .wftItem{border-left:10px solid var(--c,#0a8b99);background:#f6fafb;border-radius:0 16px 16px 0;padding:9px 22px;overflow:hidden}
-.slide.wft .wftItem .w{font-size:34px;font-weight:800;color:#1d1d1f;line-height:1.1}
-.slide.wft .wftItem .w small{font-size:22px;font-weight:700;color:var(--teal-dark);margin-left:12px}
-.slide.wft .wftItem .d{font-size:23px;line-height:1.22;color:#3a3a40;margin-top:3px}
+.slide.wft .wftItem .wftW{font-size:34px;font-weight:800;color:#1d1d1f;line-height:1.1}
+.slide.wft .wftItem .wftW small{font-size:22px;font-weight:700;color:var(--teal-dark);margin-left:12px}
+.slide.wft .wftItem .wftD{font-size:23px;line-height:1.22;color:#3a3a40;margin-top:3px}
 .slide.wft .wftCards{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:226px;gap:20px}
-.slide.wft .card{perspective:1400px;cursor:pointer}
-.slide.wft .card .in{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
-.slide.wft .card.flip .in{transform:rotateY(180deg)}
-.slide.wft .card .f,.slide.wft .card .b{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px 20px;box-shadow:0 6px 16px rgba(0,0,0,.14)}
-.slide.wft .card .f{background:var(--c,#0a8b99);color:#fff}
-.slide.wft .card .f .w{font-size:40px;font-weight:800;line-height:1.1}
-.slide.wft .card .f .w small{display:block;font-size:22px;font-weight:700;opacity:.9;margin-top:8px}
-.slide.wft .card .f .spkBtn{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.25)}
-.slide.wft .card .f .turn{position:absolute;bottom:10px;font-size:18px;font-weight:700;opacity:.8}
-.slide.wft .card .b{background:#fff;border:5px solid var(--c,#0a8b99);transform:rotateY(180deg)}
-.slide.wft .card .b .d{font-size:22px;line-height:1.25;color:#1d1d1f}
-.slide.wft .card .b .v{margin-top:10px;padding-top:8px;border-top:3px solid #e3eef0;font-size:24px;font-weight:800;color:var(--teal-dark)}
+.slide.wft .wftCard{perspective:1400px;cursor:pointer}
+.slide.wft .wftCard .wftIn{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.2,.8,.2,1);transform-style:preserve-3d}
+.slide.wft .wftCard.wftOn .wftIn{transform:rotateY(180deg)}
+.slide.wft .wftCard .wftF,.slide.wft .wftCard .wftBk{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;-webkit-backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:14px 20px;box-shadow:0 6px 16px rgba(0,0,0,.14)}
+.slide.wft .wftCard .wftF{background:var(--c,#0a8b99);color:#fff}
+.slide.wft .wftCard .wftF .wftW{font-size:40px;font-weight:800;line-height:1.1}
+.slide.wft .wftCard .wftF .wftW small{display:block;font-size:22px;font-weight:700;opacity:.9;margin-top:8px}
+.slide.wft .wftCard .wftF .spkBtn{position:absolute;right:12px;top:12px;background:rgba(255,255,255,.25)}
+.slide.wft .wftCard .wftF .wftTurn{position:absolute;bottom:10px;font-size:18px;font-weight:700;opacity:.8}
+.slide.wft .wftCard .wftBk{background:#fff;border:5px solid var(--c,#0a8b99);transform:rotateY(180deg)}
+.slide.wft .wftCard .wftBk .wftD{font-size:22px;line-height:1.25;color:#1d1d1f}
+.slide.wft .wftCard .wftBk .wftV{margin-top:10px;padding-top:8px;border-top:3px solid #e3eef0;font-size:24px;font-weight:800;color:var(--teal-dark)}
 .slide.wft .wftBar{position:absolute;right:70px;top:136px;display:flex;gap:12px}
 .slide.wft .wftBar button{height:54px;padding:0 24px;border-radius:27px;border:3px solid var(--teal);background:#fff;color:var(--teal-dark);font:800 24px "Mulish",sans-serif;cursor:pointer}
 /* ---------- Presenter view (P) ---------- */
@@ -1020,7 +1020,7 @@ body.presenter{background:#14191c}
 body.presenter #viewport{display:block}
 body.presenter #stage{position:absolute;left:var(--pvx);top:var(--pvy);transform-origin:0 0!important;transform:scale(var(--pvk))!important;pointer-events:none;box-shadow:0 0 0 3px #2b3a40}
 body.presenter #startGate{display:none!important}
-body.presenter .slide.active .rv:not(.pvLive),body.presenter .slide.active .ans.clk:not(.pvLive){outline:5px dashed #f39a3c;outline-offset:3px}
+body.presenter .slide.active .pvPending{outline:5px dashed #f39a3c;outline-offset:3px}
 #pvUI{display:none}
 body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;color:#e8f1f3}
 #pvBar{position:fixed;left:0;right:0;top:0;height:52px;display:flex;align-items:center;gap:10px;padding:0 14px;background:#0d1214;border-bottom:2px solid #0a8b99;font-size:16px;z-index:5}
@@ -1766,8 +1766,8 @@ var LESSON_WORDS_VI = {"dual": "kép, gồm hai phần", "attain": "đạt đư�
       var ab={noun:'n',verb:'v',adjective:'adj',adverb:'adv'}[m[2].trim()]||m[2].trim();
       add({w:m[1],pos:'('+ab+')',d:m[3].trim(),v:(window.LESSON_WORDS_VI||{})[m[1].trim()]||''});
     });
-    s.querySelectorAll('.clue[data-head], [data-vword]').forEach(function(c){
-      if(c.dataset.head)add({w:c.dataset.head,d:c.dataset.def||'',v:c.dataset.vi||''});
+    s.querySelectorAll('.clue[data-head], .clue[data-def], [data-vword]').forEach(function(c){
+      if(c.classList.contains('clue'))add({w:c.dataset.head||c.textContent.replace(/\s+/g,' ').trim(),d:c.dataset.def||'',v:c.dataset.vi||''});
       else add({w:c.dataset.vword,d:c.dataset.vdef||'',v:c.dataset.vvi||''});
     });
   });
@@ -1785,18 +1785,18 @@ var LESSON_WORDS_VI = {"dual": "kép, gồm hai phần", "attain": "đạt đư�
     var body='';
     if(STUDENT){
       body='<div class="wftBar"><button class="wftAll">↻ Flip all</button></div><div class="wftCards rise d2">'+chunk.map(function(o,i){
-        return '<div class="card" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="in"><div class="f"><div class="w">'+wHtml(o)+'</div><div class="turn">tap to flip ↻</div></div>'+
-          '<div class="b"><div class="d">'+esc(o.d)+'</div>'+(o.v?'<div class="v">🇻🇳 '+esc(o.v)+'</div>':'')+'</div></div></div>';}).join('')+'</div>';
+        return '<div class="wftCard" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftIn"><div class="wftF"><div class="wftW">'+wHtml(o)+'</div><div class="wftTurn">tap to flip ↻</div></div>'+
+          '<div class="wftBk"><div class="wftD">'+esc(o.d)+'</div>'+(o.v?'<div class="wftV">🇻🇳 '+esc(o.v)+'</div>':'')+'</div></div></div>';}).join('')+'</div>';
     }else{
       body='<div class="wftList rise d2">'+chunk.map(function(o,i){
-        return '<div class="wftItem" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="w">'+wHtml(o)+'</div><div class="d">'+esc(o.d)+'</div></div>';}).join('')+'</div>';
+        return '<div class="wftItem" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftW">'+wHtml(o)+'</div><div class="wftD">'+esc(o.d)+'</div></div>';}).join('')+'</div>';
     }
     sec.innerHTML=head+body;
     parent.insertBefore(sec,ref);
     if(STUDENT){
       (function(sec){
-        sec.querySelectorAll('.card').forEach(function(c){c.addEventListener('click',function(e){e.stopPropagation();c.classList.toggle('flip');});});
-        var all=sec.querySelector('.wftAll');all.addEventListener('click',function(e){e.stopPropagation();var cs=sec.querySelectorAll('.card'),any=[].some.call(cs,function(c){return !c.classList.contains('flip');});cs.forEach(function(c){c.classList.toggle('flip',any);});});
+        sec.querySelectorAll('.wftCard').forEach(function(c){c.addEventListener('click',function(e){e.stopPropagation();c.classList.toggle('wftOn');});});
+        var all=sec.querySelector('.wftAll');all.addEventListener('click',function(e){e.stopPropagation();var cs=sec.querySelectorAll('.wftCard'),any=[].some.call(cs,function(c){return !c.classList.contains('wftOn');});cs.forEach(function(c){c.classList.toggle('wftOn',any);});});
       })(sec);
     }
   }
@@ -2349,6 +2349,8 @@ var LESSON_NOTES = {
   "Review any question most of the class got wrong."
  ]
 };
+/* answer boxes in this deck (presenter view marks the ones not yet shown on the projector) */
+var LESSON_REVEALS = ".rv, .ans.clk";
 /* ===== end of teacher notes ===== */
 </script>
 <script>
@@ -2359,7 +2361,7 @@ var LESSON_NOTES = {
   var PRESENTER=!STUDENT&&/(^|[?&#])presenter\b/i.test(location.search+location.hash);
   function slides(){return [].slice.call(document.querySelectorAll('#stage > .slide, #stage .slide'));}
   function curIdx(){var a=document.querySelector('#stage .slide.active');return slides().indexOf(a);}
-  function revs(s){return s?[].slice.call(s.querySelectorAll('.rv, .ans.clk')):[];}
+  function revs(s){return s?[].slice.call(s.querySelectorAll(window.LESSON_REVEALS||'.rv, .ans.clk')):[];}
   function gotoSlide(i){var li=document.querySelectorAll('#contentsList li')[i];if(li)li.click();}
   function ls(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
   stage.addEventListener('scroll',function(){if(stage.scrollTop||stage.scrollLeft){stage.scrollTop=0;stage.scrollLeft=0;}});
@@ -2484,7 +2486,7 @@ var LESSON_NOTES = {
         document.getElementById('pvTitle').textContent=d.title;document.getElementById('pvCount').textContent=(d.i+1)+' / '+d.n;
       }
       var s=slides()[d.i],rs=revs(s);
-      rs.forEach(function(e,j){if(!e.classList.contains('shown'))e.classList.add('shown');e.classList.toggle('pvLive',!!d.shown[j]);});
+      rs.forEach(function(e,j){if(!e.classList.contains('shown'))e.classList.add('shown');e.classList.toggle('pvPending',!d.shown[j]);});
       var f=d.bo?'BLACKOUT ON':d.wo?'WHITEOUT ON':d.t5?'5-MIN TIMER ON':d.t6?'BREAK SCREEN ON':'',fl=document.getElementById('pvFlag');fl.textContent=f;fl.classList.toggle('on',!!f);
     }
     window.addEventListener('message',function(e){var d=e.data;if(d&&d.lx==='state'&&(e.source===op||!op)){op=e.source;apply(d);}});
@@ -2665,8 +2667,8 @@ var LESSON_EXTRAS = {
       t.appendChild(b);
     });
     /* flashcards on the "Words from today" slides: speaker reads the word */
-    document.querySelectorAll('.slide.wft .card .f').forEach(function(f){
-      var b=mkBtn(true),w=f.querySelector('.w');
+    document.querySelectorAll('.slide.wft .wftCard .wftF').forEach(function(f){
+      var b=mkBtn(true),w=f.querySelector('.wftW');
       b.addEventListener('click',function(e){e.stopPropagation();var c=w.cloneNode(true);c.querySelectorAll('small').forEach(function(x){x.remove();});speak(c.textContent,b,null,null,0.85);});
       f.appendChild(b);
     });
