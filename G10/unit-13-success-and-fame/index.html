@@ -643,6 +643,8 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 /* ---------- Teacher screens 5 (themed timer) and 6 (Break Time) ---------- */
 .lxScreen{position:absolute;inset:0;z-index:90;display:none;overflow:hidden;cursor:pointer}
 .lxScreen.on{display:block;animation:boIn .35s ease}
+#lxTimer .lxLabel{position:absolute;z-index:5;pointer-events:none;white-space:nowrap;transition:opacity .5s}
+#lxTimer.lxUp .lxLabel{opacity:0}
 .lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
 #lxBreak{cursor:default}
 
@@ -2053,6 +2055,7 @@ var LESSON_EXTRAS = {
 @keyframes fmUpIn{from{opacity:0;transform:scale(.3)}to{opacity:1;transform:none}}
 #lxTimer .fmStat.blink{animation:fmBlink 1.6s ease-in-out infinite}
 @keyframes fmBlink{50%{opacity:.4}}
+#lxTimer .lxLabel{left:580px;width:760px;top:618px;text-align:center;font:44px Bungee,Outfit,sans-serif;letter-spacing:6px;color:#f0cf5a;text-shadow:0 0 12px rgba(240,207,90,.5)}
 </style>
 <script>
 var LX_THEME=(function(){
@@ -2171,7 +2174,7 @@ var LX_THEME=(function(){
   function set5(on){
     clearInterval(iv);iv=null;clearTimeout(upT);stopSound();
     s5.classList.toggle('on',on);s5.classList.remove('lxUp');
-    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);T.timer.update(left,TOTAL,st);}
+    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);var lb=document.createElement('div');lb.className='lxLabel';lb.textContent='5-MINUTE BREAK';s5.appendChild(lb);T.timer.update(left,TOTAL,st);}
     else{st='off';s5.innerHTML='';}
   }
   s5.addEventListener('click',function(e){

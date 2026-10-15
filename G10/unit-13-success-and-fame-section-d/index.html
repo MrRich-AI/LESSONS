@@ -882,6 +882,8 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 /* ---------- Teacher screens 5 (themed timer) and 6 (Break Time) ---------- */
 .lxScreen{position:absolute;inset:0;z-index:90;display:none;overflow:hidden;cursor:pointer}
 .lxScreen.on{display:block;animation:boIn .35s ease}
+#lxTimer .lxLabel{position:absolute;z-index:5;pointer-events:none;white-space:nowrap;transition:opacity .5s}
+#lxTimer.lxUp .lxLabel{opacity:0}
 .lxScreen>svg{position:absolute;left:0;top:0;width:1920px;height:1080px;display:block}
 #lxBreak{cursor:default}
 
@@ -2189,6 +2191,7 @@ var LESSON_EXTRAS = {
 @keyframes hkBob{50%{transform:translateY(-14px)}}
 #lxTimer .hkBub{animation:hkBub 4s ease-in infinite;opacity:0}
 @keyframes hkBub{0%{opacity:0;transform:translateY(0)}15%{opacity:.8}100%{opacity:0;transform:translateY(-700px)}}
+#lxTimer .lxLabel{left:560px;top:86px;width:560px;padding:14px 0;text-align:center;font:600 50px Oswald,Outfit,sans-serif;letter-spacing:4px;color:#3b2412;background:linear-gradient(#dba56b,#b07a45);border:4px solid #6b4423;border-radius:12px;box-shadow:0 8px 16px rgba(0,0,0,.25)}
 </style>
 <script>
 var LX_THEME=(function(){
@@ -2327,7 +2330,7 @@ var LX_THEME=(function(){
   function set5(on){
     clearInterval(iv);iv=null;clearTimeout(upT);stopSound();
     s5.classList.toggle('on',on);s5.classList.remove('lxUp');
-    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);T.timer.update(left,TOTAL,st);}
+    if(on){st='ready';left=TOTAL;s5.innerHTML='';T.timer.build(s5);var lb=document.createElement('div');lb.className='lxLabel';lb.textContent='5-MINUTE BREAK';s5.appendChild(lb);T.timer.update(left,TOTAL,st);}
     else{st='off';s5.innerHTML='';}
   }
   s5.addEventListener('click',function(e){
