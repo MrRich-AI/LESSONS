@@ -2273,7 +2273,7 @@ var LESSON_NOTES = {
  ],
  "🎮 Taste Test": [
   "Game for B9 (slide 20). Each dish is a sentence with one of the words: is it used correctly?",
-  "Space / → / click: lift the cover (10-second timer starts) → class votes (tap 😋 Delicious or 🤢 Spoiled) → verdict → next dish. ← steps back. Voting locks when the time is up.",
+  "Space / → / click: lift the cover (10-second timer starts – click the timer to pause / resume) → class votes (tap 😋 Delicious or 🤢 Spoiled) → verdict → next dish. ← steps back. Voting locks when the time is up.",
   "For a spoiled dish, ask the class to fix the sentence before showing the verdict.",
   "Used correctly: actual, consuming, guaranteed, majority, simply. Used wrongly: considerably, fooled, harmless, pressure, underestimated.",
   "👥 on the start screen makes teams. Tap TEAM A / TEAM B for points; The glowing team is the team whose turn it is (Team A first); 🎡 picks from that team. After the verdict, tap ✓ or ✗ to record the team's answer. Esc or ✕ goes back to the slide."
@@ -3383,7 +3383,11 @@ body.student .gmzBtn,body.presenter .gmzBtn{display:none!important}
 .gPill.t0{background:var(--ta);border-color:var(--taL)}.gPill.t1{background:var(--tb);border-color:var(--tbL)}
 @keyframes gPillIn{from{transform:scale(1.6);opacity:0}}
 .tTimer{position:absolute;left:470px;top:120px;width:150px;height:150px;border-radius:50%;z-index:4;display:none;align-items:center;justify-content:center;--p:1;background:conic-gradient(#e9c77b calc(var(--p)*1turn),rgba(255,255,255,.14) 0);box-shadow:0 12px 30px rgba(0,0,0,.6)}
-.tTimer.on{display:flex}
+.tTimer.on{display:flex;cursor:pointer}
+.tTimer.paused{animation:none}
+.tTimer.paused b{font-size:0}
+.tTimer.paused b::after{content:"❚❚";font-size:56px;color:#f1d58d}
+.tTimer.paused::after{content:"PAUSED";position:absolute;right:100%;top:50%;transform:translateY(-50%);margin-right:14px;padding:8px 14px;border-radius:10px;background:rgba(10,10,10,.85);border:2px solid #c9a24a;font:800 22px/1 Mulish,sans-serif;letter-spacing:.12em;color:#f1d58d}
 .tTimer::before{content:"";position:absolute;inset:13px;border-radius:50%;background:#111;border:2px solid #c9a24a}
 .tTimer b{position:relative;font:900 70px/1 "Playfair Display",Georgia,serif;color:#f1d58d;text-align:center}
 .tTimer.low{background:conic-gradient(#e0483c calc(var(--p)*1turn),rgba(255,255,255,.14) 0);animation:tLow .5s ease-in-out infinite alternate}
@@ -4000,17 +4004,28 @@ var GAMIFY_DATA = {
       if(atEnd){play.classList.add('p1');void card.offsetWidth;setPh('p2');}
       else{ph='p0';var cl=play.querySelector('.tCloche');cl.classList.remove('wob');void cl.getBoundingClientRect();cl.classList.add('wob');}
     }
-    var tmRaf=null;
+    var tmRaf=null,tLeft=10,tEnd=0,tPaused=false;
     function tEl(){return play.querySelector('.tTimer');}
-    function tStop(){if(tmRaf)cancelAnimationFrame(tmRaf);tmRaf=null;}
+    function tStop(){if(tmRaf)cancelAnimationFrame(tmRaf);tmRaf=null;tPaused=false;var el=tEl();if(el)el.classList.remove('paused');}
     function tHide(){tStop();tEl().className='tTimer';play.classList.remove('locked');}
-    function tStart(){
-      tStop();var el=tEl(),b=el.querySelector('b'),t0=performance.now();el.className='tTimer on';play.classList.remove('locked');
+    function tRun(){
+      var el=tEl(),b=el.querySelector('b');tEnd=performance.now()+tLeft*1000;
       (function step(now){
-        var left=Math.max(0,10-(now-t0)/1000);el.style.setProperty('--p',left/10);b.textContent=Math.ceil(left);el.classList.toggle('low',left<=3&&left>0);
-        if(left>0)tmRaf=requestAnimationFrame(step);
+        tLeft=Math.max(0,(tEnd-now)/1000);el.style.setProperty('--p',tLeft/10);b.textContent=Math.ceil(tLeft);el.classList.toggle('low',tLeft<=3&&tLeft>0);
+        if(tLeft>0)tmRaf=requestAnimationFrame(step);
         else{tmRaf=null;el.classList.add('up');b.innerHTML='TIME’S<br>UP';play.classList.add('locked');timesUp();}
-      })(t0);
+      })(performance.now());
+    }
+    /* click the timer to pause / resume (voting stays open while paused) */
+    function tToggle(){
+      var el=tEl();if(!el.classList.contains('on')||el.classList.contains('up'))return;
+      if(tPaused){tPaused=false;el.classList.remove('paused');tRun();}
+      else if(tmRaf){cancelAnimationFrame(tmRaf);tmRaf=null;tLeft=Math.max(0,(tEnd-performance.now())/1000);tPaused=true;el.classList.add('paused');}
+    }
+    function tStart(){
+      tStop();var el=tEl();el.className='tTimer on';play.classList.remove('locked');tLeft=10;
+      el.onclick=function(e){e.stopPropagation();tToggle();};
+      tRun();
     }
     g.stop=function(){tStop();};
     function setPh(p){

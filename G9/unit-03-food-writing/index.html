@@ -2321,6 +2321,8 @@ var LESSON_WORDS_VI = {};
   function ptStop(){clearInterval(ptRun);ptRun=null;pt.classList.remove('run');ptGo.textContent='▶ Start';}
   function ptStart(){if(ptLeft<=0)return;ptRun=setInterval(function(){ptLeft--;ptShow();if(ptLeft<=0)ptStop();},1000);pt.classList.add('run');ptGo.textContent='❚❚ Pause';}
   ptGo.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
+  /* click the time itself to start / pause too */
+  ptT.style.cursor='pointer';ptT.title='Click to start / pause';ptT.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   pt.querySelectorAll('[data-min]').forEach(function(b){b.onclick=function(e){e.stopPropagation();ptStop();ptLeft=+b.dataset.min*60;ptShow();};});
   pt.querySelector('.rs').onclick=function(e){e.stopPropagation();ptStop();ptLeft=300;ptShow();};
   ptShow();
