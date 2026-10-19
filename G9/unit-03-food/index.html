@@ -1383,7 +1383,7 @@ var ROSTERS = {
     rp.dataset.view='choose';choices.innerHTML='';
     classes.forEach(function(k){
       var b=document.createElement('button');b.className='rpChoice';b.textContent=k;
-      b.onclick=function(e){e.stopPropagation();cls=k;allOut=false;startSpinView();spin();};
+      b.onclick=function(e){e.stopPropagation();cls=k;window.LESSON_CLASS=k;allOut=false;startSpinView();spin();};
       choices.appendChild(b);
     });
   }
@@ -1420,7 +1420,9 @@ var ROSTERS = {
     e.stopPropagation();audio();
     if(spinning)return;
     clearTimers();hidePill();
+    if(window.LESSON_CLASS&&window.LESSON_CLASS!==cls&&classes.indexOf(window.LESSON_CLASS)>=0)cls=window.LESSON_CLASS;  /* class chosen in a GAMIFY game */
     if(!cls&&classes.length===1)cls=classes[0];
+    if(cls)window.LESSON_CLASS=cls;
     if(!cls){
       if(rp.classList.contains('open')){closeWin();return;}
       showChoose();openWin();return;
@@ -2265,7 +2267,7 @@ var LESSON_NOTES = {
  "🎮 Definition Drop": [
   "Game for B7 (slide 18). A definition is lowered towards the wok – the class (or the picked student) says the word before it lands.",
   "Space / → / click: reveal the word, then the next order. ← steps back. ⏸ pauses the drop. The drop speeds up: 12 s for the first word down to 3 s for the last two.",
-  "👥 on the start screen: choose the class, type players per team (or full) to make Team A and Team B. Tap TEAM A / TEAM B to give points (− takes one away); 🎡 picks from Team A, then Team B.",
+  "👥 on the start screen: choose the class, type players per team (or full) to make Team A and Team B. Tap TEAM A / TEAM B to give points (− takes one away); The glowing team is the team whose turn it is (Team A first, then alternating); 🎡 picks from that team. After the word appears, tap ✓ or ✗ to record the answer (points stay manual).",
   "Answers: actual = real, considerably = by a large amount, consuming = eating, fooled = tricked, guaranteed = sure to happen, harmless = safe, majority = largest part, pressure = stress, simply = just / only, underestimated = thought it was less.",
   "Esc or ✕ goes back to the slide."
  ],
@@ -2274,7 +2276,7 @@ var LESSON_NOTES = {
   "Space / → / click: lift the cover (10-second timer starts) → class votes (tap 😋 Delicious or 🤢 Spoiled) → verdict → next dish. ← steps back. Voting locks when the time is up.",
   "For a spoiled dish, ask the class to fix the sentence before showing the verdict.",
   "Used correctly: actual, consuming, guaranteed, majority, simply. Used wrongly: considerably, fooled, harmless, pressure, underestimated.",
-  "👥 on the start screen makes teams. Tap TEAM A / TEAM B for points; 🎡 picks from Team A, then Team B. Esc or ✕ goes back to the slide."
+  "👥 on the start screen makes teams. Tap TEAM A / TEAM B for points; The glowing team is the team whose turn it is (Team A first); 🎡 picks from that team. After the verdict, tap ✓ or ✗ to record the team's answer. Esc or ✕ goes back to the slide."
  ],
  "Food Quiz": [
   "10 questions – keys 1–4 answer, → next.",
@@ -3389,6 +3391,32 @@ body.student .gmzBtn,body.presenter .gmzBtn{display:none!important}
 .tTimer.up{background:#e0483c}
 .tTimer.up b{font-size:28px;line-height:1.05;color:#ff8a80;letter-spacing:.04em}
 @keyframes tLow{to{transform:scale(1.1)}}
+
+/* ---------- GAMIFY: current team glow, ✓/✗ marks, centred Taste Test verdict ---------- */
+.gmzHud .gTeam{transition:box-shadow .3s,transform .3s}
+.gmzHud .gTeam.a{--glow:var(--taL)}.gmzHud .gTeam.b{--glow:var(--tbL)}
+.gmzHud .gTeam.cur{transform:scale(1.08);box-shadow:0 0 0 4px #fff,0 0 30px 8px var(--glow);animation:gCur 1.4s ease-in-out infinite}
+@keyframes gCur{50%{box-shadow:0 0 0 4px #fff,0 0 50px 16px var(--glow)}}
+.gMark{display:flex;justify-content:center;gap:28px;margin-top:22px;pointer-events:auto}
+#gmz .gMark .mk{width:96px;height:96px;border-radius:50%;font-size:56px;font-weight:900;line-height:1;cursor:pointer;border:4px solid rgba(255,255,255,.75);color:#fff;opacity:.6;transition:opacity .2s,transform .2s,box-shadow .2s;display:flex;align-items:center;justify-content:center;padding:0;font-family:"Mulish",sans-serif}
+#gmz .gMark .mk.y{background:#1f9d55}#gmz .gMark .mk.n{background:#d33a2c}
+#gmz .gMark .mk:hover{opacity:.9}
+#gmz .gMark .mk.on{opacity:1;transform:scale(1.15);box-shadow:0 0 0 6px #fff,0 0 34px rgba(255,255,255,.85)}
+#gmz .gMark.has .mk:not(.on){opacity:.2;transform:scale(.85)}
+.dWord .gMark{pointer-events:auto}
+.tMarks{position:absolute;left:0;right:0;top:900px;z-index:6;display:none}
+.p2 .tMarks{display:block}
+.tMarks .gMark{margin:0}
+#gmz .tStamp{left:50%;right:auto;top:auto;bottom:-112px;text-align:center;transform:translateX(-50%) rotate(-4deg) scale(3)}
+#gmz .p2 .tStamp{transform:translateX(-50%) rotate(-4deg) scale(1)}
+.tStamp small{display:block;font:900 22px/1.2 "Mulish",sans-serif;letter-spacing:.14em;text-transform:uppercase;margin-top:6px}
+#gmz .tFix{top:742px}
+#gmz .tVote.right{animation:tRight 1s ease-in-out 2;box-shadow:0 0 0 8px #f5d77a,0 0 50px rgba(245,215,122,.9)}
+#gmz .tVote.yes.right{background:radial-gradient(circle at 35% 30%,#47c97c,#116334);border-color:#a8f5c8}
+#gmz .tVote.no.right{background:radial-gradient(circle at 35% 30%,#e65a50,#861a12);border-color:#ffb3ad}
+#gmz .tVote.right::after{content:"✓ ANSWER";position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);background:#f5d77a;color:#1a1008;font-size:26px;font-weight:900;padding:4px 18px;border-radius:20px;white-space:nowrap}
+#gmz .tVote.wrong{background:radial-gradient(circle at 35% 30%,#3a3a3a,#0f0f0f);border-color:#777;opacity:.45;animation:tShake .6s}
+.twNote{font-size:24px;font-weight:700;opacity:.85;margin:-4px 0 4px 286px}
 </style>
 <script>
 /* ===== GAMIFY game content — edit here =====
@@ -3549,14 +3577,19 @@ var GAMIFY_DATA = {
       '<div class="eB"><button class="gAgain">↺ Play again</button><button class="gBack">← Back to the slide</button></div></div>';
     $('.gAgain').onclick=function(e){e.stopPropagation();scores=[0,0];paintScores();G.begin();};
     $('.gBack').onclick=function(e){e.stopPropagation();close();};
-    show('end');round('');
+    show('end');round('');setTurn(-1);
   }
   /* ---------- teams + picker (GAMIFY core rule) ----------
      Teams are made on the start screen (type a number of players per team, or "full") and
      stay for the rest of the lesson until remade. With teams, 🎡 alternates Team A / Team B and
      picks only from that team; without teams it picks from the whole class. Picked names come
      back once everyone in the pool has been picked. */
-  var TM={cls:null,teams:null,turn:0,pools:{},cpool:{}};
+  var TM={cls:null,teams:null,turn:0,cur:0,pools:{},cpool:{},played:{}};
+  function syncCls(cl){if(window.LESSON_CLASS&&cl.indexOf(window.LESSON_CLASS)>=0)TM.cls=window.LESSON_CLASS;if(!TM.cls&&cl.length===1)TM.cls=cl[0];if(TM.cls)window.LESSON_CLASS=TM.cls;}
+  function setTurn(t){TM.cur=t;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('cur',t===i);});}
+  function markRow(){return '<div class="gMark"><button class="mk y" data-v="y" title="Correct">✓</button><button class="mk n" data-v="n" title="Not correct">✗</button></div>';}
+  function wireMarks(box,get,set){[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());};});}
+  function paintMarks(box,v){box.classList.toggle('has',!!v);[].forEach.call(box.querySelectorAll('.mk'),function(b){b.classList.toggle('on',b.dataset.v===v);});}
   var pk={raf:null,fadeT:null,fadeT2:null};
   function classes(){var R=window.ROSTERS||{};return Object.keys(R).filter(function(k){return R[k]&&R[k].length;});}
   function pickReset(){if(pk.raf)cancelAnimationFrame(pk.raf);pk.raf=null;clearTimeout(pk.fadeT);clearTimeout(pk.fadeT2);}
@@ -3575,16 +3608,16 @@ var GAMIFY_DATA = {
   function pickClick(){
     var cl=classes(),w=$('.gPickWin');if(!cl.length)return;
     pickReset();
-    if(!TM.cls&&cl.length===1)TM.cls=cl[0];
+    syncCls(cl);
     if(!TM.cls){
       w.className='gPickWin on';w.innerHTML='<div class="pq">Which class?</div>'+cl.map(function(k){return '<button data-c="'+esc(k)+'">'+esc(k)+'</button>';}).join('');
-      [].forEach.call(w.querySelectorAll('button'),function(b){b.onclick=function(e){e.stopPropagation();TM.cls=b.dataset.c;inSpin();};});
+      [].forEach.call(w.querySelectorAll('button'),function(b){b.onclick=function(e){e.stopPropagation();TM.cls=b.dataset.c;window.LESSON_CLASS=TM.cls;inSpin();};});
       return;
     }
     inSpin();
   }
   function nextPick(){
-    if(TM.teams){var t=TM.turn%2;TM.turn++;var p=TM.pools[t];if(!p||!p.length)p=TM.pools[t]=shuffle(TM.teams[t]);return {name:p.pop(),team:t,all:TM.teams[t]};}
+    if(TM.teams){var t=TM.cur>=0?TM.cur:0;var p=TM.pools[t];if(!p||!p.length)p=TM.pools[t]=shuffle(TM.teams[t]);return {name:p.pop(),team:t,all:TM.teams[t]};}
     var all=window.ROSTERS[TM.cls],q=TM.cpool[TM.cls];if(!q||!q.length)q=TM.cpool[TM.cls]=shuffle(all);return {name:q.pop(),team:-1,all:all};
   }
   function inSpin(){
@@ -3604,10 +3637,10 @@ var GAMIFY_DATA = {
   function teamLabel(){return TM.teams?'👥 Teams: '+TM.teams[0].length+' v '+TM.teams[1].length:'👥 Make teams';}
   function teamWin(){
     var cl=classes(),tw=$('.gTW');if(!tw)return;
-    if(!TM.cls&&cl.length===1)TM.cls=cl[0];
+    syncCls(cl);
     tw.innerHTML='<div class="twBox"><div class="twH">Teams</div>'+
       '<div class="twRow"><span class="lab">Class</span>'+cl.map(function(k){return '<button class="twC'+(k===TM.cls?' sel':'')+'" data-c="'+esc(k)+'">'+esc(k)+'</button>';}).join('')+'</div>'+
-      '<div class="twRow"><span class="lab">Players per team</span><input class="twIn" maxlength="4" autocomplete="off" spellcheck="false"><span class="hint">a number, or <b>full</b></span><button class="twGo">Make teams</button></div>'+
+      '<div class="twRow"><span class="lab">Players per team</span><input class="twIn" maxlength="4" autocomplete="off" spellcheck="false"><span class="hint">a number, or <b>full</b></span><button class="twGo">Make teams</button></div><div class="twNote"></div>'+
       '<div class="twSlot"><div class="ps"></div></div>'+
       '<div class="twCols"><div class="twT a"><h4>TEAM A</h4><div class="nm"></div></div><div class="twT b"><h4>TEAM B</h4><div class="nm"></div></div></div>'+
       '<div class="twB"><button class="twX">✕ Close</button><button class="twNo">No teams</button><button class="twS">▶ START</button></div></div>';
@@ -3619,7 +3652,7 @@ var GAMIFY_DATA = {
     paint();
     tw.addEventListener('click',function(e){e.stopPropagation();});
     inp.addEventListener('keydown',function(e){e.stopPropagation();if(e.key==='Enter'){e.preventDefault();make();}});
-    [].forEach.call(tw.querySelectorAll('.twC'),function(b){b.onclick=function(){if(busyT)return;TM.cls=b.dataset.c;TM.cpool={};[].forEach.call(tw.querySelectorAll('.twC'),function(x){x.classList.toggle('sel',x===b);});};});
+    [].forEach.call(tw.querySelectorAll('.twC'),function(b){b.onclick=function(){if(busyT)return;TM.cls=b.dataset.c;window.LESSON_CLASS=TM.cls;TM.cpool={};note();[].forEach.call(tw.querySelectorAll('.twC'),function(x){x.classList.toggle('sel',x===b);});};});
     go.onclick=make;
     tw.querySelector('.twX').onclick=function(){if(busyT)return;closeTW();};
     tw.querySelector('.twNo').onclick=function(){if(busyT)return;TM.teams=null;TM.pools={};TM.turn=0;paint();updTeamBtn();};
@@ -3632,16 +3665,21 @@ var GAMIFY_DATA = {
       if(v==='full'){TM.teams=[[],[]];mix.forEach(function(n,i){TM.teams[i%2].push(n);});done();paint();return;}
       var n=parseInt(v,10);if(!(n>=1)){bad();return;}
       n=Math.min(n,Math.floor(all.length/2));
+      /* students already in number teams this lesson go last (topped up only if too few are left) */
+      var pl=TM.played[TM.cls]||(TM.played[TM.cls]=[]);
+      mix=shuffle(all.filter(function(x){return pl.indexOf(x)<0;})).concat(shuffle(all.filter(function(x){return pl.indexOf(x)>=0;})));
       TM.teams=[[],[]];cols.forEach(function(c){c.innerHTML='';});lock(true);slot.classList.add('on');
       var k=0;
       (function next(){
         if(k>=n*2||!G){slot.classList.remove('on');lock(false);done();return;}
-        var t=k%2,name=mix[k];k++;
+        var t=k%2,name=mix[k];k++;if(pl.indexOf(name)<0)pl.push(name);
         slot.className='twSlot on t'+t;
         reel(slot.querySelector('.ps'),all,name,2000,function(){TM.teams[t].push(name);chip(t,name,true);setTimeout(next,250);});
       })();
     }
-    function done(){TM.turn=0;TM.pools={};updTeamBtn();}
+    function done(){TM.turn=0;TM.pools={};updTeamBtn();note();}
+    function note(){var el=tw.querySelector('.twNote');if(!el)return;if(!TM.cls){el.textContent='';return;}var all=window.ROSTERS[TM.cls],pl=TM.played[TM.cls]||[],left=all.filter(function(x){return pl.indexOf(x)<0;}).length;el.textContent=pl.length?left+' of '+all.length+' students have not played yet (number teams pick them first)':'';}
+    note();
     setTimeout(function(){inp.focus();},50);
   }
   function closeTW(){var tw=$('.gTW');if(tw){tw.classList.remove('on');tw.innerHTML='';}if(pk.raf){cancelAnimationFrame(pk.raf);pk.raf=null;}}
@@ -3784,7 +3822,7 @@ var GAMIFY_DATA = {
 
   var GAMES={};
   GAMES.drop=function(){
-    var data=GAMIFY_DATA.drop,scene=marketScene(),ctx=null,order=[],i=0,ph='start',anim=null,paused=false,FALL=16000;
+    var data=GAMIFY_DATA.drop,scene=marketScene(),ctx=null,order=[],marks=[],i=0,ph='start',anim=null,paused=false,FALL=16000;
     var card,word,tag,menu;
     var g={key:'drop',title:'Definition Drop',notes:'🎮 Definition Drop',
       build:function(r){
@@ -3795,11 +3833,11 @@ var GAMIFY_DATA = {
         r.querySelector('.gGo').onclick=function(e){e.stopPropagation();g.begin();};startRow(r);
         var words=data.map(function(d){return d[0];}).slice().sort();
         r.querySelector('.sPlay').innerHTML='<div class="dMenu"><h3>MENU</h3><ul>'+words.map(function(w){return '<li data-w="'+w+'">'+w+'</li>';}).join('')+'</ul></div>'+
-          '<div class="dCard"><div class="dPaper"><div class="dPos"></div><div class="dDef"></div></div></div><div class="dTag">⏰ Too slow!</div><div class="dWord"><span class="w"></span><span class="m"></span></div>';
-        card=r.querySelector('.dCard');word=r.querySelector('.dWord');tag=r.querySelector('.dTag');menu=[].slice.call(r.querySelectorAll('.dMenu li'));
+          '<div class="dCard"><div class="dPaper"><div class="dPos"></div><div class="dDef"></div></div></div><div class="dTag">⏰ Too slow!</div><div class="dWord"><span class="w"></span><span class="m"></span>'+markRow()+'</div>';
+        card=r.querySelector('.dCard');word=r.querySelector('.dWord');wireMarks(word.querySelector('.gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});tag=r.querySelector('.dTag');menu=[].slice.call(r.querySelectorAll('.dMenu li'));
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
-      begin:function(){order=shuffle(data);fall(0);},
+      begin:function(){order=shuffle(data);marks=[];fall(0);},
       fw:function(){
         if(ph==='start')g.begin();
         else if(ph==='fall')reveal(false);
@@ -3808,7 +3846,7 @@ var GAMIFY_DATA = {
       },
       bk:function(){
         if(ph==='rev')fall(i);
-        else if(ph==='fall'){if(i>0)revStatic(i-1);else{stopFall();ph='start';show('start');round('');}}
+        else if(ph==='fall'){if(i>0)revStatic(i-1);else{stopFall();ph='start';show('start');round('');setTurn(-1);}}
         else if(ph==='end')revStatic(order.length-1);
       },
       pause:function(){if(ph!=='fall'||!anim)return;paused=!paused;if(paused)anim.pause();else anim.play();root.classList.toggle('paused',paused);var b=root.querySelector('.gPause');if(b)b.textContent=paused?'▶':'❚❚';},
@@ -3816,25 +3854,25 @@ var GAMIFY_DATA = {
     };
     function fallMs(n){var N=order.length;return n>=N-2?3000:Math.round(12000-9000*n/Math.max(1,N-2));}  /* 12 s for the first word, getting faster; 3 s for the last two */
     function stopFall(){if(anim){anim.onfinish=null;anim.cancel();anim=null;}paused=false;root.classList.remove('paused');var b=root.querySelector('.gPause');if(b)b.textContent='❚❚';card.getAnimations().forEach(function(a){a.cancel();});}
-    function marks(){}  /* words stay on the menu (no crossing off) */
+    /* words stay on the menu (no crossing off) */
     function fall(n){
-      stopFall();i=n;ph='fall';show('play');round('ORDER '+(i+1)+' / '+order.length);
+      stopFall();i=n;ph='fall';show('play');setTurn(i%2);round('ORDER '+(i+1)+' / '+order.length);
       var d=order[i];card.querySelector('.dPos').textContent=d[1];card.querySelector('.dDef').textContent=d[2];
-      word.classList.remove('on');tag.classList.remove('on');marks(i);
+      word.classList.remove('on');tag.classList.remove('on');
       card.classList.add('on');
       anim=card.animate([{transform:'translate(0,-760px) rotate(-4deg)',easing:'cubic-bezier(.3,1.5,.5,1)'},{transform:'translate(0,-60px) rotate(1.5deg)',offset:.07},{transform:'translate(16px,90px) rotate(-1.5deg)',offset:.35},{transform:'translate(-14px,260px) rotate(1.5deg)',offset:.65},{transform:'translate(8px,430px) rotate(-1deg)',offset:.9},{transform:'translate(0,520px) rotate(0deg)'}],{duration:fallMs(i),easing:'linear',fill:'forwards'});
       var me=anim;anim.onfinish=function(){if(anim===me&&ph==='fall')reveal(true);};
     }
-    function showWord(d){word.querySelector('.w').textContent=d[0];word.querySelector('.m').textContent='= '+d[2];word.classList.remove('on');void word.offsetWidth;word.classList.add('on');}
+    function showWord(d){paintMarks(word.querySelector('.gMark'),marks[i]||null);word.querySelector('.w').textContent=d[0];word.querySelector('.m').textContent='= '+d[2];word.classList.remove('on');void word.offsetWidth;word.classList.add('on');}
     function reveal(slow){
       ph='rev';var d=order[i],m='none';
       if(anim){m=getComputedStyle(card).transform;anim.onfinish=null;anim.cancel();anim=null;}
       paused=false;root.classList.remove('paused');
       card.animate([{transform:m,opacity:1},{transform:(m==='none'?'':m+' ')+'translateY(320px) scale(.35)',opacity:0}],{duration:420,easing:'cubic-bezier(.6,0,.9,.5)',fill:'forwards'});
       setTimeout(function(){if(ph==='rev'&&order[i]===d)scene.burst();},300);
-      showWord(d);marks(i+1);tag.classList.toggle('on',!!slow);
+      showWord(d);tag.classList.toggle('on',!!slow);
     }
-    function revStatic(n){stopFall();i=n;ph='rev';show('play');round('ORDER '+(i+1)+' / '+order.length);card.classList.remove('on');tag.classList.remove('on');showWord(order[i]);marks(i+1);}
+    function revStatic(n){stopFall();i=n;ph='rev';show('play');setTurn(i%2);round('ORDER '+(i+1)+' / '+order.length);card.classList.remove('on');tag.classList.remove('on');showWord(order[i]);}
     return g;
   };
 
@@ -3917,7 +3955,7 @@ var GAMIFY_DATA = {
     '<ellipse cx="670" cy="132" rx="660" ry="74" fill="rgba(0,0,0,.28)"/><ellipse cx="670" cy="100" rx="660" ry="96" fill="url(#gzP)"/><ellipse cx="670" cy="96" rx="470" ry="58" fill="none" stroke="#d6dadd" stroke-width="5"/><ellipse cx="670" cy="96" rx="640" ry="88" fill="none" stroke="#c9a24a" stroke-width="3"/></svg>';
 
   GAMES.taste=function(){
-    var data=GAMIFY_DATA.taste,scene=kitchenScene(),ctx=null,order=[],i=0,ph='start',play,vy,vn;
+    var data=GAMIFY_DATA.taste,scene=kitchenScene(),ctx=null,order=[],marks=[],i=0,ph='start',play,vy,vn;
     var g={key:'taste',title:'Taste Test',notes:'🎮 Taste Test',
       build:function(r){
         ctx=r.querySelector('.gmzBg').getContext('2d');scene.build();
@@ -3926,14 +3964,15 @@ var GAMIFY_DATA = {
         play=r.querySelector('.sPlay');
         play.innerHTML='<div class="tTag"><small>TODAY’S WORD</small><b></b></div>'+PLATE+
           '<div class="tCard"><span class="tx"></span><div class="tStamp"></div></div>'+CLOCHE+
-          '<div class="tFix"></div><div class="tTimer"><b>10</b></div>'+
+          '<div class="tFix"></div><div class="tTimer"><b>10</b></div><div class="tMarks">'+markRow()+'</div>'+
           '<button class="tVote yes"><span class="e">😋</span><span class="l">DELICIOUS</span><span class="s">used correctly</span></button>'+
           '<button class="tVote no"><span class="e">🤢</span><span class="l">SPOILED</span><span class="s">used wrongly</span></button>';
+        wireMarks(play.querySelector('.tMarks .gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});
         vy=play.querySelector('.tVote.yes');vn=play.querySelector('.tVote.no');
         [vy,vn].forEach(function(b){b.onclick=function(e){e.stopPropagation();if(ph!=='p1'||play.classList.contains('locked'))return;var on=b.classList.contains('pick');vy.classList.remove('pick');vn.classList.remove('pick');if(!on)b.classList.add('pick');};});
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
-      begin:function(){order=shuffle(data);dish(0);},
+      begin:function(){order=shuffle(data);marks=[];dish(0);},
       fw:function(){
         if(ph==='start')g.begin();
         else if(ph==='p0')setPh('p1');
@@ -3944,17 +3983,17 @@ var GAMIFY_DATA = {
       bk:function(){
         if(ph==='p2')setPh('p1');
         else if(ph==='p1')setPh('p0');
-        else if(ph==='p0'){if(i>0){dish(i-1,true);}else{ph='start';show('start');round('');}}
+        else if(ph==='p0'){if(i>0){dish(i-1,true);}else{ph='start';show('start');round('');setTurn(-1);}}
         else if(ph==='end'){dish(order.length-1,true);}
       }
     };
     function dish(n,atEnd){
-      i=n;show('play');round('DISH '+(i+1)+' / '+order.length);
+      i=n;show('play');setTurn(i%2);round('DISH '+(i+1)+' / '+order.length);paintMarks(play.querySelector('.tMarks .gMark'),marks[i]||null);
       tHide();var d=order[i],card=play.querySelector('.tCard'),tg=play.querySelector('.tTag');
       card.classList.add('snap');play.classList.remove('p1','p2');void card.offsetWidth;
       tg.querySelector('b').textContent=d.w;tg.classList.remove("tFlipIn");void tg.offsetWidth;tg.classList.add("tFlipIn");
       card.querySelector('.tx').innerHTML=d.s;
-      var sp=card.querySelector('.tStamp');sp.className='tStamp '+(d.ok?'ok':'bad');sp.textContent=d.ok?'DELICIOUS! ✓':'SPOILED! ✗';
+      var sp=card.querySelector('.tStamp');sp.className='tStamp '+(d.ok?'ok':'bad');sp.innerHTML=d.ok?'DELICIOUS! ✓<small>the word is used correctly</small>':'SPOILED! ✗<small>the word is used wrongly</small>';
       play.querySelector('.tFix').innerHTML=(d.ok?'✓ ':'')+d.fix;
       [vy,vn].forEach(function(b){b.classList.remove('pick','right','wrong');});
       void card.offsetWidth;card.classList.remove('snap');
