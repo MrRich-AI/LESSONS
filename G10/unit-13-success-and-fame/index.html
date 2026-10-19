@@ -815,9 +815,43 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 /* student mode: keep the speaker button beside long nouns (B3) */
 body.student .ncard .noun{white-space:nowrap;position:relative;display:inline-block}
 body.student .ncard .noun .spkBtn.sm{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:4px}
+
+/* ---------- Student title screen (?student / ?zh) ---------- */
+.slide.stitle{padding:0;display:flex;flex-direction:column;height:984px;font-family:"Mulish","Noto Sans SC","Microsoft YaHei",sans-serif}
+.stitle .stPh{position:relative;flex:1 1 0;min-height:96px;background:#0a8b99 center 42%/cover no-repeat}
+.stitle .stPill{position:absolute;left:70px;top:22px;background:var(--purple);color:#fff;font-size:30px;font-weight:800;letter-spacing:2px;padding:12px 28px;border-radius:40px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.stitle .stBand{flex:none;height:140px;background:var(--teal);display:flex;align-items:center;padding:0 70px;gap:36px;color:#fff}
+.stitle .stPh.cut{background-size:auto 94%,cover;background-position:74% 55%,center}
+.stitle .stT{font-size:84px;font-weight:400;letter-spacing:-1px;white-space:nowrap}
+.stitle .stT span{font-weight:300}
+.stitle .stSub{white-space:nowrap;font-size:28px;font-weight:700;line-height:1.3;opacity:.95}
+.stitle .stGo{margin-left:auto;flex:none;padding:20px 50px;border-radius:60px;border:none;background:var(--pink);color:#fff;font:800 44px "Mulish","Noto Sans SC",sans-serif;box-shadow:0 8px 22px rgba(0,0,0,.25);cursor:pointer;animation:stPulse 2s ease-in-out infinite}
+@keyframes stPulse{50%{transform:scale(1.05)}}
+.stitle .stH{flex:none;display:flex;justify-content:space-between;align-items:center;padding:18px 70px 10px;font-size:34px;font-weight:800;color:var(--teal-dark);letter-spacing:2px}
+.stitle .stTip{font-size:24px;color:var(--muted);font-weight:700;letter-spacing:0}
+.stitle .stGrid{flex:none;padding:0 70px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stitle .stGrid.c5{grid-template-columns:repeat(5,1fr)}
+.stitle .stTile{display:flex;gap:16px;align-items:flex-start;padding:16px 18px 16px 14px;border-radius:18px;background:#f1f8f9;border-top:8px solid var(--teal)}
+.stitle .stTile:nth-child(4n+2){border-top-color:var(--purple)}.stitle .stTile:nth-child(4n+3){border-top-color:var(--pink)}.stitle .stTile:nth-child(4n+4){border-top-color:#ef7d22}
+.stitle .stI{flex:none;width:66px;display:flex;justify-content:center}
+.stitle .stFt{font-size:30px;font-weight:800;color:var(--teal-dark);line-height:1.15}
+.stitle .stFd{font-size:24px;line-height:1.3;color:#2b2b30;margin-top:4px}.stitle .stFd b{color:var(--ink)}
+.stitle kbd{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:54px;padding:0 10px;border-radius:12px;background:#fff;border:3px solid var(--teal);border-bottom-width:7px;font:800 30px "Mulish",sans-serif;color:var(--teal-dark)}
+.stitle .stTip kbd{min-width:42px;height:42px;font-size:22px;border-width:2px;border-bottom-width:5px;vertical-align:middle;margin:0 4px}
+.stitle .ic{display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:50%;background:var(--teal);color:#fff;font-size:28px;font-weight:800}
+.stitle .ic.icq{border-radius:12px;background:repeating-linear-gradient(45deg,#e6f4f6 0 8px,#d3ecef 8px 16px);border:3px dashed var(--teal);color:var(--teal-dark)}
+.stitle .ic.lang{border-radius:29px;background:#fff;border:3px solid var(--teal);color:var(--teal-dark);font-size:22px;width:auto;min-width:58px;padding:0 8px}
+.stitle .ic.gw{background:#fff;border:3px solid #12843f;color:#12843f;font-size:22px;border-radius:12px}
+.stitle .ic.star{background:var(--pink)}
 </style>
 </head>
 <body>
+<script>
+/* ===== Version switch: ?student = Vietnamese student version ===== */
+(function(){var q=location.search+location.hash;
+  if(/(^|[?&#])student\b/i.test(q)){window.LESSON_MODE='student';window.LESSON_LANG='vi';}
+})();
+</script>
 <div id="viewport"><div id="stage">
 
   <div class="topbar">
@@ -1564,6 +1598,56 @@ var TIMER_SOUNDS=(function(){
 })();
 </script>
 
+<script>
+/* ===== Student title screen (replaces the warmers in ?student / ?zh) — edit the unit details here
+   warmers: selector of the warmer slides to remove   cutout: true when the unit-start picture is a cut-out (no background) ===== */
+var STUDENT_TITLE = {"grade": "10", "unit": "Unit 13: Success and fame", "sections": ["A Watch and talk", "B Speaking and vocabulary", "C Reading"], "pages": "180–185", "warmers": ".slide.star", "cutout": true};
+/* ===== end ===== */
+(function(){
+  if(window.LESSON_MODE!=='student')return;
+  var ZH=window.LESSON_LANG==='zh',T=STUDENT_TITLE;
+  /* 1. no warmers in the student versions */
+  [].slice.call(document.querySelectorAll(T.warmers||'.slide.warm')).forEach(function(s){s.remove();});
+  /* 2. Chinese version: swap the Vietnamese text for Chinese */
+  if(ZH){
+    document.querySelectorAll('[data-zhtext]').forEach(function(e){e.dataset.vitext=e.dataset.zhtext;});
+    document.querySelectorAll('.clue[data-zh]').forEach(function(e){e.dataset.vi=e.dataset.zh;});
+    document.querySelectorAll('#visclue .vvi span, #cluecard .cv span').forEach(function(e){e.textContent='CHINESE · 中文';});
+  }
+  /* 3. title screen */
+  var L=ZH?{pill:'在家复习',how:'如何使用本课',tip:'随时按 <kbd>?</kbd> 查看所有快捷键',go:'▶ 开始',pg:'第 '+T.pages+' 页',title:'开始'}
+          :{pill:'ÔN TẬP TẠI NHÀ',how:'CÁCH SỬ DỤNG BÀI HỌC NÀY',tip:'Nhấn <kbd>?</kbd> bất cứ lúc nào để xem tất cả phím tắt',go:'▶ Bắt đầu',pg:'Trang '+T.pages,title:'Bắt đầu'};
+  var F=ZH?[
+    ['<kbd>→</kbd>','下一步 / 返回','按 → 或空格键继续，按 ← 返回。'],
+    ['<span class="ic icq">?</span>','查看答案','点击每个方框查看答案，或点击 <b>Reveal all</b>。'],
+    ['<span class="ic">☰</span>','目录','点击 <b>Contents</b> 跳到任意页面。'],
+    ['<span class="ic">🔊</span>','朗读','收听课文和单词。🐢 按钮调整朗读速度。'],
+    ['<span class="ic lang">中文</span>','中文说明','点击页码旁的 <b>中文</b> 查看中文说明。'],
+    ['<span class="ic gw">abc</span>','绿色单词','鼠标在绿色单词上停留 2 秒，查看词义。'],
+    ['<span class="ic">🔍</span>','放大','点击放大镜，放大课文和图片。'],
+    ['<span class="ic star">★</span>','单词卡和小测验','用翻转卡片复习新单词，再完成课后小测验。']
+  ]:[
+    ['<kbd>→</kbd>','Tiếp theo / quay lại','Nhấn → hoặc phím cách để đi tiếp, ← để quay lại.'],
+    ['<span class="ic icq">?</span>','Xem đáp án','Bấm vào từng ô để xem đáp án, hoặc bấm <b>Reveal all</b>.'],
+    ['<span class="ic">☰</span>','Mục lục','Bấm <b>Contents</b> để đến bất kỳ trang nào.'],
+    ['<span class="ic">🔊</span>','Nghe đọc','Nghe bài đọc và từ vựng. Nút 🐢 chỉnh tốc độ đọc.'],
+    ['<span class="ic lang">VI</span>','Tiếng Việt','Bấm <b>VI</b> cạnh số trang để đọc hướng dẫn tiếng Việt.'],
+    ['<span class="ic gw">abc</span>','Từ màu xanh','Giữ chuột 2 giây trên từ xanh để xem nghĩa.'],
+    ['<span class="ic">🔍</span>','Phóng to','Bấm kính lúp để phóng to bài đọc và hình ảnh.'],
+    ['<span class="ic star">★</span>','Thẻ từ & kiểm tra','Ôn từ mới bằng thẻ lật, rồi làm bài kiểm tra cuối bài.']
+  ];
+  F=F.concat(ZH?(T.extraZh||[]):(T.extraVi||[]));
+  var first=document.querySelector('.slide');if(!first)return;
+  var op=document.querySelector('.slide.s1 img, .slide.s1 .photo img');
+  var sec=document.createElement('section');sec.className='slide stitle';sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
+  sec.innerHTML='<div class="stPh'+(T.cutout?' cut':'')+'"'+(op?' style="background-image:url(\''+op.getAttribute('src')+'\')'+(T.cutout?',radial-gradient(circle at 74% 55%,#fff3c4 0,#7fd0d8 26%,#0a8b99 58%)':'')+'"':'')+'><div class="stPill">'+L.pill+' · GRADE '+T.grade+'</div></div>'+
+    '<div class="stBand"><div class="stT"><span>›</span> '+T.unit+'</div><div class="stSub">'+T.sections.join('<br>')+' · '+L.pg+'</div><button class="stGo">'+L.go+'</button></div>'+
+    '<div class="stH">'+L.how+'<span class="stTip">'+L.tip+'</span></div>'+
+    '<div class="stGrid'+(F.length>16?' c5':'')+'">'+F.map(function(f){return '<div class="stTile"><div class="stI">'+f[0]+'</div><div><div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div></div></div>';}).join('')+'</div>';
+  first.parentNode.insertBefore(sec,first);
+  sec.querySelector('.stGo').addEventListener('click',function(e){e.stopPropagation();var n=document.getElementById('nextBtn');if(n)n.click();});
+})();
+</script>
 <script>
 /* ===== "Words from today" — vocabulary-exercise words (CLUE / VISCLUE words are collected automatically) =====
    slide: the data-title of the slide the word belongs to (sets the order)   w: word   d: meaning   v: Vietnamese */
@@ -2575,6 +2659,7 @@ var LESSON_EXTRAS = {
   /* ---------- First screen waits for a click: still + dimmed, then plays from the start ---------- */
   var gate=null,held=[];
   function holdFirst(){
+    if(document.querySelector('.slide.stitle'))return;
     var s=document.querySelector('.slide.active');if(!s)return;
     stage.classList.add('prestart');
     gate=document.createElement('div');gate.id='startGate';
