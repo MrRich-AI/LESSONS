@@ -757,6 +757,15 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 .stitle.bi .stFv b{color:#57309a}
 .stitle .stGo{line-height:1.05}
 .stitle .stGo small{display:block;font-size:24px;font-weight:700;opacity:.9;margin-top:2px}
+.stitle .ic.gm{background:#2b2f6b;font-size:30px}
+.stitle .stTile.inl{display:block;padding:14px 18px 16px}
+.stitle .stTile.inl .stFt{display:flex;align-items:center;gap:12px}
+.stitle .stTile.inl .stI{width:auto;flex:none}
+.stitle .stTile.inl .ic{width:44px;height:44px;font-size:22px}
+.stitle .stTile.inl .ic.lang{min-width:44px;font-size:18px;padding:0 6px}
+.stitle .stTile.inl kbd{min-width:44px;height:42px;font-size:22px;border-width:2px;border-bottom-width:5px}
+.stitle .stTile.inl:nth-child(n){border-top-color:var(--teal)}
+.stitle .stGrid.c5 .stTile.inl:nth-child(5n+2){border-top-color:var(--purple)}.stitle .stGrid.c5 .stTile.inl:nth-child(5n+3){border-top-color:var(--pink)}.stitle .stGrid.c5 .stTile.inl:nth-child(5n+4){border-top-color:#ef7d22}.stitle .stGrid.c5 .stTile.inl:nth-child(5n){border-top-color:#2b2f6b}
 </style>
 </head>
 <body>
@@ -1644,18 +1653,25 @@ var STUDENT_TITLE = {"grade": "9", "unit": "Unit 3: Food", "sections": ["A Watch
       ['<span class="ic star">★</span>','Flashcards & quiz','Review new words with flip cards, then do the end-of-lesson quiz.','Thẻ từ & kiểm tra','Ôn từ mới bằng thẻ lật, rồi làm bài kiểm tra cuối bài.']
     ].concat(T.extraEn||[]);
   }
+  /* GAMIFY tile when the deck has games */
+  if(document.querySelector('#stage section.slide[data-game]'))F.push(ZH
+    ?['<span class="ic gm">🎮</span>','GAMIFY 游戏','点击部分页面角落的 <b>🎮 GAMIFY</b>，自己玩复习游戏。']
+    :['<span class="ic gm">🎮</span>','GAMIFY games','Click <b>🎮 GAMIFY</b> in the corner of some slides to play a review game.','Trò chơi GAMIFY','Bấm <b>🎮 GAMIFY</b> ở góc một số trang để chơi trò chơi ôn tập.']);
   var first=document.querySelector('.slide');if(!first)return;
-  var op=document.querySelector('.slide.s1 img, .slide.s1 .photo img');
+  var op=window.STUDENT_TITLE_PHOTO?{getAttribute:function(){return STUDENT_TITLE_PHOTO;}}:document.querySelector('.slide.s1 img, .slide.s1 .photo img');
   var sec=document.createElement('section');sec.className='slide stitle'+(ZH?'':' bi');sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
+  /* bilingual tiles are taller: from 9 tiles use 5 columns with the icon beside the title (text sizes never shrink) */
+  var INL=!ZH&&F.length>8;
   function tile(f){
+    if(INL)return '<div class="stTile inl"><div class="stFt"><span class="stI">'+f[0]+'</span>'+f[1]+'</div><div class="stFd">'+f[2]+'</div><div class="stFv"><b>'+f[3]+':</b> '+f[4]+'</div></div>';
     var body=ZH?'<div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div>'
                :'<div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div><div class="stFv"><b>'+f[3]+':</b> '+f[4]+'</div>';
     return '<div class="stTile"><div class="stI">'+f[0]+'</div><div>'+body+'</div></div>';
   }
   sec.innerHTML='<div class="stPh'+(T.cutout?' cut':'')+'"'+(op?' style="background-image:url(\''+op.getAttribute('src')+'\')'+(T.cutout?',radial-gradient(circle at 74% 55%,#fff3c4 0,#7fd0d8 26%,#0a8b99 58%)':'')+'"':'')+'><div class="stPill">'+L.pill+'</div></div>'+
-    '<div class="stBand"><div class="stT"><span>›</span> '+T.unit+'</div><div class="stSub">'+T.sections.join('<br>')+' · '+L.pg+'</div><button class="stGo">'+L.go+'</button></div>'+
+    '<div class="stBand"><div class="stT"><span>›</span> '+T.unit+'</div><div class="stSub">'+T.sections.join('<br>')+(T.pgLine?'<br>':' · ')+L.pg+'</div><button class="stGo">'+L.go+'</button></div>'+
     '<div class="stH"><div>'+L.how+'</div><span class="stTip">'+L.tip+'</span></div>'+
-    '<div class="stGrid'+(F.length>16?' c5':'')+'">'+F.map(tile).join('')+'</div>';
+    '<div class="stGrid'+(F.length>16||INL?' c5':'')+'">'+F.map(tile).join('')+'</div>';
   first.parentNode.insertBefore(sec,first);
   sec.querySelector('.stGo').addEventListener('click',function(e){e.stopPropagation();var n=document.getElementById('nextBtn');if(n)n.click();});
 })();
@@ -3449,6 +3465,45 @@ body.student .gmzBtn,body.presenter .gmzBtn{display:none!important}
 #gmz .tVote.right::after{content:"✓ ANSWER";position:absolute;bottom:-30px;left:50%;transform:translateX(-50%);background:#f5d77a;color:#1a1008;font-size:26px;font-weight:900;padding:4px 18px;border-radius:20px;white-space:nowrap}
 #gmz .tVote.wrong{background:radial-gradient(circle at 35% 30%,#3a3a3a,#0f0f0f);border-color:#777;opacity:.45;animation:tShake .6s}
 .twNote{font-size:24px;font-weight:700;opacity:.85;margin:-4px 0 4px 286px}
+
+/* ---------- GAMIFY solo mode (student versions) ---------- */
+#gmz .gSolo{display:flex;align-items:baseline;gap:12px;height:62px;padding:0 28px;border-radius:31px;background:linear-gradient(#ffe27a,#f0a81c);color:#2a1800;font-family:"Mulish",sans-serif;font-weight:900;box-shadow:0 6px 18px rgba(0,0,0,.45);align-self:center;align-items:center}
+#gmz .gSolo .l{font-size:22px;letter-spacing:.12em}
+#gmz .gSolo b{font-size:40px;min-width:30px;text-align:center}
+#gmz .gSolo .o{font-size:28px}
+#gmz .gSolo.up{animation:gSoUp .6s}#gmz .gSolo.dn{animation:gSoDn .5s}
+@keyframes gSoUp{30%{transform:scale(1.22);box-shadow:0 0 0 6px #fff,0 0 40px #7dff9a}}
+@keyframes gSoDn{20%,60%{transform:translateX(-10px)}40%,80%{transform:translateX(10px)}}
+#gmz .gHow{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);width:1600px;padding:16px 34px 18px;border-radius:22px;background:rgba(8,10,18,.86);border:2px solid rgba(255,255,255,.35);color:#fff;font-family:"Mulish","Noto Sans SC",sans-serif;text-align:center;z-index:6;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+#gmz .gHow .hh{font-size:22px;font-weight:900;letter-spacing:.14em;color:#ffd970;margin-bottom:6px}
+#gmz .gHow .he{font-size:28px;font-weight:700;line-height:1.3}
+#gmz .gHow .hv{font-size:24px;font-weight:600;line-height:1.3;color:#d8c9ff;margin-top:6px}
+#gmz .gVi{display:block;font-size:.55em;font-weight:700;opacity:.85;letter-spacing:0;margin-top:2px}
+#gmz .gEndBox.solo{width:1500px;top:55%;padding:34px 50px 36px}
+#gmz .gEndBox.solo .eT{font-size:68px}
+#gmz .gEndBox.solo .eSc{display:flex;justify-content:center;align-items:center;gap:30px;margin:14px 0 10px;font-family:"Mulish",sans-serif;font-weight:900;font-size:36px}
+#gmz .gEndBox.solo .eSc b{font-size:84px;line-height:1}
+#gmz .gEndBox.solo .eSc .gVi{font-size:24px}
+#gmz .gEndBox.solo .eMh{font-family:"Mulish",sans-serif;font-size:30px;font-weight:900;margin:6px 0 10px}
+#gmz .gEndBox.solo .eMh .gVi{font-size:22px}
+#gmz .gEndBox.solo .eMiss{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:410px;overflow:auto;text-align:left;margin-bottom:22px;padding-right:6px}
+#gmz .gEndBox.solo .mi{background:rgba(255,255,255,.94);color:#1d1d1f;border-radius:14px;padding:12px 18px;font-family:"Mulish",sans-serif;border-left:8px solid #e0483c}
+#gmz .gEndBox.solo .mi .q{font-size:24px;line-height:1.3}
+#gmz .gEndBox.solo .mi .a{font-size:26px;font-weight:900;color:#12843f;margin-top:4px}
+#gmz .gEndBox.solo .mi .y{font-size:22px;font-weight:700;color:#c0392b;margin-top:2px}
+#gmz .gEndBox.solo .eW{font-size:44px}
+#gmz .gEndBox.solo .eB button{font-size:32px;line-height:1.1}
+#gmz .gEndBox.solo .eB .gVi{font-size:20px}
+
+#gmz.solo .dMenu li{cursor:pointer;pointer-events:auto;border-radius:10px;transition:background .15s,transform .15s}
+#gmz.solo .dMenu li:hover{background:rgba(255,255,255,.14);transform:translateX(6px)}
+#gmz.solo .dMenu li.sOk{animation:dOk .9s}
+#gmz.solo .dMenu li.sNo{animation:dNo .6s}
+@keyframes dOk{0%,60%{background:#1f9d55;color:#fff;transform:scale(1.08)}}
+@keyframes dNo{0%,60%{background:#d33a2c;color:#fff}20%,50%{transform:translateX(-8px)}35%{transform:translateX(8px)}}
+#gmz.solo.drop .gStartRow{top:740px}
+#gmz.solo .dSub{display:none}
+#gmz.solo.taste .gStartRow{top:700px}
 </style>
 <script>
 /* ===== GAMIFY game content — edit here =====
@@ -3489,7 +3544,20 @@ var GAMIFY_DATA = {
   var Q=location.search+location.hash;
   var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(Q);
   var PRES=!STUDENT&&/(^|[?&#])presenter\b/i.test(Q);
-  if(STUDENT||PRES)return;
+  if(PRES)return;
+  /* student versions: SOLO mode — no teams, spinners or ✓/✗ marks; the game marks each answer itself */
+  var SOLO=STUDENT,ZHL=window.LESSON_LANG==='zh';
+  var LBL={
+    score:['SCORE','Điểm','得分'],how:['HOW TO PLAY','Cách chơi','玩法'],
+    your:['Your score','Điểm của em','你的得分'],review:['Review what you missed','Xem lại những câu em làm sai','复习做错的题'],
+    perfect:['Perfect – nothing missed!','Hoàn hảo – em không sai câu nào!','满分——全部答对！'],
+    again:['↺ Play again','Chơi lại','↺ 再玩一次'],back:['← Back to the slide','Quay lại trang','← 返回本页'],
+    you:['you','em chọn','你的答案'],slow:['⏰ too slow','quá chậm','⏰ 太慢了'],timeup:['⏰ time’s up','hết giờ','⏰ 时间到'],
+    meaning:['Tap the meaning','Bấm vào nghĩa đúng','点击正确的意思'],nosnap:['no snap','không bấm SNAP','没有按 SNAP'],snapped:['snapped on','em bấm SNAP ở','你在这张卡按了']
+  };
+  /* bilingual label: English + Vietnamese underneath (?student) or Chinese only (?zh) */
+  function L(k,inline){var t=LBL[k];if(ZHL)return t[2];return inline?t[0]:t[0]+'<small class="gVi">'+t[1]+'</small>';}
+  function LT(k){var t=LBL[k];return ZHL?t[2]:t[0];}
   var stage=document.getElementById('stage');if(!stage)return;
   var root=document.createElement('div');root.id='gmz';stage.appendChild(root);
   var shards=document.createElement('div');shards.id='gmzShards';stage.appendChild(shards);
@@ -3554,7 +3622,7 @@ var GAMIFY_DATA = {
     busy=true;slideEl=s;
     try{if(window.rosterPicker)rosterPicker.close();if(window.slideTimer)slideTimer.close();}catch(e){}
     G=def();window.GAMIFY_ON=G.notes;
-    root.className='on '+G.key;root.innerHTML='';buildCommon();G.build(root);
+    root.className='on '+G.key+(SOLO?' solo':'');root.innerHTML='';buildCommon();G.build(root);if(SOLO)soloReset(((window.GAMIFY_DATA||{})[G.key]||[]).length);
     pickReset();scores=[0,0];paintScores();show('start');
     lastT=0;raf=requestAnimationFrame(frame);
     shatter(true,function(){busy=false;});
@@ -3583,15 +3651,16 @@ var GAMIFY_DATA = {
     root.innerHTML='<canvas class="gmzBg" width="1920" height="1080"></canvas>'+
       '<div class="gmzScr sStart"></div><div class="gmzScr sPlay"></div><div class="gmzScr sEnd"></div>'+
       '<div class="gmzHud"><div class="gTitle">'+G.title+'</div><div class="gRound"></div><div class="gSp"></div>'+
+      (SOLO?'<div class="gSolo"><span class="l">'+LT('score')+'</span><b>0</b><span class="o">/ <i>0</i></span></div>':
       '<div class="gTeam a"><button class="tm" data-t="0">TEAM A <b>0</b></button><button class="mn" data-t="0" title="Take away a point">−</button></div>'+
       '<div class="gTeam b"><button class="tm" data-t="1">TEAM B <b>0</b></button><button class="mn" data-t="1" title="Take away a point">−</button></div>'+
-      '<div class="gPill"></div><button class="gBtn gPick" title="Pick a student">🎡</button>'+(G.pause?'<button class="gBtn gPause" title="Pause / play">❚❚</button>':'')+
-      '<button class="gBtn gPrev" title="Back">◀</button><button class="gBtn gNext" title="Next">▶</button><button class="gBtn gExit" title="Back to the slide">✕</button></div>'+
+      '<div class="gPill"></div><button class="gBtn gPick" title="Pick a student">🎡</button>')+(G.pause?'<button class="gBtn gPause" title="Pause / play">❚❚</button>':'')+
+      (SOLO?'':'<button class="gBtn gPrev" title="Back">◀</button>')+'<button class="gBtn gNext" title="Next">▶</button><button class="gBtn gExit" title="Back to the slide">✕</button></div>'+
       '<div class="gPickWin"></div>';
     $$('.gTeam .tm').forEach(function(b){b.onclick=function(e){e.stopPropagation();var t=+b.dataset.t;scores[t]++;paintScores(t);};});
     $$('.gTeam .mn').forEach(function(b){b.onclick=function(e){e.stopPropagation();var t=+b.dataset.t;if(scores[t]>0)scores[t]--;paintScores(t);};});
-    $('.gPick').onclick=function(e){e.stopPropagation();pickClick();};
-    $('.gPrev').onclick=function(e){e.stopPropagation();bk();};
+    if(!SOLO){$('.gPick').onclick=function(e){e.stopPropagation();pickClick();};
+    $('.gPrev').onclick=function(e){e.stopPropagation();bk();};}
     $('.gNext').onclick=function(e){e.stopPropagation();fw();};
     $('.gExit').onclick=function(e){e.stopPropagation();close();};
     if(G.pause)$('.gPause').onclick=function(e){e.stopPropagation();G.pause();};
@@ -3602,7 +3671,28 @@ var GAMIFY_DATA = {
   }
   function show(n){root.dataset.scr=n;['start','play','end'].forEach(function(k){$('.s'+k[0].toUpperCase()+k.slice(1)).classList.toggle('on',k===n);});}
   function round(t){$('.gRound').textContent=t||'';}
+  var SC={n:0,res:{}};
+  function soloReset(n){SC.n=n;SC.res={};paintSolo();}
+  /* record an item once: ok = right?, item = the question, ans = correct answer, given = the student's answer */
+  function soloMark(i,ok,item,ans,given){if(!SOLO||SC.res[i])return;SC.res[i]={ok:ok,item:item,ans:ans,given:given};paintSolo(ok);}
+  function paintSolo(ok){var b=root.querySelector('.gSolo');if(!b)return;var c=0;for(var k in SC.res)if(SC.res[k].ok)c++;
+    b.querySelector('b').textContent=c;b.querySelector('i').textContent=SC.n;
+    if(ok!==undefined){b.classList.remove('up','dn');void b.offsetWidth;b.classList.add(ok?'up':'dn');}}
+  function soloEnd(title){
+    var c=0,miss=[];Object.keys(SC.res).sort(function(a,b){return a-b;}).forEach(function(k){var r=SC.res[k];if(r.ok)c++;else miss.push(r);});
+    $('.sEnd').innerHTML='<div class="gEndBox solo"><div class="eT">'+title+'</div>'+
+      '<div class="eSc"><span>'+L('your')+'</span><b>'+c+'/'+SC.n+'</b></div>'+
+      (miss.length?'<div class="eMh">'+L('review')+'</div><div class="eMiss">'+miss.map(function(r){
+        return '<div class="mi"><div class="q">'+r.item+'</div><div class="a">✓ '+r.ans+'</div>'+(r.given?'<div class="y">✗ '+LT('you')+': '+r.given+'</div>':'')+'</div>';}).join('')+'</div>'
+       :'<div class="eW">'+L('perfect')+'</div>')+
+      '<div class="eB"><button class="gAgain">'+L('again')+'</button><button class="gBack">'+L('back')+'</button></div></div>';
+    $('.gAgain').onclick=function(e){e.stopPropagation();G.begin();};
+    $('.gBack').onclick=function(e){e.stopPropagation();close();};
+    var m=$('.eMiss');if(m)m.addEventListener('wheel',function(e){e.stopPropagation();},{passive:true});
+    show('end');round('');
+  }
   function endScreen(title){
+    if(SOLO){soloEnd(title);return;}
     var a=scores[0],b=scores[1],w=(a||b)?(a===b?'It’s a tie!':(a>b?'Team A wins!':'Team B wins!')):'Great work, everyone!';
     $('.sEnd').innerHTML='<div class="gEndBox"><div class="eT">'+title+'</div><div class="eW">'+w+'</div>'+
       '<div class="eS"><div class="a">TEAM A<b>'+a+'</b></div><div class="b">TEAM B<b>'+b+'</b></div></div>'+
@@ -3619,9 +3709,9 @@ var GAMIFY_DATA = {
   var TM={cls:null,teams:null,turn:0,cur:0,pools:{},cpool:{},played:{}};
   function syncCls(cl){if(window.LESSON_CLASS&&cl.indexOf(window.LESSON_CLASS)>=0)TM.cls=window.LESSON_CLASS;if(!TM.cls&&cl.length===1)TM.cls=cl[0];if(TM.cls)window.LESSON_CLASS=TM.cls;}
   function setTurn(t){TM.cur=t;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('cur',t===i);});}
-  function markRow(){return '<div class="gMark"><button class="mk y" data-v="y" title="Correct">✓</button><button class="mk n" data-v="n" title="Not correct">✗</button></div>';}
-  function wireMarks(box,get,set){[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());};});}
-  function paintMarks(box,v){box.classList.toggle('has',!!v);[].forEach.call(box.querySelectorAll('.mk'),function(b){b.classList.toggle('on',b.dataset.v===v);});}
+  function markRow(){if(SOLO)return '';return '<div class="gMark"><button class="mk y" data-v="y" title="Correct">✓</button><button class="mk n" data-v="n" title="Not correct">✗</button></div>';}
+  function wireMarks(box,get,set){if(!box)return;[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());};});}
+  function paintMarks(box,v){if(!box)return;box.classList.toggle('has',!!v);[].forEach.call(box.querySelectorAll('.mk'),function(b){b.classList.toggle('on',b.dataset.v===v);});}
   var pk={raf:null,fadeT:null,fadeT2:null};
   function classes(){var R=window.ROSTERS||{};return Object.keys(R).filter(function(k){return R[k]&&R[k].length;});}
   function pickReset(){if(pk.raf)cancelAnimationFrame(pk.raf);pk.raf=null;clearTimeout(pk.fadeT);clearTimeout(pk.fadeT2);}
@@ -3717,6 +3807,13 @@ var GAMIFY_DATA = {
   function closeTW(){var tw=$('.gTW');if(tw){tw.classList.remove('on');tw.innerHTML='';}if(pk.raf){cancelAnimationFrame(pk.raf);pk.raf=null;}}
   function updTeamBtn(){var b=$('.gTeamsBtn');if(b)b.textContent=teamLabel();}
   function startRow(r){
+    if(SOLO){
+      var s0=r.querySelector('.sStart'),go0=s0.querySelector('.gGo'),row0=document.createElement('div');row0.className='gStartRow';
+      s0.appendChild(row0);row0.appendChild(go0);
+      var h=G.how||{},hw=document.createElement('div');hw.className='gHow';
+      hw.innerHTML='<div class="hh">'+(ZHL?LBL.how[2]:LBL.how[0]+' · '+LBL.how[1])+'</div>'+(ZHL?'<div class="he">'+(h.zh||h.en||'')+'</div>':'<div class="he">'+(h.en||'')+'</div><div class="hv">'+(h.vi||'')+'</div>');
+      s0.appendChild(hw);return;
+    }
     var s=r.querySelector('.sStart'),go=s.querySelector('.gGo'),row=document.createElement('div');row.className='gStartRow';
     var tb=document.createElement('button');tb.className='gTeamsBtn';tb.textContent=teamLabel();
     tb.onclick=function(e){e.stopPropagation();teamWin();};
@@ -3725,8 +3822,8 @@ var GAMIFY_DATA = {
   }
 
   /* ---------- progression: Space / → / click forward, ← back (REV inside the game) ---------- */
-  function fw(){if(G&&!busy)G.fw();}
-  function bk(){if(G&&!busy)G.bk();}
+  function fw(){if(G&&!busy){if(SOLO&&G.soloWait&&G.soloWait())return;G.fw();}}
+  function bk(){if(G&&!busy){if(SOLO)return;G.bk();}}
   root.addEventListener('pointerdown',function(e){e.stopPropagation();});
   root.addEventListener('click',function(e){e.stopPropagation();if(e.target.closest('button,.gPickWin'))return;fw();});
   window.addEventListener('keydown',function(e){
@@ -3738,6 +3835,7 @@ var GAMIFY_DATA = {
     if(document.querySelector('#blackout.on,#whiteout.on,.lxScreen.on,#lxHelp.on'))return;
     if(e.ctrlKey||e.metaKey||e.altKey)return;
     var k=e.key;
+    if(SOLO&&G.soloKey&&G.soloKey(k)){e.preventDefault();e.stopImmediatePropagation();return;}
     if(k===' '||k==='ArrowRight'||k==='PageDown'||k==='Enter')fw();
     else if(k==='ArrowLeft'||k==='PageUp')bk();
     else if(k==='Escape')close();
@@ -3857,6 +3955,9 @@ var GAMIFY_DATA = {
     var data=GAMIFY_DATA.drop,scene=marketScene(),ctx=null,order=[],marks=[],i=0,ph='start',anim=null,paused=false,FALL=16000;
     var card,word,tag,menu;
     var g={key:'drop',title:'Definition Drop',notes:'🎮 Definition Drop',
+      how:{en:'Read the definition on the falling order. Tap the matching word on the <b>MENU</b> before it lands in the wok! Click the order to pause.',
+           vi:'Đọc định nghĩa trên tấm thẻ đang rơi. Bấm vào từ đúng trên <b>MENU</b> trước khi thẻ rơi vào chảo! Bấm vào thẻ để tạm dừng.',
+           zh:'阅读正在下落的订单上的释义。在它掉进锅里之前，点击 <b>MENU</b> 上对应的单词！点击订单可暂停。'},
       build:function(r){
         ctx=r.querySelector('.gmzBg').getContext('2d');
         var go=function(){scene.build();};
@@ -3869,7 +3970,12 @@ var GAMIFY_DATA = {
         card=r.querySelector('.dCard');if(!card._pz){card._pz=1;card.addEventListener('click',function(e){if(ph==='fall'&&anim){e.stopPropagation();g.pause();}});card.style.cursor='pointer';}word=r.querySelector('.dWord');wireMarks(word.querySelector('.gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});tag=r.querySelector('.dTag');menu=[].slice.call(r.querySelectorAll('.dMenu li'));
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
-      begin:function(){order=shuffle(data);marks=[];fall(0);},
+      begin:function(){order=shuffle(data);marks=[];soloReset(data.length);
+        if(SOLO&&!g._menu){g._menu=1;menu.forEach(function(li){li.addEventListener('click',function(e){e.stopPropagation();
+          if(ph!=='fall')return;var d=order[i],ok=li.dataset.w===d[0];
+          li.classList.remove('sOk','sNo');void li.offsetWidth;li.classList.add(ok?'sOk':'sNo');
+          soloMark(i,ok,dItem(d),esc(d[0]),ok?'':esc(li.dataset.w));reveal(false);});});}
+        fall(0);},
       fw:function(){
         if(ph==='start')g.begin();
         else if(ph==='fall')reveal(false);
@@ -3896,8 +4002,10 @@ var GAMIFY_DATA = {
       var me=anim;anim.onfinish=function(){if(anim===me&&ph==='fall')reveal(true);};
     }
     function showWord(d){paintMarks(word.querySelector('.gMark'),marks[i]||null);word.querySelector('.w').textContent=d[0];word.querySelector('.m').textContent='= '+d[2];word.classList.remove('on');void word.offsetWidth;word.classList.add('on');}
+    function dItem(d){return '“'+esc(d[2])+'” <i>('+esc(d[1])+')</i>';}
     function reveal(slow){
       ph='rev';var d=order[i],m='none';
+      if(SOLO&&slow)soloMark(i,false,dItem(d),esc(d[0]),LT('slow'));
       if(anim){m=getComputedStyle(card).transform;anim.onfinish=null;anim.cancel();anim=null;}
       paused=false;root.classList.remove('paused');
       card.animate([{transform:m,opacity:1},{transform:(m==='none'?'':m+' ')+'translateY(320px) scale(.35)',opacity:0}],{duration:420,easing:'cubic-bezier(.6,0,.9,.5)',fill:'forwards'});
@@ -3905,6 +4013,7 @@ var GAMIFY_DATA = {
       showWord(d);tag.classList.toggle('on',!!slow);
     }
     function revStatic(n){stopFall();i=n;ph='rev';show('play');setTurn(i%2);round('ORDER '+(i+1)+' / '+order.length);card.classList.remove('on');tag.classList.remove('on');showWord(order[i]);}
+    g.soloWait=function(){return ph==='fall';};
     return g;
   };
 
@@ -3989,6 +4098,9 @@ var GAMIFY_DATA = {
   GAMES.taste=function(){
     var data=GAMIFY_DATA.taste,scene=kitchenScene(),ctx=null,order=[],marks=[],i=0,ph='start',play,vy,vn;
     var g={key:'taste',title:'Taste Test',notes:'🎮 Taste Test',
+      how:{en:'Click to lift the cover and read the sentence. Tap <b>😋 DELICIOUS</b> if the word is used correctly, or <b>🤢 SPOILED</b> if it is used wrongly – before the 10-second timer ends! Click the timer to pause.',
+           vi:'Bấm để mở nắp và đọc câu. Bấm <b>😋 DELICIOUS</b> nếu từ được dùng đúng, hoặc <b>🤢 SPOILED</b> nếu dùng sai – trước khi hết 10 giây! Bấm vào đồng hồ để tạm dừng.',
+           zh:'点击打开盖子并阅读句子。如果单词用得正确，点击 <b>😋 DELICIOUS</b>；如果用错了，点击 <b>🤢 SPOILED</b>——要在10秒内完成！点击计时器可暂停。'},
       build:function(r){
         ctx=r.querySelector('.gmzBg').getContext('2d');scene.build();
         r.querySelector('.sStart').innerHTML='<div class="tLogo"><div class="k">TODAY’S MENU · 10 DISHES</div><div class="t">Taste Test</div><div class="o">✦ ✦ ✦</div></div><div class="tSub">Is the word used correctly? Delicious or spoiled?</div><button class="gGo">▶ Start service</button>';
@@ -4001,10 +4113,10 @@ var GAMIFY_DATA = {
           '<button class="tVote no"><span class="e">🤢</span><span class="l">SPOILED</span><span class="s">used wrongly</span></button>';
         wireMarks(play.querySelector('.tMarks .gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});
         vy=play.querySelector('.tVote.yes');vn=play.querySelector('.tVote.no');
-        [vy,vn].forEach(function(b){b.onclick=function(e){e.stopPropagation();if(ph!=='p1'||play.classList.contains('locked'))return;var on=b.classList.contains('pick');vy.classList.remove('pick');vn.classList.remove('pick');if(!on)b.classList.add('pick');};});
+        [vy,vn].forEach(function(b){b.onclick=function(e){e.stopPropagation();if(ph!=='p1'||play.classList.contains('locked'))return;var on=b.classList.contains('pick');vy.classList.remove('pick');vn.classList.remove('pick');if(!on)b.classList.add('pick');if(SOLO)soloVote(b);};});
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
-      begin:function(){order=shuffle(data);marks=[];dish(0);},
+      begin:function(){order=shuffle(data);marks=[];soloReset(data.length);dish(0);},
       fw:function(){
         if(ph==='start')g.begin();
         else if(ph==='p0')setPh('p1');
@@ -4041,7 +4153,8 @@ var GAMIFY_DATA = {
       (function step(now){
         tLeft=Math.max(0,(tEnd-now)/1000);el.style.setProperty('--p',tLeft/10);b.textContent=Math.ceil(tLeft);el.classList.toggle('low',tLeft<=3&&tLeft>0);
         if(tLeft>0)tmRaf=requestAnimationFrame(step);
-        else{tmRaf=null;el.classList.add('up');b.innerHTML='TIME’S<br>UP';play.classList.add('locked');timesUp();}
+        else{tmRaf=null;el.classList.add('up');b.innerHTML='TIME’S<br>UP';play.classList.add('locked');timesUp();
+          if(SOLO){var dd=order[i];soloMark(i,false,dd.s,vName(dd.ok),LT('timeup'));setTimeout(function(){if(ph==='p1'&&order[i]===dd)setPh('p2');},800);}}
       })(performance.now());
     }
     /* click the timer to pause / resume (voting stays open while paused) */
@@ -4065,6 +4178,9 @@ var GAMIFY_DATA = {
       if(p==='p2'){right.classList.add('right');if(wrong.classList.contains('pick'))wrong.classList.add('wrong');}
       if(p==='p0'){vy.classList.remove('pick');vn.classList.remove('pick');}
     }
+    function vName(ok){return ok?'😋 DELICIOUS':'🤢 SPOILED';}
+    function soloVote(b){var d=order[i],ok=b===(d.ok?vy:vn);b.classList.add('pick');soloMark(i,ok,d.s,vName(d.ok),ok?'':vName(b===vy));setPh('p2');}
+    g.soloWait=function(){return ph==='p1';};
     return g;
   };
 })();
