@@ -721,9 +721,43 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 #pvWait.on{display:block}
 #lxToast{position:absolute;left:50%;bottom:130px;transform:translateX(-50%);z-index:97;padding:16px 28px;border-radius:16px;background:#1d1d1f;color:#fff;font:700 28px "Mulish",sans-serif;opacity:0;transition:opacity .3s;pointer-events:none}
 #lxToast.on{opacity:1}
+
+/* ---------- Student title screen (?student / ?zh) ---------- */
+.slide.stitle{padding:0;display:flex;flex-direction:column;height:984px;font-family:"Mulish","Noto Sans SC","Microsoft YaHei",sans-serif}
+.stitle .stPh{position:relative;flex:1 1 0;min-height:96px;background:#0a8b99 center 42%/cover no-repeat}
+.stitle .stPill{position:absolute;left:70px;top:22px;background:var(--purple);color:#fff;font-size:30px;font-weight:800;letter-spacing:2px;padding:12px 28px;border-radius:40px;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.stitle .stBand{flex:none;height:140px;background:var(--teal);display:flex;align-items:center;padding:0 70px;gap:36px;color:#fff}
+.stitle .stT{font-size:84px;font-weight:400;letter-spacing:-1px;white-space:nowrap}
+.stitle .stT span{font-weight:300}
+.stitle .stSub{font-size:28px;font-weight:700;line-height:1.3;opacity:.95}
+.stitle .stGo{margin-left:auto;flex:none;padding:20px 50px;border-radius:60px;border:none;background:var(--pink);color:#fff;font:800 44px "Mulish","Noto Sans SC",sans-serif;box-shadow:0 8px 22px rgba(0,0,0,.25);cursor:pointer;animation:stPulse 2s ease-in-out infinite}
+@keyframes stPulse{50%{transform:scale(1.05)}}
+.stitle .stH{flex:none;display:flex;justify-content:space-between;align-items:center;padding:18px 70px 10px;font-size:34px;font-weight:800;color:var(--teal-dark);letter-spacing:2px}
+.stitle .stTip{font-size:24px;color:var(--muted);font-weight:700;letter-spacing:0}
+.stitle .stGrid{flex:none;padding:0 70px 24px;display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.stitle .stGrid.c5{grid-template-columns:repeat(5,1fr)}
+.stitle .stTile{display:flex;gap:16px;align-items:flex-start;padding:16px 18px 16px 14px;border-radius:18px;background:#f1f8f9;border-top:8px solid var(--teal)}
+.stitle .stTile:nth-child(4n+2){border-top-color:var(--purple)}.stitle .stTile:nth-child(4n+3){border-top-color:var(--pink)}.stitle .stTile:nth-child(4n+4){border-top-color:#ef7d22}
+.stitle .stI{flex:none;width:66px;display:flex;justify-content:center}
+.stitle .stFt{font-size:30px;font-weight:800;color:var(--teal-dark);line-height:1.15}
+.stitle .stFd{font-size:24px;line-height:1.3;color:#2b2b30;margin-top:4px}.stitle .stFd b{color:var(--ink)}
+.stitle kbd{display:inline-flex;align-items:center;justify-content:center;min-width:58px;height:54px;padding:0 10px;border-radius:12px;background:#fff;border:3px solid var(--teal);border-bottom-width:7px;font:800 30px "Mulish",sans-serif;color:var(--teal-dark)}
+.stitle .stTip kbd{min-width:42px;height:42px;font-size:22px;border-width:2px;border-bottom-width:5px;vertical-align:middle;margin:0 4px}
+.stitle .ic{display:inline-flex;align-items:center;justify-content:center;width:58px;height:58px;border-radius:50%;background:var(--teal);color:#fff;font-size:28px;font-weight:800}
+.stitle .ic.icq{border-radius:12px;background:repeating-linear-gradient(45deg,#e6f4f6 0 8px,#d3ecef 8px 16px);border:3px dashed var(--teal);color:var(--teal-dark)}
+.stitle .ic.lang{border-radius:29px;background:#fff;border:3px solid var(--teal);color:var(--teal-dark);font-size:22px;width:auto;min-width:58px;padding:0 8px}
+.stitle .ic.gw{background:#fff;border:3px solid #12843f;color:#12843f;font-size:22px;border-radius:12px}
+.stitle .ic.star{background:var(--pink)}
 </style>
 </head>
 <body>
+<script>
+/* ===== Version switch: ?student = Vietnamese student version, ?zh = Chinese student version ===== */
+(function(){var q=location.search+location.hash;
+  if(/(^|[?&#])zh\b/i.test(q)){window.LESSON_MODE='student';window.LESSON_LANG='zh';document.documentElement.lang='zh-CN';}
+  else if(/(^|[?&#])student\b/i.test(q)){window.LESSON_MODE='student';window.LESSON_LANG='vi';}
+})();
+</script>
 <div id="viewport"><div id="stage">
 
   <div class="topbar">
@@ -877,7 +911,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
       <div class="sec rise d1"><b>A</b>Watch and talk</div>
       <div class="row rise d2">
         <div class="vidicon"><svg width="56" height="56" viewBox="0 0 24 24" fill="#fff"><path d="M3 6.5A1.5 1.5 0 0 1 4.5 5h10A1.5 1.5 0 0 1 16 6.5v11a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 3 17.5z"/><path d="M17 10l4.2-2.6c.4-.2.8 0 .8.5v8.2c0 .5-.4.7-.8.5L17 14z"/></svg></div>
-        <div class="act"><span class="n">1</span><span data-vitext="Xem video về đồ ăn trong Sách học điện tử (Digital Coursebook). Giáo viên sẽ giao cho em một nhiệm vụ để hoàn thành.">Watch the video in the Digital Coursebook about food. Your teacher will give you a task to complete.</span></div>
+        <div class="act"><span class="n">1</span><span data-vitext="Xem video về đồ ăn trong Sách học điện tử (Digital Coursebook). Giáo viên sẽ giao cho em một nhiệm vụ để hoàn thành." data-zhtext="观看《数字课本》(Digital Coursebook) 中关于食物的视频。老师会给你一个任务来完成。">Watch the video in the Digital Coursebook about food. Your teacher will give you a task to complete.</span></div>
       </div>
     </div>
   </section>
@@ -887,9 +921,9 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="txt rise d2">
-        <div class="act"><span class="n">1</span><span data-vitext="Hãy nhìn các bức ảnh. Mỗi bức ảnh cho thấy điều gì? Thảo luận với bạn cùng cặp và ghi lại bất kỳ từ hoặc cụm từ nào em nghĩ ra.">Look at the pictures. What does each one show? Discuss your ideas with a partner and write down any words or phrases you can think of.</span></div>
+        <div class="act"><span class="n">1</span><span data-vitext="Hãy nhìn các bức ảnh. Mỗi bức ảnh cho thấy điều gì? Thảo luận với bạn cùng cặp và ghi lại bất kỳ từ hoặc cụm từ nào em nghĩ ra." data-zhtext="看这些图片。每张图片展示的是什么？和同伴讨论你的想法，并写下你能想到的单词或短语。">Look at the pictures. What does each one show? Discuss your ideas with a partner and write down any words or phrases you can think of.</span></div>
         <div class="example">Example: <i>1 rice with chopsticks</i></div>
-        <div class="hint"><span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center">?</span><span data-vitext="Bấm vào một bức ảnh để xem gợi ý">Click a picture to reveal ideas</span></div>
+        <div class="hint"><span style="display:inline-flex;width:40px;height:40px;border-radius:50%;background:var(--teal);color:#fff;align-items:center;justify-content:center">?</span><span data-vitext="Bấm vào một bức ảnh để xem gợi ý" data-zhtext="点击图片查看提示">Click a picture to reveal ideas</span></div>
       </div>
       <div class="grid">
         <div class="row">
@@ -908,7 +942,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 4: B2 ===== -->
   <section class="slide s4" data-title="B2 Fast food — discussion" data-page="38">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">2</span><span data-vitext="Thảo luận các câu hỏi sau theo nhóm nhỏ.">Discuss these questions in small groups.</span></div>
+    <div class="act rise d1"><span class="n">2</span><span data-vitext="Thảo luận các câu hỏi sau theo nhóm nhỏ." data-zhtext="以小组形式讨论这些问题。">Discuss these questions in small groups.</span></div>
     <div class="qgrid">
       <div class="qcard rise d2">
         <div class="qq"><span class="l">a</span><span>What is ‘fast food’? Do you think the food in the pictures is fast food? Why, or why not?</span></div>
@@ -948,10 +982,10 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="left">
-        <div class="act rise d1" style="font-size:32px;margin-bottom:6px"><span class="n">3</span><span data-vitext="Hãy xem các loại đồ ăn trong khung.">Look at the different foods in the box.</span></div>
+        <div class="act rise d1" style="font-size:32px;margin-bottom:6px"><span class="n">3</span><span data-vitext="Hãy xem các loại đồ ăn trong khung." data-zhtext="看方框里的各种食物。">Look at the different foods in the box.</span></div>
         <div class="wordbox rise d2" id="wordbox"></div>
-        <div class="sub rise d3"><span class="l">a</span><span data-vitext="Vẽ lại sơ đồ bên cạnh và viết tên mỗi loại đồ ăn vào vùng phù hợp nhất. Những đồ ăn nào có thể nằm ở phần giữa (vừa nhanh vừa lành mạnh)? Không có câu trả lời đúng hay sai, nhưng hãy giải thích lựa chọn của em với bạn cùng cặp.">Copy the diagram opposite and write the name of each food in the most appropriate area. Which foods can go in the middle section (both fast and healthy)? There are no right or wrong answers, but explain your choices to a partner.</span></div>
-        <div class="sub rise d3"><span class="l">b</span><span data-vitext="Hãy nghĩ thêm một số loại đồ ăn có thể xếp vào mỗi nhóm. Điều gì giúp em quyết định?">Think of some more types of food that could go in each group. What helps you to decide?</span></div>
+        <div class="sub rise d3"><span class="l">a</span><span data-vitext="Vẽ lại sơ đồ bên cạnh và viết tên mỗi loại đồ ăn vào vùng phù hợp nhất. Những đồ ăn nào có thể nằm ở phần giữa (vừa nhanh vừa lành mạnh)? Không có câu trả lời đúng hay sai, nhưng hãy giải thích lựa chọn của em với bạn cùng cặp." data-zhtext="照着画出旁边的图表，把每种食物的名称写在最合适的区域。哪些食物可以放在中间部分（既快捷又健康）？答案没有对错之分，但要向同伴解释你的选择。">Copy the diagram opposite and write the name of each food in the most appropriate area. Which foods can go in the middle section (both fast and healthy)? There are no right or wrong answers, but explain your choices to a partner.</span></div>
+        <div class="sub rise d3"><span class="l">b</span><span data-vitext="Hãy nghĩ thêm một số loại đồ ăn có thể xếp vào mỗi nhóm. Điều gì giúp em quyết định?" data-zhtext="想一想还有哪些食物可以放进每一组。是什么帮助你做出决定？">Think of some more types of food that could go in each group. What helps you to decide?</span></div>
         <div class="idea ans rise d4" id="ideas3b"><div class="cover">3b — click for ideas</div><div class="body">
           <b>Fast:</b> hot dogs, fried chicken, doughnuts, instant noodles<br>
           <b>Both:</b> sushi, wraps, yoghurt, nuts<br>
@@ -961,7 +995,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
       </div>
       <div class="rise d3">
         <div class="vennbar">
-          <span class="note" id="vennNote" data-vitext="Kéo các từ vào sơ đồ">Drag the words into the diagram</span>
+          <span class="note" id="vennNote" data-vitext="Kéo các từ vào sơ đồ" data-zhtext="把单词拖到图表中">Drag the words into the diagram</span>
           <span style="display:flex;gap:12px"><button class="minibtn" id="resetVenn">↺ Reset</button><button class="minibtn pink" id="suggestBtn">Check answers</button></span>
         </div>
         <div class="venn" id="venn">
@@ -983,7 +1017,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
     <div class="wrap">
       <div class="left">
-        <div class="act rise d2"><span class="n">4</span><span data-vitext="Em sẽ đọc một bài báo trực tuyến có tên ‘Những điều họ không nói với bạn về đồ ăn nhanh’ (Bài đọc 3.1). Trước tiên, hãy thảo luận theo nhóm nhỏ về những điều mà các nhà sản xuất đồ ăn nhanh có thể muốn giấu người tiêu dùng.">You are going to read an online article called ‘Things they don’t tell you about fast food’ (Text 3.1). First, discuss in small groups what kind of things fast-food producers might want to keep hidden from consumers.</span></div>
+        <div class="act rise d2"><span class="n">4</span><span data-vitext="Em sẽ đọc một bài báo trực tuyến có tên ‘Những điều họ không nói với bạn về đồ ăn nhanh’ (Bài đọc 3.1). Trước tiên, hãy thảo luận theo nhóm nhỏ về những điều mà các nhà sản xuất đồ ăn nhanh có thể muốn giấu người tiêu dùng." data-zhtext="你将阅读一篇名为《关于快餐，他们没有告诉你的事》（课文 3.1）的网络文章。首先，以小组形式讨论快餐生产商可能想对消费者隐瞒哪些事情。">You are going to read an online article called ‘Things they don’t tell you about fast food’ (Text 3.1). First, discuss in small groups what kind of things fast-food producers might want to keep hidden from consumers.</span></div>
         <div class="example rise d2">Example: <i>The ingredients in fast food are often poor-quality.</i></div>
         <div class="ideas">
           <div class="ans rise d3"><div class="cover">Idea 1</div><div class="body">How many calories the food really contains</div></div>
@@ -1006,13 +1040,13 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 7: B5 ===== -->
   <section class="slide s7" data-title="B5 True or false? (predictions)" data-page="39" data-noanswers="Predictions only — check in B6">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">5</span><span data-vitext="Đọc năm nhận định dưới đây. Theo em, nhận định nào đúng? Thảo luận trong nhóm và nêu lý do cho quyết định của các em.">Read the five statements below. Which ones do you think are true? Discuss this in your groups, giving reasons for your decisions.</span></div>
+    <div class="act rise d1"><span class="n">5</span><span data-vitext="Đọc năm nhận định dưới đây. Theo em, nhận định nào đúng? Thảo luận trong nhóm và nêu lý do cho quyết định của các em." data-zhtext="阅读下面五个说法。你认为哪些是正确的？在小组中讨论，并说明你们的理由。">Read the five statements below. Which ones do you think are true? Discuss this in your groups, giving reasons for your decisions.</span></div>
     <div class="stmts">
       <div class="stmt rise d2"><span class="l">a</span><span class="t">A lot of us consider fast food to be cheap.</span><div class="vote"></div></div>
       <div class="stmt rise d3"><span class="l">b</span><span class="t">Food that looks healthy may in fact be the opposite.</span><div class="vote"></div></div>
-      <div class="stmt rise d4"><span class="l">c</span><span class="t">Most people do not understand the number of <span class="clue" data-def="units that measure how much energy food gives you" data-vi="calo">calories</span> they are eating.</span><div class="vote"></div></div>
-      <div class="stmt rise d5"><span class="l">d</span><span class="t">Reducing the amount of fast food you eat can help to <span class="clue" data-def="to make something smaller or less" data-vi="giảm">reduce</span> your <span class="clue" data-def="the chance of becoming very sad and low for a long time" data-vi="nguy cơ trầm cảm">risk of depression</span>.</span><div class="vote"></div></div>
-      <div class="stmt rise d6"><span class="l">e</span><span class="t">Some ‘natural’ flavours are actually <span class="clue" data-def="made in factories by companies to sell" data-vi="được sản xuất công nghiệp (để bán)">commercially produced</span>.</span><div class="vote"></div></div>
+      <div class="stmt rise d4"><span class="l">c</span><span class="t">Most people do not understand the number of <span class="clue" data-def="units that measure how much energy food gives you" data-vi="calo" data-zh="卡路里（热量）">calories</span> they are eating.</span><div class="vote"></div></div>
+      <div class="stmt rise d5"><span class="l">d</span><span class="t">Reducing the amount of fast food you eat can help to <span class="clue" data-def="to make something smaller or less" data-vi="giảm" data-zh="减少">reduce</span> your <span class="clue" data-def="the chance of becoming very sad and low for a long time" data-vi="nguy cơ trầm cảm" data-zh="患抑郁症的风险">risk of depression</span>.</span><div class="vote"></div></div>
+      <div class="stmt rise d6"><span class="l">e</span><span class="t">Some ‘natural’ flavours are actually <span class="clue" data-def="made in factories by companies to sell" data-vi="được sản xuất công nghiệp (để bán)" data-zh="工业化生产的（用于销售）">commercially produced</span>.</span><div class="vote"></div></div>
     </div>
     <div class="predict-note rise d6">✎ Mark the class’s predictions. You will check them when you scan Text 3.1 in Activity B6.</div>
   </section>
@@ -1021,7 +1055,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 8: B6 ===== -->
   <section class="slide s7 s8" data-rev="1" data-title="B6 Scan Text 3.1 — check B5" data-page="39">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">6</span><span data-vitext="Bây giờ hãy đọc quét bài đọc và kiểm tra câu trả lời của em ở Hoạt động B5. Cho biết em tìm thấy thông tin liên quan ở đoạn nào. (Đừng lo về các chỗ trống trong bài.)">Now scan the text and check your answers to Activity B5. Say in which paragraph you found the relevant information. (Do not worry about the gaps in the text.)</span></div>
+    <div class="act rise d1"><span class="n">6</span><span data-vitext="Bây giờ hãy đọc quét bài đọc và kiểm tra câu trả lời của em ở Hoạt động B5. Cho biết em tìm thấy thông tin liên quan ở đoạn nào. (Đừng lo về các chỗ trống trong bài.)" data-zhtext="现在快速浏览课文，检查你在活动 B5 中的答案。说出你在哪一段找到了相关信息。（不用担心课文中的空格。）">Now scan the text and check your answers to Activity B5. Say in which paragraph you found the relevant information. (Do not worry about the gaps in the text.)</span></div>
     <div class="stmts">
       <div class="stmt rise d2"><span class="l">a</span><span class="t">A lot of us consider fast food to be cheap.</span><div class="ans tf"><div class="cover">Reveal</div><div class="body">✓ True <span class="pp">· paragraph 5</span></div></div></div>
       <div class="stmt rise d3"><span class="l">b</span><span class="t">Food that looks healthy may in fact be the opposite.</span><div class="ans tf"><div class="cover">Reveal</div><div class="body">✓ True <span class="pp">· paragraph 4</span></div></div></div>
@@ -1034,11 +1068,11 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 
   <!-- ===== Slide 9: Text 3.1 part 1 ===== -->
   <section class="slide s9 big" data-title="Text 3.1 (paragraphs 1–3) — gaps a–e" data-page="39">
-    <div class="t31head rise d1"><span class="lbl">Text 3.1</span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8">Click a gap to reveal the B8 answer</span></div>
+    <div class="t31head rise d1"><span class="lbl">Text 3.1</span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8" data-zhtext="点击空格查看 B8 的答案">Click a gap to reveal the B8 answer</span></div>
     <div class="t31box rise d2">
       <h4>Things they don’t tell you about fast food</h4>
       <div class="t31cols">
-        <p><span class="pn">[1]</span> Fast food may <i>seem</i> quite <span class="gap ans-ph"><b>(a)</b><span class="g-blank">. . .</span><span class="g-ans">harmless</span></span>, but it has more secrets than you can imagine. The negative side of fast food is that it may make you feel unwell and cause you to become overweight. It can also seriously <span class="clue" data-def="make you spend all your money" data-vi="làm bạn cháy túi">empty your wallet</span>! But on the positive side, if you understand the secrets and follow our advice, you can eat more healthily, control your weight and not <span class="clue" data-def="to have lost money" data-vi="bị thiệt tiền, mất tiền">be out of pocket</span>.</p>
+        <p><span class="pn">[1]</span> Fast food may <i>seem</i> quite <span class="gap ans-ph"><b>(a)</b><span class="g-blank">. . .</span><span class="g-ans">harmless</span></span>, but it has more secrets than you can imagine. The negative side of fast food is that it may make you feel unwell and cause you to become overweight. It can also seriously <span class="clue" data-def="make you spend all your money" data-vi="làm bạn cháy túi" data-zh="让你花光钱">empty your wallet</span>! But on the positive side, if you understand the secrets and follow our advice, you can eat more healthily, control your weight and not <span class="clue" data-def="to have lost money" data-vi="bị thiệt tiền, mất tiền" data-zh="赔钱；亏钱">be out of pocket</span>.</p>
         <p><span class="pn">[2]</span> The first secret: according to one study that included nearly 900 <strong>participants</strong>, even if you generally enjoy a healthy diet, eating even a small amount of fast food can increase the risk of feeling depressed. And anyone who frequently eats greasy burgers, nuggets and fries is at a greater risk (more than 50%) of becoming depressed than those who never touch them. However, if you reduce your fast-food habit to a couple of times per month or less, and only get your fast food from healthy outlets such as salad bars, you are less likely to feel depressed.</p>
         <p><span class="pn">[3]</span> Secret number two is that the <span class="gap ans-ph"><b>(b)</b><span class="g-blank">. . .</span><span class="g-ans">majority</span></span> of people have no idea how many calories they are <span class="gap ans-ph"><b>(c)</b><span class="g-blank">. . .</span><span class="g-ans">consuming</span></span> when they have a burger with fries. Recent research involved asking nearly 2000 adults, more than 300 schoolchildren and just over 1000 teenagers how many calories they thought their fast food contained. Compared with the <span class="gap ans-ph"><b>(d)</b><span class="g-blank">. . .</span><span class="g-ans">actual</span></span> data, the research participants <span class="gap ans-ph"><b>(e)</b><span class="g-blank">. . .</span><span class="g-ans">underestimated</span></span> the number of calories by around 200, or by about 40%. Our advice is to check the calories on the menu and try to choose something with 500 calories or less.</p>
       </div>
@@ -1047,13 +1081,13 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 
   <!-- ===== Slide 10: Text 3.1 part 2 ===== -->
   <section class="slide s10" data-title="Text 3.1 (paragraphs 4–7) — gaps f–j" data-page="40">
-    <div class="t31head rise d1"><span class="lbl">Text 3.1 <span style="font-size:30px;color:var(--muted)">(continued)</span></span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8">Click a gap to reveal the B8 answer</span></div>
+    <div class="t31head rise d1"><span class="lbl">Text 3.1 <span style="font-size:30px;color:var(--muted)">(continued)</span></span><span class="tip" data-vitext="Bấm vào chỗ trống để xem đáp án B8" data-zhtext="点击空格查看 B8 的答案">Click a gap to reveal the B8 answer</span></div>
     <div class="t31box rise d2">
       <div class="t31cols">
-        <p><span class="pn">[4]</span> Just because something on the menu sounds healthy, that doesn’t mean it is, and this is our third secret: food that sounds healthy is sometimes worse than food that seems like it’s bad for you. As an example, one fast-food restaurant offers a thin-based pizza with plenty of vegetables and without any cheese or meat. It sounds as healthy as you can get with pizza, right? But just two slices of this contain 1300 calories, 60 g of fat and a large amount of <span class="clue" data-def="a chemical found in salt; too much is bad for your health" data-vi="natri">sodium</span>, <span class="gap ans-ph"><b>(f)</b><span class="g-blank">. . .</span><span class="g-ans">guaranteed</span></span> to send your blood <span class="gap ans-ph"><b>(g)</b><span class="g-blank">. . .</span><span class="g-ans">pressure</span></span> <span class="clue" data-def="going up very quickly" data-vi="tăng vọt">rocketing</span>. In some fast-food <strong>outlets</strong>, even the salad options were found to be <strong>sprinkled</strong> with chemicals to keep them looking fresh. Our advice? Don’t be fooled into buying something just because it sounds healthy. Read all the information very carefully before you order.</p>
-        <p><span class="pn">[5]</span> Many of us believe that buying fast food is an inexpensive option, but our fourth secret is that this is simply not true. If you’re prepared to cook at home, going to a supermarket and choosing <span class="clue" data-def="the foods you mix together to make a dish" data-vi="nguyên liệu">ingredients</span> for a meal can work out <span class="gap ans-ph"><b>(h)</b><span class="g-blank">. . .</span><span class="g-ans">considerably</span></span> cheaper than ordering a takeaway meal.</p>
+        <p><span class="pn">[4]</span> Just because something on the menu sounds healthy, that doesn’t mean it is, and this is our third secret: food that sounds healthy is sometimes worse than food that seems like it’s bad for you. As an example, one fast-food restaurant offers a thin-based pizza with plenty of vegetables and without any cheese or meat. It sounds as healthy as you can get with pizza, right? But just two slices of this contain 1300 calories, 60 g of fat and a large amount of <span class="clue" data-def="a chemical found in salt; too much is bad for your health" data-vi="natri" data-zh="钠">sodium</span>, <span class="gap ans-ph"><b>(f)</b><span class="g-blank">. . .</span><span class="g-ans">guaranteed</span></span> to send your blood <span class="gap ans-ph"><b>(g)</b><span class="g-blank">. . .</span><span class="g-ans">pressure</span></span> <span class="clue" data-def="going up very quickly" data-vi="tăng vọt" data-zh="飞速上涨">rocketing</span>. In some fast-food <strong>outlets</strong>, even the salad options were found to be <strong>sprinkled</strong> with chemicals to keep them looking fresh. Our advice? Don’t be fooled into buying something just because it sounds healthy. Read all the information very carefully before you order.</p>
+        <p><span class="pn">[5]</span> Many of us believe that buying fast food is an inexpensive option, but our fourth secret is that this is simply not true. If you’re prepared to cook at home, going to a supermarket and choosing <span class="clue" data-def="the foods you mix together to make a dish" data-vi="nguyên liệu" data-zh="配料；食材">ingredients</span> for a meal can work out <span class="gap ans-ph"><b>(h)</b><span class="g-blank">. . .</span><span class="g-ans">considerably</span></span> cheaper than ordering a takeaway meal.</p>
         <p><span class="pn">[6]</span> Our fifth and final secret is about that delicious barbecue taste of fire and smoke. If the food is cooked inside a restaurant, where does that taste come from? A lot of fast food is described as containing ‘natural smoke flavour’ but, believe it or not, this is commercially produced and sold to fast-food outlets to <i>add</i> to their menu items artificially. The only advice we can offer is <span class="gap ans-ph"><b>(i)</b><span class="g-blank">. . .</span><span class="g-ans">simply</span></span> not to be <span class="gap ans-ph"><b>(j)</b><span class="g-blank">. . .</span><span class="g-ans">fooled</span></span>!</p>
-        <p><span class="pn">[7]</span> Hopefully now that you know these five fast-food secrets, you can make more <span class="clue" data-def="decisions made after learning the facts" data-vi="những lựa chọn sáng suốt">informed choices</span> about what you buy and eat. We hope this will make you feel healthier, be more in control of your body, and perhaps even save some money at the same time.</p>
+        <p><span class="pn">[7]</span> Hopefully now that you know these five fast-food secrets, you can make more <span class="clue" data-def="decisions made after learning the facts" data-vi="những lựa chọn sáng suốt" data-zh="明智的选择">informed choices</span> about what you buy and eat. We hope this will make you feel healthier, be more in control of your body, and perhaps even save some money at the same time.</p>
       </div>
     </div>
   </section>
@@ -1061,10 +1095,10 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 11: B7 ===== -->
   <section class="slide s11" data-rev="1" data-title="B7 Match the words and definitions" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">7</span><span data-vitext="Làm việc theo cặp. Ghép mỗi từ trong bảng với định nghĩa đúng. Sau đó dùng các tài liệu có sẵn để kiểm tra câu trả lời.">Work in pairs. Match each word in the table with the correct definition. Then use any resources available to check your answers.</span></div>
+    <div class="act rise d1"><span class="n">7</span><span data-vitext="Làm việc theo cặp. Ghép mỗi từ trong bảng với định nghĩa đúng. Sau đó dùng các tài liệu có sẵn để kiểm tra câu trả lời." data-zhtext="两人一组。把表格中的每个单词和正确的定义配对。然后利用现有资源检查答案。">Work in pairs. Match each word in the table with the correct definition. Then use any resources available to check your answers.</span></div>
     <div class="wrap">
       <table class="mtable rise d2">
-        <tr><th>Word</th><th>Definition <span class="thnote" data-vitext="bấm vào một định nghĩa để xem đáp án">click a definition to reveal the answer</span></th></tr>
+        <tr><th>Word</th><th>Definition <span class="thnote" data-vitext="bấm vào một định nghĩa để xem đáp án" data-zhtext="点击定义查看答案">click a definition to reveal the answer</span></th></tr>
         <tr><td>actual (adjective)</td><td class="def ans-ph"><span class="orig">by a large amount</span><span class="q">?</span><span class="slide-ans">real</span></td></tr>
         <tr><td>considerably (adverb)</td><td class="def ans-ph"><span class="orig">eating</span><span class="q">?</span><span class="slide-ans">by a large amount</span></td></tr>
         <tr><td>consuming (verb)</td><td class="def ans-ph"><span class="orig">just, only</span><span class="q">?</span><span class="slide-ans">eating</span></td></tr>
@@ -1087,7 +1121,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 12: B8 ===== -->
   <section class="slide s12" data-rev="1" data-title="B8 Which word goes in each gap?" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">8</span><span data-vitext="Theo cặp, hãy quyết định từ nào trong Hoạt động B7 điền vào chỗ trống nào trong Bài đọc 3.1.">In your pairs, decide which word from Activity B7 goes in which gap in Text 3.1.</span></div>
+    <div class="act rise d1"><span class="n">8</span><span data-vitext="Theo cặp, hãy quyết định từ nào trong Hoạt động B7 điền vào chỗ trống nào trong Bài đọc 3.1." data-zhtext="两人一组，决定活动 B7 中的哪个单词填入课文 3.1 的哪个空格。">In your pairs, decide which word from Activity B7 goes in which gap in Text 3.1.</span></div>
     <div class="gapgrid">
       <div class="gcard rise d2"><span class="gl">(a)</span><span class="ctx">Fast food may <i>seem</i> quite <u>. . .</u> , but it has more secrets …</span><div class="ans"><div class="cover">Reveal</div><div class="body">harmless</div></div></div>
       <div class="gcard rise d2"><span class="gl">(f)</span><span class="ctx">… a large amount of sodium, <u>. . .</u> to send your blood …</span><div class="ans"><div class="cover">Reveal</div><div class="body">guaranteed</div></div></div>
@@ -1105,7 +1139,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <!-- ===== Slide 13: B9 ===== -->
   <section class="slide s13" data-title="B9 Write sentences with the words" data-page="40">
     <div class="sec rise d1"><b>B</b>Speaking and vocabulary</div>
-    <div class="act rise d1"><span class="n">9</span><span data-vitext="Chia mười từ cho hai bạn và mỗi bạn viết câu với năm từ của mình. Sau đó đổi câu cho nhau và kiểm tra bài của bạn. Bạn em đã dùng các từ đúng chưa?">Divide the ten words between you and write sentences using your five words. Then swap your sentences and check each other’s work. Has your partner used the words correctly?</span></div>
+    <div class="act rise d1"><span class="n">9</span><span data-vitext="Chia mười từ cho hai bạn và mỗi bạn viết câu với năm từ của mình. Sau đó đổi câu cho nhau và kiểm tra bài của bạn. Bạn em đã dùng các từ đúng chưa?" data-zhtext="把这十个单词分给你们两人，每人用自己的五个单词造句。然后交换句子，互相检查。你的同伴用对单词了吗？">Divide the ten words between you and write sentences using your five words. Then swap your sentences and check each other’s work. Has your partner used the words correctly?</span></div>
     <div class="sgrid">
       <div class="scard rise d2"><span class="w">actual</span><div class="ans"><div class="cover"></div><div class="body">The actual cost of the meal was much higher than the price on the menu.</div></div></div>
       <div class="scard rise d2"><span class="w">harmless</span><div class="ans"><div class="cover"></div><div class="body">A small piece of chocolate after dinner is fairly harmless.</div></div></div>
@@ -1548,6 +1582,55 @@ var TIMER_SOUNDS=(function(){
 </script>
 
 <script>
+/* ===== Student title screen (replaces the warmers in ?student / ?zh) — edit the unit details here ===== */
+var STUDENT_TITLE = {"grade": "9", "unit": "Unit 3: Food", "sections": ["A Watch and talk", "B Speaking and vocabulary"], "pages": "37–40"};
+/* ===== end ===== */
+(function(){
+  if(window.LESSON_MODE!=='student')return;
+  var ZH=window.LESSON_LANG==='zh',T=STUDENT_TITLE;
+  /* 1. no warmers in the student versions */
+  [].slice.call(document.querySelectorAll('.slide.warm')).forEach(function(s){s.remove();});
+  /* 2. Chinese version: swap the Vietnamese text for Chinese */
+  if(ZH){
+    document.querySelectorAll('[data-zhtext]').forEach(function(e){e.dataset.vitext=e.dataset.zhtext;});
+    document.querySelectorAll('.clue[data-zh]').forEach(function(e){e.dataset.vi=e.dataset.zh;});
+    document.querySelectorAll('#visclue .vvi span, #cluecard .cv span').forEach(function(e){e.textContent='CHINESE · 中文';});
+  }
+  /* 3. title screen */
+  var L=ZH?{pill:'在家复习',how:'如何使用本课',tip:'随时按 <kbd>?</kbd> 查看所有快捷键',go:'▶ 开始',pg:'第 '+T.pages+' 页',title:'开始'}
+          :{pill:'ÔN TẬP TẠI NHÀ',how:'CÁCH SỬ DỤNG BÀI HỌC NÀY',tip:'Nhấn <kbd>?</kbd> bất cứ lúc nào để xem tất cả phím tắt',go:'▶ Bắt đầu',pg:'Trang '+T.pages,title:'Bắt đầu'};
+  var F=ZH?[
+    ['<kbd>→</kbd>','下一步 / 返回','按 → 或空格键继续，按 ← 返回。'],
+    ['<span class="ic icq">?</span>','查看答案','点击每个方框查看答案，或点击 <b>Reveal all</b>。'],
+    ['<span class="ic">☰</span>','目录','点击 <b>Contents</b> 跳到任意页面。'],
+    ['<span class="ic">🔊</span>','朗读','收听课文和单词。🐢 按钮调整朗读速度。'],
+    ['<span class="ic lang">中文</span>','中文说明','点击页码旁的 <b>中文</b> 查看中文说明。'],
+    ['<span class="ic gw">abc</span>','绿色单词','鼠标在绿色单词上停留 2 秒，查看词义。'],
+    ['<span class="ic">🔍</span>','放大','点击放大镜，放大课文和图片。'],
+    ['<span class="ic star">★</span>','单词卡和小测验','用翻转卡片复习新单词，再完成课后小测验。']
+  ]:[
+    ['<kbd>→</kbd>','Tiếp theo / quay lại','Nhấn → hoặc phím cách để đi tiếp, ← để quay lại.'],
+    ['<span class="ic icq">?</span>','Xem đáp án','Bấm vào từng ô để xem đáp án, hoặc bấm <b>Reveal all</b>.'],
+    ['<span class="ic">☰</span>','Mục lục','Bấm <b>Contents</b> để đến bất kỳ trang nào.'],
+    ['<span class="ic">🔊</span>','Nghe đọc','Nghe bài đọc và từ vựng. Nút 🐢 chỉnh tốc độ đọc.'],
+    ['<span class="ic lang">VI</span>','Tiếng Việt','Bấm <b>VI</b> cạnh số trang để đọc hướng dẫn tiếng Việt.'],
+    ['<span class="ic gw">abc</span>','Từ màu xanh','Giữ chuột 2 giây trên từ xanh để xem nghĩa.'],
+    ['<span class="ic">🔍</span>','Phóng to','Bấm kính lúp để phóng to bài đọc và hình ảnh.'],
+    ['<span class="ic star">★</span>','Thẻ từ & kiểm tra','Ôn từ mới bằng thẻ lật, rồi làm bài kiểm tra cuối bài.']
+  ];
+  F=F.concat(ZH?(T.extraZh||[]):(T.extraVi||[]));
+  var first=document.querySelector('.slide');if(!first)return;
+  var op=document.querySelector('.slide.s1 img, .slide.s1 .photo img');
+  var sec=document.createElement('section');sec.className='slide stitle';sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
+  sec.innerHTML='<div class="stPh"'+(op?' style="background-image:url(\''+op.getAttribute('src')+'\')"':'')+'><div class="stPill">'+L.pill+' · GRADE '+T.grade+'</div></div>'+
+    '<div class="stBand"><div class="stT"><span>›</span> '+T.unit+'</div><div class="stSub">'+T.sections.join('<br>')+' · '+L.pg+'</div><button class="stGo">'+L.go+'</button></div>'+
+    '<div class="stH">'+L.how+'<span class="stTip">'+L.tip+'</span></div>'+
+    '<div class="stGrid'+(F.length>16?' c5':'')+'">'+F.map(function(f){return '<div class="stTile"><div class="stI">'+f[0]+'</div><div><div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div></div></div>';}).join('')+'</div>';
+  first.parentNode.insertBefore(sec,first);
+  sec.querySelector('.stGo').addEventListener('click',function(e){e.stopPropagation();var n=document.getElementById('nextBtn');if(n)n.click();});
+})();
+</script>
+<script>
 /* ===== "Words from today" — vocabulary-exercise words (CLUE / VISCLUE words are collected automatically) =====
    slide: the data-title of the slide the word belongs to (sets the order)   w: word   d: meaning   v: Vietnamese */
 var LESSON_WORDS = [
@@ -1555,149 +1638,170 @@ var LESSON_WORDS = [
   "slide": "B3 Fast food or healthy food?",
   "w": "pretzel",
   "d": "a baked bread snack, twisted into a knot and salted",
-  "v": "bánh quy xoắn (pretzel)"
+  "v": "bánh quy xoắn (pretzel)",
+  "zh": "椒盐卷饼"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "goulash",
   "d": "a Hungarian meat and vegetable stew with paprika",
-  "v": "món hầm Hungary (goulash)"
+  "v": "món hầm Hungary (goulash)",
+  "zh": "匈牙利炖牛肉"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "vegetable pie",
   "d": "vegetables baked in a pastry case",
-  "v": "bánh nướng nhân rau"
+  "v": "bánh nướng nhân rau",
+  "zh": "蔬菜派"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "moussaka",
   "d": "a Greek baked dish of aubergine, minced meat and white sauce",
-  "v": "món cà tím nướng Hy Lạp (moussaka)"
+  "v": "món cà tím nướng Hy Lạp (moussaka)",
+  "zh": "穆萨卡（希腊茄子肉酱千层）"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "miso soup",
   "d": "a Japanese soup made with miso paste, tofu and seaweed",
-  "v": "súp miso"
+  "v": "súp miso",
+  "zh": "味噌汤"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "falafel",
   "d": "fried balls of crushed chickpeas, from the Middle East",
-  "v": "viên đậu gà chiên (falafel)"
+  "v": "viên đậu gà chiên (falafel)",
+  "zh": "炸鹰嘴豆丸子"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "shawarma",
   "d": "thin slices of grilled meat in flatbread, from the Middle East",
-  "v": "bánh mì cuộn thịt nướng (shawarma)"
+  "v": "bánh mì cuộn thịt nướng (shawarma)",
+  "zh": "沙威玛（中东烤肉卷）"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "chips",
   "d": "long pieces of fried potato",
-  "v": "khoai tây chiên"
+  "v": "khoai tây chiên",
+  "zh": "炸薯条"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "hotpot",
   "d": "a slow-cooked meat and potato stew (in Asia, also a shared soup cooked at the table)",
-  "v": "món hầm; lẩu"
+  "v": "món hầm; lẩu",
+  "zh": "炖菜；火锅"
  },
  {
   "slide": "B3 Fast food or healthy food?",
   "w": "satay",
   "d": "grilled meat on skewers with peanut sauce, from Southeast Asia",
-  "v": "thịt xiên nướng sốt đậu phộng (sa tế)"
+  "v": "thịt xiên nướng sốt đậu phộng (sa tế)",
+  "zh": "沙爹烤肉串"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "actual",
   "pos": "(adj)",
   "d": "real",
-  "v": "thực tế, thật sự"
+  "v": "thực tế, thật sự",
+  "zh": "实际的；真正的"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "considerably",
   "pos": "(adv)",
   "d": "by a large amount",
-  "v": "đáng kể"
+  "v": "đáng kể",
+  "zh": "相当大地"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "consume",
   "pos": "(v)",
   "d": "to eat or drink",
-  "v": "tiêu thụ, ăn uống"
+  "v": "tiêu thụ, ăn uống",
+  "zh": "吃；喝；消耗"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "fool",
   "pos": "(v)",
   "d": "to trick someone",
-  "v": "đánh lừa"
+  "v": "đánh lừa",
+  "zh": "欺骗"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "guaranteed",
   "pos": "(adj)",
   "d": "sure to happen",
-  "v": "chắc chắn xảy ra"
+  "v": "chắc chắn xảy ra",
+  "zh": "一定会发生的"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "harmless",
   "pos": "(adj)",
   "d": "safe, not dangerous",
-  "v": "vô hại"
+  "v": "vô hại",
+  "zh": "无害的"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "majority",
   "pos": "(n)",
   "d": "the largest part of a group",
-  "v": "phần lớn, đa số"
+  "v": "phần lớn, đa số",
+  "zh": "大多数"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "pressure",
   "pos": "(n)",
   "d": "stress (blood pressure = the force of blood in your body)",
-  "v": "áp lực; huyết áp"
+  "v": "áp lực; huyết áp",
+  "zh": "压力；血压"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "simply",
   "pos": "(adv)",
   "d": "just, only",
-  "v": "chỉ, đơn giản là"
+  "v": "chỉ, đơn giản là",
+  "zh": "只是；仅仅"
  },
  {
   "slide": "B7 Match the words and definitions",
   "w": "underestimate",
   "pos": "(v)",
   "d": "to think something is less or smaller than it really is",
-  "v": "đánh giá thấp"
+  "v": "đánh giá thấp",
+  "zh": "低估"
  }
 ];
 /* Vietnamese for glossary-box words (glossary words are collected automatically) */
 var LESSON_WORDS_VI = {"participants": "người tham gia", "outlets": "cửa hàng, điểm bán", "sprinkled": "rắc lên"};
+var LESSON_WORDS_ZH = {"participants": "参与者", "outlets": "销售点；门店", "sprinkled": "撒（在……上）"};
 /* ===== end of word list ===== */
 (function(){
   var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])student\b/i.test(location.search+location.hash);
   var slides=[].slice.call(document.querySelectorAll('.slide'));
   var quiz=document.querySelector('.slide.qz'),seen={},words=[];
   var COLS=['#0a8b99','#e6175c','#57309a','#ef7d22','#5ea72c','#2a76c2','#e89b14','#2b2f6b'];
-  function add(o){var k=(o.w||'').toLowerCase().trim();if(!k||seen[k])return;seen[k]=1;words.push(o);}
+  function add(o){if(window.LESSON_LANG==='zh'&&o.zh!==undefined)o=Object.assign({},o,{v:o.zh});var k=(o.w||'').toLowerCase().trim();if(!k||seen[k])return;seen[k]=1;words.push(o);}
   slides.forEach(function(s){
     if(s===quiz)return;
     LESSON_WORDS.filter(function(x){return x.slide===s.dataset.title;}).forEach(add);
     s.querySelectorAll('.gloss p').forEach(function(p){
       var m=/^\s*([^(:]+?)\s*\(([^)]+)\)\s*:\s*([\s\S]+)$/.exec(p.textContent.replace(/\s+/g,' '));if(!m)return;
       var ab={noun:'n',verb:'v',adjective:'adj',adverb:'adv'}[m[2].trim()]||m[2].trim();
-      add({w:m[1],pos:'('+ab+')',d:m[3].trim(),v:(window.LESSON_WORDS_VI||{})[m[1].trim()]||''});
+      add({w:m[1],pos:'('+ab+')',d:m[3].trim(),v:((window.LESSON_LANG==='zh'?window.LESSON_WORDS_ZH:window.LESSON_WORDS_VI)||{})[m[1].trim()]||''});
     });
     s.querySelectorAll('.clue[data-head], .clue[data-def], [data-vword]').forEach(function(c){
       if(c.classList.contains('clue'))add({w:c.dataset.head||c.textContent.replace(/\s+/g,' ').trim(),d:c.dataset.def||'',v:c.dataset.vi||''});
@@ -1719,7 +1823,7 @@ var LESSON_WORDS_VI = {"participants": "người tham gia", "outlets": "cửa h�
     if(STUDENT){
       body='<div class="wftBar"><button class="wftAll">↻ Flip all</button></div><div class="wftCards rise d2">'+chunk.map(function(o,i){
         return '<div class="wftCard" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftIn"><div class="wftF"><div class="wftW">'+wHtml(o)+'</div><div class="wftTurn">tap to flip ↻</div></div>'+
-          '<div class="wftBk"><div class="wftD">'+esc(o.d)+'</div>'+(o.v?'<div class="wftV">🇻🇳 '+esc(o.v)+'</div>':'')+'</div></div></div>';}).join('')+'</div>';
+          '<div class="wftBk"><div class="wftD">'+esc(o.d)+'</div>'+(o.v?'<div class="wftV">'+(window.LESSON_LANG==='zh'?'🇨🇳 ':'🇻🇳 ')+esc(o.v)+'</div>':'')+'</div></div></div>';}).join('')+'</div>';
     }else{
       body='<div class="wftList rise d2">'+chunk.map(function(o,i){
         return '<div class="wftItem" style="--c:'+COLS[(p*per+i)%COLS.length]+'"><div class="wftW">'+wHtml(o)+'</div><div class="wftD">'+esc(o.d)+'</div></div>';}).join('')+'</div>';
@@ -2207,23 +2311,23 @@ var LESSON_REVEALS = ".ans, .ans-ph";
   /* ---------- VI instructions + read-aloud speed (student mode) ---------- */
   if(STUDENT){
     var tl=document.querySelector('.topbar .tl'),box=document.createElement('div');box.className='lxStu';
-    box.innerHTML='<button class="viB" title="Instructions in Vietnamese">VI</button><button class="spB" title="Read-aloud speed">🐢 <span>Normal</span></button>';
+    var LAB=window.LESSON_LANG==='zh'?'中文':'VI';box.innerHTML='<button class="viB" title="Instructions in '+(LAB==='VI'?'Vietnamese':'Chinese')+'">'+LAB+'</button><button class="spB" title="Read-aloud speed">🐢 <span>Normal</span></button>';
     var pb=tl&&tl.querySelector('.pagebadge');if(pb)pb.after(box);else if(tl)tl.appendChild(box);
     var viB=box.querySelector('.viB'),spB=box.querySelector('.spB');
     function setVI(on){
-      viB.classList.toggle('on',on);ls('lxVI',on?'1':'0');
+      viB.classList.toggle('on',on);ls('lxVI'+(LAB==='VI'?'':'zh'),on?'1':'0');
       document.querySelectorAll('[data-vitext]').forEach(function(el){
         if(on){if(el._en===undefined)el._en=el.innerHTML;el.textContent=el.dataset.vitext;el.classList.add('viOn');}
         else if(el._en!==undefined){el.innerHTML=el._en;el._en=undefined;el.classList.remove('viOn');}
       });
-      viB.textContent=on?'EN':'VI';viB.title=on?'Instructions in English':'Instructions in Vietnamese';
+      viB.textContent=on?'EN':LAB;viB.title=on?'Instructions in English':'Instructions in '+(LAB==='VI'?'Vietnamese':'Chinese');
     }
     function setSlow(on){window.lxSlow=on;spB.classList.toggle('on',on);spB.querySelector('span').textContent=on?'Slow':'Normal';ls('lxSlow',on?'1':'0');}
     [viB,spB].forEach(function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});});
     viB.addEventListener('click',function(e){e.stopPropagation();setVI(!viB.classList.contains('on'));});
     spB.addEventListener('click',function(e){e.stopPropagation();setSlow(!window.lxSlow);});
     if(!document.querySelector('[data-vitext]'))viB.style.display='none';
-    setSlow(ls('lxSlow')==='1');if(ls('lxVI')==='1')setVI(true);
+    setSlow(ls('lxSlow')==='1');if(ls('lxVI'+(LAB==='VI'?'':'zh'))==='1')setVI(true);
   }
 
   /* ---------- Presenter view: the projector window ---------- */
@@ -2509,6 +2613,7 @@ var LESSON_EXTRAS = {
   /* ---------- First screen waits for a click: still + dimmed, then plays from the start ---------- */
   var gate=null,held=[];
   function holdFirst(){
+    if(document.querySelector('.slide.stitle'))return;
     var s=document.querySelector('.slide.active');if(!s)return;
     stage.classList.add('prestart');
     gate=document.createElement('div');gate.id='startGate';
