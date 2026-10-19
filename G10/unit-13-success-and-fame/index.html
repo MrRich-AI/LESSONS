@@ -843,6 +843,15 @@ body.student .ncard .noun .spkBtn.sm{position:absolute;left:100%;top:50%;transfo
 .stitle .ic.lang{border-radius:29px;background:#fff;border:3px solid var(--teal);color:var(--teal-dark);font-size:22px;width:auto;min-width:58px;padding:0 8px}
 .stitle .ic.gw{background:#fff;border:3px solid #12843f;color:#12843f;font-size:22px;border-radius:12px}
 .stitle .ic.star{background:var(--pink)}
+/* bilingual ?student version: English, then Vietnamese */
+.stitle .stVi{opacity:.85}
+.stitle .stHv{display:block;font-size:24px;font-weight:700;letter-spacing:0;color:#57309a;margin-top:2px}
+.stitle.bi .stH{align-items:flex-end}
+.stitle.bi .stTip{text-align:right}
+.stitle.bi .stFv{font-size:24px;line-height:1.3;color:#57309a;margin-top:6px;padding-top:6px;border-top:2px dashed #cfe3e6}
+.stitle.bi .stFv b{color:#57309a}
+.stitle .stGo{line-height:1.05}
+.stitle .stGo small{display:block;font-size:24px;font-weight:700;opacity:.9;margin-top:2px}
 </style>
 </head>
 <body>
@@ -1604,7 +1613,8 @@ var TIMER_SOUNDS=(function(){
 
 <script>
 /* ===== Student title screen (replaces the warmers in ?student / ?zh) — edit the unit details here
-   warmers: selector of the warmer slides to remove   cutout: true when the unit-start picture is a cut-out (no background) ===== */
+   warmers: selector of the warmer slides to remove   cutout: true when the unit-opener picture is a cut-out (no background)
+   ?student = English followed by Vietnamese   ?zh = Chinese only ===== */
 var STUDENT_TITLE = {"grade": "10", "unit": "Unit 13: Success and fame", "sections": ["A Watch and talk", "B Speaking and vocabulary", "C Reading"], "pages": "180–185", "warmers": ".slide.star", "cutout": true};
 /* ===== end ===== */
 (function(){
@@ -1619,35 +1629,48 @@ var STUDENT_TITLE = {"grade": "10", "unit": "Unit 13: Success and fame", "sectio
     document.querySelectorAll('#visclue .vvi span, #cluecard .cv span').forEach(function(e){e.textContent='CHINESE · 中文';});
   }
   /* 3. title screen */
-  var L=ZH?{pill:'在家复习',how:'如何使用本课',tip:'随时按 <kbd>?</kbd> 查看所有快捷键',go:'▶ 开始',pg:'第 '+T.pages+' 页',title:'开始'}
-          :{pill:'ÔN TẬP TẠI NHÀ',how:'CÁCH SỬ DỤNG BÀI HỌC NÀY',tip:'Nhấn <kbd>?</kbd> bất cứ lúc nào để xem tất cả phím tắt',go:'▶ Bắt đầu',pg:'Trang '+T.pages,title:'Bắt đầu'};
-  var F=ZH?[
-    ['<kbd>→</kbd>','下一步 / 返回','按 → 或空格键继续，按 ← 返回。'],
-    ['<span class="ic icq">?</span>','查看答案','点击每个方框查看答案，或点击 <b>Reveal all</b>。'],
-    ['<span class="ic">☰</span>','目录','点击 <b>Contents</b> 跳到任意页面。'],
-    ['<span class="ic">🔊</span>','朗读','收听课文和单词。🐢 按钮调整朗读速度。'],
-    ['<span class="ic lang">中文</span>','中文说明','点击页码旁的 <b>中文</b> 查看中文说明。'],
-    ['<span class="ic gw">abc</span>','绿色单词','鼠标在绿色单词上停留 2 秒，查看词义。'],
-    ['<span class="ic">🔍</span>','放大','点击放大镜，放大课文和图片。'],
-    ['<span class="ic star">★</span>','单词卡和小测验','用翻转卡片复习新单词，再完成课后小测验。']
-  ]:[
-    ['<kbd>→</kbd>','Tiếp theo / quay lại','Nhấn → hoặc phím cách để đi tiếp, ← để quay lại.'],
-    ['<span class="ic icq">?</span>','Xem đáp án','Bấm vào từng ô để xem đáp án, hoặc bấm <b>Reveal all</b>.'],
-    ['<span class="ic">☰</span>','Mục lục','Bấm <b>Contents</b> để đến bất kỳ trang nào.'],
-    ['<span class="ic">🔊</span>','Nghe đọc','Nghe bài đọc và từ vựng. Nút 🐢 chỉnh tốc độ đọc.'],
-    ['<span class="ic lang">VI</span>','Tiếng Việt','Bấm <b>VI</b> cạnh số trang để đọc hướng dẫn tiếng Việt.'],
-    ['<span class="ic gw">abc</span>','Từ màu xanh','Giữ chuột 2 giây trên từ xanh để xem nghĩa.'],
-    ['<span class="ic">🔍</span>','Phóng to','Bấm kính lúp để phóng to bài đọc và hình ảnh.'],
-    ['<span class="ic star">★</span>','Thẻ từ & kiểm tra','Ôn từ mới bằng thẻ lật, rồi làm bài kiểm tra cuối bài.']
-  ];
-  F=F.concat(ZH?(T.extraZh||[]):(T.extraVi||[]));
+  var L,F;
+  if(ZH){
+    L={pill:'在家复习 · GRADE '+T.grade,how:'如何使用本课',tip:'随时按 <kbd>?</kbd> 查看所有快捷键',go:'▶ 开始',pg:'第 '+T.pages+' 页',title:'开始'};
+    F=[
+      ['<kbd>→</kbd>','下一步 / 返回','按 → 或空格键继续，按 ← 返回。'],
+      ['<span class="ic icq">?</span>','查看答案','点击每个方框查看答案，或点击 <b>Reveal all</b>。'],
+      ['<span class="ic">☰</span>','目录','点击 <b>Contents</b> 跳到任意页面。'],
+      ['<span class="ic">🔊</span>','朗读','收听课文和单词。🐢 按钮调整朗读速度。'],
+      ['<span class="ic lang">中文</span>','中文说明','点击页码旁的 <b>中文</b> 查看中文说明。'],
+      ['<span class="ic gw">abc</span>','绿色单词','鼠标在绿色单词上停留 2 秒，查看词义。'],
+      ['<span class="ic">🔍</span>','放大','点击放大镜，放大课文和图片。'],
+      ['<span class="ic star">★</span>','单词卡和小测验','用翻转卡片复习新单词，再完成课后小测验。']
+    ].concat(T.extraZh||[]);
+  }else{
+    /* bilingual: English first, then Vietnamese */
+    L={pill:'HOME REVIEW · <span class="stVi">ÔN TẬP TẠI NHÀ</span> · GRADE '+T.grade,
+       how:'HOW TO USE THIS LESSON<span class="stHv">Cách sử dụng bài học này</span>',
+       tip:'Press <kbd>?</kbd> any time for all shortcuts<span class="stHv">Nhấn <b>?</b> bất cứ lúc nào để xem tất cả phím tắt</span>',
+       go:'▶ Start<small>Bắt đầu</small>',pg:'Pages '+T.pages,title:'Start · Bắt đầu'};
+    F=[
+      ['<kbd>→</kbd>','Next / Back','Press → or Space to go on, ← to go back.','Tiếp theo / quay lại','Nhấn → hoặc phím cách để đi tiếp, ← để quay lại.'],
+      ['<span class="ic icq">?</span>','See answers','Click each box for its answer, or click <b>Reveal all</b>.','Xem đáp án','Bấm vào từng ô để xem đáp án, hoặc bấm <b>Reveal all</b>.'],
+      ['<span class="ic">☰</span>','Contents','Click <b>Contents</b> to go to any page.','Mục lục','Bấm <b>Contents</b> để đến bất kỳ trang nào.'],
+      ['<span class="ic">🔊</span>','Read aloud','Listen to texts and words. 🐢 changes the speed.','Nghe đọc','Nghe bài đọc và từ vựng. Nút 🐢 chỉnh tốc độ đọc.'],
+      ['<span class="ic lang">VI</span>','Vietnamese','Click <b>VI</b> by the page number for Vietnamese instructions.','Tiếng Việt','Bấm <b>VI</b> cạnh số trang để đọc hướng dẫn tiếng Việt.'],
+      ['<span class="ic gw">abc</span>','Green words','Hold the mouse on a green word for 2 seconds to see its meaning.','Từ màu xanh','Giữ chuột 2 giây trên từ xanh để xem nghĩa.'],
+      ['<span class="ic">🔍</span>','Zoom','Click the magnifier to make texts and pictures bigger.','Phóng to','Bấm kính lúp để phóng to bài đọc và hình ảnh.'],
+      ['<span class="ic star">★</span>','Flashcards & quiz','Review new words with flip cards, then do the end-of-lesson quiz.','Thẻ từ & kiểm tra','Ôn từ mới bằng thẻ lật, rồi làm bài kiểm tra cuối bài.']
+    ].concat(T.extraEn||[]);
+  }
   var first=document.querySelector('.slide');if(!first)return;
   var op=document.querySelector('.slide.s1 img, .slide.s1 .photo img');
-  var sec=document.createElement('section');sec.className='slide stitle';sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
-  sec.innerHTML='<div class="stPh'+(T.cutout?' cut':'')+'"'+(op?' style="background-image:url(\''+op.getAttribute('src')+'\')'+(T.cutout?',radial-gradient(circle at 74% 55%,#fff3c4 0,#7fd0d8 26%,#0a8b99 58%)':'')+'"':'')+'><div class="stPill">'+L.pill+' · GRADE '+T.grade+'</div></div>'+
+  var sec=document.createElement('section');sec.className='slide stitle'+(ZH?'':' bi');sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
+  function tile(f){
+    var body=ZH?'<div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div>'
+               :'<div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div><div class="stFv"><b>'+f[3]+':</b> '+f[4]+'</div>';
+    return '<div class="stTile"><div class="stI">'+f[0]+'</div><div>'+body+'</div></div>';
+  }
+  sec.innerHTML='<div class="stPh'+(T.cutout?' cut':'')+'"'+(op?' style="background-image:url(\''+op.getAttribute('src')+'\')'+(T.cutout?',radial-gradient(circle at 74% 55%,#fff3c4 0,#7fd0d8 26%,#0a8b99 58%)':'')+'"':'')+'><div class="stPill">'+L.pill+'</div></div>'+
     '<div class="stBand"><div class="stT"><span>›</span> '+T.unit+'</div><div class="stSub">'+T.sections.join('<br>')+' · '+L.pg+'</div><button class="stGo">'+L.go+'</button></div>'+
-    '<div class="stH">'+L.how+'<span class="stTip">'+L.tip+'</span></div>'+
-    '<div class="stGrid'+(F.length>16?' c5':'')+'">'+F.map(function(f){return '<div class="stTile"><div class="stI">'+f[0]+'</div><div><div class="stFt">'+f[1]+'</div><div class="stFd">'+f[2]+'</div></div></div>';}).join('')+'</div>';
+    '<div class="stH"><div>'+L.how+'</div><span class="stTip">'+L.tip+'</span></div>'+
+    '<div class="stGrid'+(F.length>16?' c5':'')+'">'+F.map(tile).join('')+'</div>';
   first.parentNode.insertBefore(sec,first);
   sec.querySelector('.stGo').addEventListener('click',function(e){e.stopPropagation();var n=document.getElementById('nextBtn');if(n)n.click();});
 })();
