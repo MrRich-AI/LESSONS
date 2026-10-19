@@ -1517,7 +1517,11 @@ var TIMER_SOUNDS=(function(){
       if((state==='run'||state==='paused')&&left<=total*0.1)cls+=' warn';
       var keep=d.classList.contains('show');
       d.className=cls+(keep?' still':'');
-      d.innerHTML=(ico?'<span class="tmIco">'+ico+'</span>':'')+'<span class="tmTxt">'+txt+'</span>';
+      /* update the text in place (rebuilding it every tick swallowed real clicks, so click-to-pause failed) */
+      var ic=d.querySelector('.tmIco'),tx=d.querySelector('.tmTxt');
+      if(!tx){d.innerHTML='<span class="tmIco"></span><span class="tmTxt"></span>';ic=d.querySelector('.tmIco');tx=d.querySelector('.tmTxt');}
+      if(ic.textContent!==ico)ic.textContent=ico;ic.style.display=ico?'':'none';
+      if(tx.textContent!==txt)tx.textContent=txt;
     });
     [swTop,swBot].forEach(function(b){b.classList.toggle('on',state==='run');});
   }
@@ -2266,7 +2270,7 @@ var LESSON_NOTES = {
  ],
  "🎮 Definition Drop": [
   "Game for B7 (slide 18). A definition is lowered towards the wok – the class (or the picked student) says the word before it lands.",
-  "Space / → / click: reveal the word, then the next order. ← steps back. ⏸ pauses the drop. The drop speeds up: 12 s for the first word down to 3 s for the last two.",
+  "Space / → / click: reveal the word, then the next order. ← steps back. ⏸ or clicking the falling card pauses the drop. The drop speeds up: 12 s for the first word down to 3 s for the last two.",
   "👥 on the start screen: choose the class, type players per team (or full) to make Team A and Team B. Tap TEAM A / TEAM B to give points (− takes one away); The glowing team is the team whose turn it is (Team A first, then alternating); 🎡 picks from that team. After the word appears, tap ✓ or ✗ to record the answer (points stay manual).",
   "Answers: actual = real, considerably = by a large amount, consuming = eating, fooled = tricked, guaranteed = sure to happen, harmless = safe, majority = largest part, pressure = stress, simply = just / only, underestimated = thought it was less.",
   "Esc or ✕ goes back to the slide."
@@ -3838,7 +3842,7 @@ var GAMIFY_DATA = {
         var words=data.map(function(d){return d[0];}).slice().sort();
         r.querySelector('.sPlay').innerHTML='<div class="dMenu"><h3>MENU</h3><ul>'+words.map(function(w){return '<li data-w="'+w+'">'+w+'</li>';}).join('')+'</ul></div>'+
           '<div class="dCard"><div class="dPaper"><div class="dPos"></div><div class="dDef"></div></div></div><div class="dTag">⏰ Too slow!</div><div class="dWord"><span class="w"></span><span class="m"></span>'+markRow()+'</div>';
-        card=r.querySelector('.dCard');word=r.querySelector('.dWord');wireMarks(word.querySelector('.gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});tag=r.querySelector('.dTag');menu=[].slice.call(r.querySelectorAll('.dMenu li'));
+        card=r.querySelector('.dCard');if(!card._pz){card._pz=1;card.addEventListener('click',function(e){if(ph==='fall'&&anim){e.stopPropagation();g.pause();}});card.style.cursor='pointer';}word=r.querySelector('.dWord');wireMarks(word.querySelector('.gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});tag=r.querySelector('.dTag');menu=[].slice.call(r.querySelectorAll('.dMenu li'));
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
       begin:function(){order=shuffle(data);marks=[];fall(0);},

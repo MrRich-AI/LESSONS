@@ -1582,7 +1582,11 @@ var TIMER_SOUNDS=(function(){
       if((state==='run'||state==='paused')&&left<=total*0.1)cls+=' warn';
       var keep=d.classList.contains('show');
       d.className=cls+(keep?' still':'');
-      d.innerHTML=(ico?'<span class="tmIco">'+ico+'</span>':'')+'<span class="tmTxt">'+txt+'</span>';
+      /* update the text in place (rebuilding it every tick swallowed real clicks, so click-to-pause failed) */
+      var ic=d.querySelector('.tmIco'),tx=d.querySelector('.tmTxt');
+      if(!tx){d.innerHTML='<span class="tmIco"></span><span class="tmTxt"></span>';ic=d.querySelector('.tmIco');tx=d.querySelector('.tmTxt');}
+      if(ic.textContent!==ico)ic.textContent=ico;ic.style.display=ico?'':'none';
+      if(tx.textContent!==txt)tx.textContent=txt;
     });
     [swTop,swBot].forEach(function(b){b.classList.toggle('on',state==='run');});
   }
