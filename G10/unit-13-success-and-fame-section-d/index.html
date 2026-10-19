@@ -2383,8 +2383,8 @@ var LESSON_WORDS_VI = {"dual": "kép, gồm hai phần", "attain": "đạt đư�
 /* ===== Teacher notes for presenter view (P) — keyed by slide title; edit here ===== */
 var LESSON_NOTES = {
  "🎮 Signal Lamp": ["8 messages. The lamp flashes each word in Morse: the letters stay blank and the code appears under each blank. Teams decode with the Morse key.", "When the code ends, the meaning appears (top left) and a 10-second timer starts (click it or ❚❚ to pause). Space during the code skips to the end.", "→ reveals the word in the blanks, then ✓ / ✗ and add points · → next message.", "Teams: 👥 on the start screen; 🎡 picks from the team whose turn it is."],
- "🎮 Braille Snap": ["10 rounds. The word from the text stays on the left; cards flip every 2 seconds.", "Current team shouts SNAP! (or click the bell / Space) when a card means the same.", "Click the deck to pause. The answer shows centred: word = synonym, then ✓ / ✗.", "Pairs: specialist = expert / authority · currently = now / at present · impaired = damaged / weakened · set about = began / started · pick up = learn / acquire."],
- "🎮 The Water Pump": ["6 extracts (a–f). Team votes A, B or C (click it to show the vote).", "→ 1: the right marker fills the gap and the pump works, then ✓ / ✗ · → 2: the two contrasting ideas light up (blue / pink).", "Answers: a Despite/In spite of · b However/Nonetheless/Nevertheless · c Despite/In spite of · d However… · e although/even though · f Although/Even though."],
+ "🎮 Braille Snap": ["10 rounds. Cards flip faster each time the deck repeats (1.3 s → 0.65 s).", "Space / Enter / the bell = SNAP! The card stays: ✓ MATCH ends the round; ✗ NOT A MATCH – the deck keeps going and the other team can steal.", "→ (or ▶) = nobody found it: shows the matching card. Click the deck to pause.", "Pairs: specialist = expert / authority · currently = now / at present · impaired = damaged / weakened · set about = began / started · pick up = learn / acquire."],
+ "🎮 The Water Pump": ["6 extracts. The first idea is shown with its contrast marker (yellow); the team chooses the ending that really contrasts (A, B or C – click to show their vote).", "12-second timer starts each round (click it or ❚❚ to pause). → reveals the answer: idea 1 blue, idea 2 pink, then ✓ / ✗.", "Each team's tank follows its points (TEAM A / TEAM B buttons) – the leading team's tank is full.", "Answers: a she became the first deaf-blind person… · b being unable to communicate properly… · c Sullivan set about teaching Helen… · d after a difficult first month… · e her disability held her back… · f Keller was able to study at Radcliffe."],
  "Touch, don’t look": [
   "Warmer: 5 mystery objects, 3 ‘touch’ clues each.",
   "Students close their eyes while you read each clue aloud – they imagine the feeling.",
@@ -2540,7 +2540,7 @@ var LESSON_REVEALS = ".rv, .ans.clk";
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
       '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen');
-    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡'),'Pick a student')+R(K('⏱'),'Slide timer')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
+    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡'),'Pick a student')+R(K('⏱'),'Slide timer')+R(K('EN'),'Language sign (top): click = ENGLISH ONLY, click again = Vietnamese allowed')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
   help.innerHTML='<div class="hp"><h2>Keyboard shortcuts <small>press ? or Esc to close</small></h2><div class="cols"><div>'+colA+'</div><div>'+colB+'</div></div></div>';
@@ -3746,41 +3746,76 @@ body.presenter .gmzBtn{display:none!important}
 .wpLogo .k{font-size:24px;font-weight:800;letter-spacing:.26em;color:#4e7a3a}
 .wpLogo .t{font-family:"Libre Baskerville",serif;font-size:116px;font-weight:700;font-style:italic;line-height:1.12;color:#1f4a28}
 .wpLogo .s{font-family:"Caveat",cursive;font-size:50px;font-weight:700;color:#1d2a1a}
-.wpStartPump{position:absolute;left:50%;top:540px;width:240px;height:320px;transform:translateX(-50%)}
+.wpStartPump{position:absolute;left:50%;top:520px;width:250px;height:333px;transform:translateX(-50%)}
 .wpStartPump svg,.wpPump svg{width:100%;height:100%;display:block;overflow:visible}
-.wpPump{position:absolute;left:475px;top:232px;width:504px;height:672px;pointer-events:none}
-.wpH{transform-origin:230px 143px}
-.wpH.crank{animation:wpCrank .4s ease-in-out 4}
+.wpTeam{position:absolute;top:330px;width:390px;pointer-events:none}
+.wpTeam.a{left:20px}.wpTeam.b{right:20px}
+.wpTeam.b .wpPump svg{transform:scaleX(-1)}
+.wpTeam .nm{text-align:center;font-family:"Mulish",sans-serif;font-size:34px;font-weight:900;letter-spacing:.12em;color:#fff;padding:6px 0;border-radius:40px;margin:0 50px 6px;box-shadow:0 8px 20px rgba(0,0,0,.35)}
+.wpTeam.a .nm{background:linear-gradient(#d4583f,#8a2c1a)}.wpTeam.b .nm{background:linear-gradient(#3f7fc4,#1c4478)}
+.wpTeam.lead .nm{box-shadow:0 0 0 4px #fff,0 0 30px rgba(255,240,150,.9)}
+.wpTeam .wpPump{width:390px;height:540px}
+.wpH{transform-origin:270px 143px}
+.wpH.go{animation:wpCrank .4s ease-in-out 4}
 @keyframes wpCrank{50%{transform:rotate(30deg)}}
-.wpLvl{transition:y .9s ease,height .9s ease}
-.wpCard{position:absolute;left:1010px;top:140px;width:870px;padding:18px 30px 22px;border-radius:18px;background:rgba(251,250,240,.97);border:3px solid #2f6b3a;box-shadow:0 20px 50px rgba(20,40,10,.4)}
+.wpStream{opacity:0;transform-origin:119px 258px}
+.wpStream.go{animation:wpPour 1.7s ease-out}
+@keyframes wpPour{0%{opacity:0;transform:scaleY(.1)}15%,75%{opacity:.95;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1)}}
+.wpLvl{transition:y 1.2s ease,height 1.2s ease}
+.wpMid{position:absolute;left:425px;top:132px;width:1070px;display:flex;flex-direction:column;gap:18px}
+#gmz.solo .wpMid{left:260px;width:1400px}
+.wpCard{position:relative;padding:16px 170px 20px 30px;border-radius:18px;background:rgba(251,250,240,.97);border:3px solid #2f6b3a;box-shadow:0 20px 50px rgba(20,40,10,.4);min-height:150px}
 .wpCard .lab{font-size:24px;font-weight:800;letter-spacing:.06em;color:#4e7a3a;margin-bottom:8px}
-.wpCard .tx{font-family:"Libre Baskerville",Georgia,serif;font-size:36px;line-height:1.55;color:#1d2a1a}
-.wpCard .gap{display:inline-block;min-width:120px;padding:0 14px;margin:0 4px;border-bottom:4px solid #2f6b3a;text-align:center;background:#eef6e2;border-radius:8px 8px 0 0}
-.wpCard .gap .q{font-weight:700;color:#2f6b3a}
-.wpCard .gap .m{display:none;font-weight:700;color:#156b3b}
-.sPlay.p1 .wpCard .gap{background:#d6f2dc;border-color:#1f9d55;animation:wpFill .6s ease-out}
-.sPlay.p1 .wpCard .gap .q{display:none}.sPlay.p1 .wpCard .gap .m{display:inline}
-@keyframes wpFill{from{transform:scale(1.3)}}
-.wpCard .i1,.wpCard .i2{border-radius:4px;padding:0 2px;transition:background-color .5s}
-.sPlay.p2 .wpCard .i1{background:#cde4ff}.sPlay.p2 .wpCard .i2{background:#ffd4dc}
-.wpCard .ideas{display:none;gap:22px;margin-top:12px;font-size:24px;font-weight:800}
-.sPlay.p2 .wpCard .ideas{display:flex}
-.wpCard .ideas::before{content:"TWO CONTRASTING IDEAS:";color:#4e7a3a;letter-spacing:.06em}
-.wpCard .ideas span{padding:2px 14px;border-radius:6px}
-.wpCard .ideas .i1{background:#cde4ff}.wpCard .ideas .i2{background:#ffd4dc}
-.wpOpts{position:absolute;left:1010px;top:640px;width:870px;display:flex;flex-direction:column;gap:14px}
-#gmz .wpO{display:flex;align-items:center;gap:18px;text-align:left;padding:10px 22px;border-radius:16px;border:3px solid #2f6b3a;background:rgba(251,250,240,.96);color:#1d2a1a;font-size:34px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(20,40,10,.3);transition:transform .15s,box-shadow .2s,opacity .3s}
+.wpCard .tx{font-family:"Libre Baskerville",Georgia,serif;font-size:44px;line-height:1.5;color:#1d2a1a}
+.wpCard .mk{background:#ffe24d;font-weight:700;padding:0 6px;border-radius:6px;box-shadow:0 0 0 2px #e0b400}
+.wpCard .i1,.wpCard .i2{border-radius:4px;padding:0 2px}
+.wpCard .i1{background:#cde4ff}.wpCard .i2{background:#ffd4dc}
+.wpClock{position:absolute;right:20px;top:16px;width:124px;height:124px;border-radius:50%;--p:1;background:conic-gradient(#2f6b3a calc(var(--p)*1turn),rgba(0,0,0,.12) 0);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.wpClock::before{content:"";position:absolute;inset:10px;border-radius:50%;background:#fffdf2}
+.wpClock b{position:relative;font-family:"Mulish",sans-serif;font-size:54px;font-weight:900;color:#1f4a28}
+.wpClock.low{background:conic-gradient(#e0483c calc(var(--p)*1turn),rgba(0,0,0,.12) 0);animation:slLow .5s ease-in-out infinite alternate}
+.wpClock.low b{color:#c0392b}
+@keyframes slLow{to{transform:scale(1.08)}}
+.wpClock.paused b{font-size:0}.wpClock.paused b::after{content:"❚❚";font-size:42px}
+.wpClock.up{background:#e0483c;animation:none}.wpClock.up::before{background:#e0483c}.wpClock.up b{font-size:22px;line-height:1.05;color:#fff;text-align:center}
+.wpClock.done{opacity:.35}
+.wpOpts{display:flex;flex-direction:column;gap:12px}
+#gmz .wpO{display:flex;align-items:center;gap:18px;text-align:left;padding:10px 22px;border-radius:16px;border:3px solid #2f6b3a;background:rgba(251,250,240,.97);color:#1d2a1a;font-family:"Libre Baskerville",Georgia,serif;font-size:37px;line-height:1.3;cursor:pointer;box-shadow:0 8px 20px rgba(20,40,10,.3);transition:transform .15s,box-shadow .2s,opacity .3s}
 #gmz .wpO:hover{transform:translateX(6px)}
-#gmz .wpO .n{flex:none;width:52px;height:52px;border-radius:50%;background:#2f6b3a;color:#fff;display:flex;align-items:center;justify-content:center;font-size:30px}
+#gmz .wpO .n{flex:none;width:52px;height:52px;border-radius:50%;background:#2f6b3a;color:#fff;display:flex;align-items:center;justify-content:center;font:900 30px "Mulish",sans-serif}
+#gmz .wpO .g{flex:1}
 #gmz .wpO.pick{box-shadow:0 0 0 6px #f3c84a,0 8px 20px rgba(20,40,10,.3)}
 #gmz .wpO.right{background:#1f9d55;color:#fff;border-color:#e9f5d2;box-shadow:0 0 0 6px #a8f5c8,0 0 40px rgba(31,157,85,.7)}
 #gmz .wpO.right .n{background:#fff;color:#1f9d55}
-#gmz .wpO.right::after{content:"✓ ANSWER";margin-left:auto;font-size:24px;background:#fff;color:#156b3b;padding:2px 14px;border-radius:20px}
-#gmz .wpO.wrong{background:#555;color:#ddd;opacity:.5;animation:tShake .6s}
+#gmz .wpO.right::after{content:"✓ ANSWER";flex:none;font:900 22px "Mulish",sans-serif;background:#fff;color:#156b3b;padding:3px 14px;border-radius:20px}
+#gmz .wpO.wrong{background:#8a3a30;color:#fff;opacity:.8;animation:tShake .6s}
 .sPlay.p1 .wpO:not(.right):not(.wrong){opacity:.45}
-.wpMarks{position:absolute;left:475px;top:918px;width:504px;display:none}
+.wpMarks{display:none}
 .sPlay.p1 .wpMarks{display:block}
+.wpMarks .gMark{margin:0}
+.bsStamp{position:absolute;left:50%;top:50%;z-index:5;display:none;transform:translate(-50%,-50%) rotate(-8deg);font-family:"Libre Baskerville",serif;font-size:44px;font-weight:700;white-space:nowrap;padding:8px 26px;border-radius:12px;border:6px solid currentColor;background:rgba(255,253,244,.92);pointer-events:none}
+.bsStamp.ok,.bsStamp.no{display:block;animation:bsStamp .35s cubic-bezier(.2,1.6,.4,1)}
+.bsStamp.ok{color:#156b3b}.bsStamp.no{color:#c0392b}
+@keyframes bsStamp{from{transform:translate(-50%,-50%) rotate(-8deg) scale(2.4);opacity:0}}
+.bsCard.nope{box-shadow:0 0 0 8px #c0392b,0 0 40px rgba(192,57,43,.6)!important}
+/* ---------- Language sign (ENGLISH ONLY ⇄ ĐƯỢC DÙNG TIẾNG VIỆT): teacher, book slides only ---------- */
+#lgSign{position:absolute;left:560px;top:13px;width:470px;height:78px;z-index:26;perspective:900px;cursor:pointer;display:none;transition:transform .55s cubic-bezier(.3,1.3,.5,1),opacity .4s;opacity:.12}
+#lgSign.show{display:block}
+#lgSign:hover{opacity:.3}
+#lgSign.on,#lgSign.on:hover{opacity:1}
+#lgSign.pop{transform:translate(165px,488px) scale(2.6);z-index:60}
+#lgSign .card{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,1.4,.5,1)}
+#lgSign.vi .card{transform:rotateY(180deg)}
+#lgSign .f{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background:radial-gradient(ellipse at 50% 40%,#1f3a7a,#0c1a44);box-shadow:0 8px 18px rgba(0,0,0,.35),inset 0 0 0 3px rgba(150,180,255,.25);font-family:"Mulish",Arial,sans-serif;font-weight:900;white-space:nowrap;color:#fff}
+#lgSign .f.en{font-size:36px;letter-spacing:4px;--a:#e8f0ff}
+#lgSign .f.vn{font-size:33px;letter-spacing:1px;transform:rotateY(180deg);--a:#ffc21a}
+#lgSign .f span{text-shadow:0 0 4px #fff,0 0 10px var(--a),0 0 22px var(--a),0 0 40px var(--a)}
+#lgSign.on .f span{animation:lgFlick 1s steps(1) 1}
+#lgSign.pop .f{box-shadow:0 0 0 3px rgba(255,255,255,.4),0 0 40px rgba(120,160,255,.9),0 0 90px rgba(120,160,255,.6)}
+#lgSign.pop.vi .f{box-shadow:0 0 0 3px rgba(255,255,255,.4),0 0 40px rgba(255,194,26,.9),0 0 90px rgba(255,194,26,.6)}
+@keyframes lgFlick{0%,12%,24%{opacity:.25}6%,18%,30%,100%{opacity:1}}
+body.student #lgSign,body.presenter #lgSign{display:none!important}
 .wpMarks .gMark{margin:0}
 #gmz.pump .gMark .mk{width:84px;height:84px;font-size:48px}
 #gmz.pump .gEndBox{background:rgba(251,250,240,.97);border:4px double #2f6b3a;box-shadow:0 30px 70px rgba(20,40,10,.5)}
@@ -3856,8 +3891,8 @@ mark.r{--hl:#ffb8b8}mark.y{--hl:#ffe24d}
 /* ===== GAMIFY game content — edit here =====
    signal: [word, part of speech, meaning]  (Activity D2, slide 8)
    snap:   w = word from the text, s = the synonym card to snap, not = other synonyms kept out of that round  (Activity D5b, slide 15)
-   pump:   s = extract (___ = the gap), fill = marker(s) for the gap, k = 0 Despite group / 1 Although group / 2 However group,
-           a / b = the two contrasting ideas  (Language focus 2, slide 23) */
+   pump:   s = first idea with the contrast marker in [[ ]], i1 = idea 1 (highlighted at the reveal), ok = the ending from the text,
+           no = two endings that do NOT contrast (options are shuffled)  (Language focus 2, slide 23) */
 var GAMIFY_DATA = {
  "signal": [
   [
@@ -3998,51 +4033,63 @@ var GAMIFY_DATA = {
  "pump": [
   {
    "id": "a",
-   "k": 0,
-   "fill": "Despite / In spite of",
-   "s": "___ this challenge, she became the first deaf-blind person to attain a bachelor’s degree.",
-   "a": "this challenge",
-   "b": "she became the first deaf-blind person to attain a bachelor’s degree"
+   "s": "[[Despite]] this challenge, …",
+   "i1": "this challenge",
+   "ok": "she became the first deaf-blind person to attain a bachelor’s degree.",
+   "no": [
+    "she found it very difficult to learn to communicate.",
+    "she was unable to go to school for many years."
+   ]
   },
   {
    "id": "b",
-   "k": 2,
-   "fill": "However, / Nonetheless, / Nevertheless,",
-   "s": "She had a little more success communicating with the daughter of the family cook, with whom she had become friendly. ___ being unable to communicate properly, she was considered to be badly behaved and a ‘problem’.",
-   "a": "She had a little more success communicating with the daughter of the family cook",
-   "b": "she was considered to be badly behaved and a ‘problem’"
+   "s": "She had a little more success communicating with the daughter of the family cook, with whom she had become friendly. [[Nevertheless]], …",
+   "i1": "She had a little more success communicating with the daughter of the family cook",
+   "ok": "being unable to communicate properly, she was considered to be badly behaved and a ‘problem’.",
+   "no": [
+    "the two girls became close friends and played together every day.",
+    "this friendship helped her to communicate a little better with others."
+   ]
   },
   {
    "id": "c",
-   "k": 0,
-   "fill": "Despite / In spite of",
-   "s": "___ being visually impaired, quite young and having no prior experience, Sullivan set about teaching Helen how to communicate.",
-   "a": "being visually impaired, quite young and having no prior experience",
-   "b": "Sullivan set about teaching Helen how to communicate"
+   "s": "[[In spite of]] being visually impaired, quite young and having no prior experience, …",
+   "i1": "being visually impaired, quite young and having no prior experience",
+   "ok": "Sullivan set about teaching Helen how to communicate.",
+   "no": [
+    "Sullivan found teaching Helen very difficult at first.",
+    "Sullivan needed a lot of help to do the job."
+   ]
   },
   {
    "id": "d",
-   "k": 2,
-   "fill": "However, / Nonetheless, / Nevertheless,",
-   "s": "In the beginning, Keller was frustrated by her inability to pick up the hand signals that Sullivan was giving. ___ after a difficult first month, they had a breakthrough.",
-   "a": "Keller was frustrated by her inability to pick up the hand signals",
-   "b": "after a difficult first month, they had a breakthrough"
+   "s": "In the beginning, Keller was frustrated by her inability to pick up the hand signals that Sullivan was giving. [[Nonetheless]], …",
+   "i1": "Keller was frustrated by her inability to pick up the hand signals",
+   "ok": "after a difficult first month, they had a breakthrough.",
+   "no": [
+    "she found the first month of lessons very hard.",
+    "she often became angry and refused to work with Sullivan."
+   ]
   },
   {
    "id": "e",
-   "k": 1,
-   "fill": "although / even though",
-   "s": "She became proficient in Braille, and was able to begin a fruitful education, ___ her disability held her back sometimes.",
-   "a": "She became proficient in Braille, and was able to begin a fruitful education",
-   "b": "her disability held her back sometimes"
+   "s": "She became proficient in Braille, and was able to begin a fruitful education, [[although]] …",
+   "i1": "She became proficient in Braille, and was able to begin a fruitful education",
+   "ok": "her disability held her back sometimes.",
+   "no": [
+    "she was a very hard-working and talented student.",
+    "her progress was faster than anyone had expected."
+   ]
   },
   {
    "id": "f",
-   "k": 1,
-   "fill": "Although / Even though",
-   "s": "___ she faced great difficulties, Keller was able to study at Radcliffe College.",
-   "a": "she faced great difficulties",
-   "b": "Keller was able to study at Radcliffe College"
+   "s": "[[Although]] she faced great difficulties, …",
+   "i1": "she faced great difficulties",
+   "ok": "Keller was able to study at Radcliffe College.",
+   "no": [
+    "Keller found studying at college almost impossible.",
+    "Keller often felt tired and frustrated by her studies."
+   ]
   }
  ]
 };
@@ -4334,7 +4381,7 @@ var GAMIFY_DATA = {
   function fw(){if(G&&!busy){if(SOLO&&G.soloWait&&G.soloWait())return;G.fw();}}
   function bk(){if(G&&!busy){if(SOLO)return;G.bk();}}
   root.addEventListener('pointerdown',function(e){e.stopPropagation();});
-  root.addEventListener('click',function(e){e.stopPropagation();if(e.target.closest('button,.gPickWin'))return;fw();});
+  root.addEventListener('click',function(e){e.stopPropagation();if(e.target.closest('button,.gPickWin'))return;if(G&&G.noBlank&&G.noBlank())return;fw();});
   window.addEventListener('keydown',function(e){
     if(!G||e.defaultPrevented)return;
     var tg=e.target;if(tg&&(tg.tagName==='INPUT'||tg.tagName==='TEXTAREA'))return;
@@ -4344,7 +4391,7 @@ var GAMIFY_DATA = {
     if(document.querySelector('#blackout.on,#whiteout.on,.lxScreen.on,#lxHelp.on'))return;
     if(e.ctrlKey||e.metaKey||e.altKey)return;
     var k=e.key;
-    if(SOLO&&G.soloKey&&G.soloKey(k)){e.preventDefault();e.stopImmediatePropagation();return;}
+    if((SOLO&&G.soloKey&&G.soloKey(k))||(!SOLO&&G.teachKey&&G.teachKey(k))){e.preventDefault();e.stopImmediatePropagation();return;}
     if(k===' '||k==='ArrowRight'||k==='PageDown'||k==='Enter')fw();
     else if(k==='ArrowLeft'||k==='PageUp')bk();
     else if(k==='Escape')close();
@@ -4594,7 +4641,7 @@ var GAMIFY_DATA = {
   GAMES.snap=function(){
     var data=GAMIFY_DATA.snap,scene=schoolScene(),ctx=null,order=[],marks=[],i=0,ph='start',play,stream=[],k=0,flipT=0,paused=false,last=0,STEP=1700,caught=false;
     var g={key:'snap',title:'Braille Snap',notes:'🎮 Braille Snap',
-      how:{en:'Cards flip over one by one. Press <b>SNAP!</b> (or Space) when a card means the same as the word from the text. Click the deck to pause.',
+      how:{en:'Cards flip over one by one, faster and faster. Press <b>SNAP!</b> (or Space) when a card means the same as the word from the text. Click the deck to pause.',
            vi:'Các thẻ lần lượt lật lên. Bấm <b>SNAP!</b> (hoặc phím cách) khi thẻ có nghĩa giống với từ trong bài đọc. Bấm vào xấp thẻ để tạm dừng.'},
       build:function(r){
         ctx=r.querySelector('.gmzBg').getContext('2d');scene.build();
@@ -4603,63 +4650,92 @@ var GAMIFY_DATA = {
         r.querySelector('.gGo').onclick=function(e){e.stopPropagation();g.begin();};startRow(r);
         play=r.querySelector('.sPlay');
         play.innerHTML='<div class="bsT"><div class="lab">WORD FROM THE TEXT <small>(paragraph 3–4)</small></div><div class="slotT"></div></div>'+
-          '<div class="bsDeck"><div class="pile"></div><div class="flip"></div><div class="bsPz">⏸ PAUSED</div></div>'+
+          '<div class="bsDeck"><div class="pile"></div><div class="flip"></div><div class="bsPz">⏸ PAUSED</div><div class="bsStamp"></div></div>'+
           '<button class="bsBell" title="SNAP! (or press Space)"><span>SNAP!</span></button>'+
           '<div class="bsRes"><div class="eq"></div><div class="v"></div>'+markRow()+'</div>';
         wireMarks(play.querySelector('.bsRes .gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});
         play.querySelector('.bsDeck').addEventListener('click',function(e){e.stopPropagation();g.pause();});
-        play.querySelector('.bsBell').addEventListener('click',function(e){e.stopPropagation();g.fw();});
+        play.querySelector('.bsBell').addEventListener('click',function(e){e.stopPropagation();g.snapBtn();});
       },
       draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);tick();},
       begin:function(){order=arrange(data);marks=[];soloReset(data.length);deal(0);},
       fw:function(){
         if(ph==='start')g.begin();
-        else if(ph==='deal')snap();
+        else if(ph==='deal'){if(!hold&&!SOLO)showAns(false,'give');}
         else if(ph==='snap'){if(i<order.length-1)deal(i+1);else{ph='end';endScreen('Class dismissed!');}}
         else if(ph==='end')close();
       },
       bk:function(){
         if(ph==='snap')deal(i);
-        else if(ph==='deal'){if(i>0){i--;snap(true);}else{ph='start';show('start');round('');setTurn(-1);}}
-        else if(ph==='end'){i=order.length-1;snap(true);}
+        else if(ph==='deal'){if(i>0){i--;showAns(true);}else{ph='start';show('start');round('');setTurn(-1);}}
+        else if(ph==='end'){i=order.length-1;showAns(true);}
       },
-      pause:function(){if(ph!=='deal')return;paused=!paused;play.classList.toggle('paused',paused);var b=root.querySelector('.gPause');if(b)b.textContent=paused?'▶':'❚❚';if(!paused)last=performance.now();},
-      stop:function(){ph=ph==='deal'?'stopped':ph;}
+      pause:function(){if(ph!=='deal'||hold)return;paused=!paused;play.classList.toggle('paused',paused);var b=root.querySelector('.gPause');if(b)b.textContent=paused?'▶':'❚❚';if(!paused)last=performance.now();},
+      stop:function(){clearTimeout(holdT);ph=ph==='deal'?'stopped':ph;}
     };
+    /* card speed: gets faster each time the deck starts repeating */
+    var SPEEDS=[1300,1000,800,650],speed=0,hold=false,holdT=null,turn=0,noSnap=false,flips=0;
     /* no word twice in a row */
     function arrange(d){for(var n=0;n<50;n++){var o=shuffle(d),ok=true;for(var j=1;j<o.length;j++)if(o[j].w===o[j-1].w){ok=false;break;}if(ok)return o;}return shuffle(d);}
+    function stamp(t){var s=play.querySelector('.bsStamp');s.className='bsStamp'+(t?' '+t:'');s.textContent=t==='ok'?'✓ MATCH!':t==='no'?'✗ NOT A MATCH':'';}
     function deal(n){
-      i=n;ph='deal';show('play');setTurn(i%2);round('ROUND '+(i+1)+' / '+order.length);paused=false;play.classList.remove('paused','p1');
+      clearTimeout(holdT);hold=false;
+      i=n;ph='deal';show('play');turn=i%2;setTurn(turn);round('ROUND '+(i+1)+' / '+order.length);paused=false;play.classList.remove('paused','p1');
       var b=root.querySelector('.gPause');if(b)b.textContent='❚❚';
       var d=order[i];play.querySelector('.slotT').innerHTML=card(d.w,'target');
       var pool=shuffle(GAMIFY_DATA.snapPool.filter(function(x){return d.not.indexOf(x)<0&&x!==d.s;})).slice(0,7),at=2+Math.floor(Math.random()*3);
-      pool.splice(at,0,d.s);stream=pool;k=-1;flipT=0;last=performance.now();caught=false;noSnap=false;flips=0;
+      pool.splice(at,0,d.s);stream=pool;k=-1;speed=0;STEP=SPEEDS[0];last=performance.now();caught=false;noSnap=false;flips=0;
       play.querySelector('.flip').innerHTML='';play.querySelector('.pile').innerHTML='<div class="bk"></div><div class="bk"></div><div class="bk"></div>';
-      paintMarks(play.querySelector('.bsRes .gMark'),marks[i]||null);
+      stamp('');paintMarks(play.querySelector('.bsRes .gMark'),marks[i]||null);
       next();
     }
-    var noSnap=false,flips=0;
     function next(){
       /* solo: after two full passes with no SNAP, the round counts as missed */
-      if(SOLO&&++flips>stream.length*2){noSnap=true;snap();return;}
-      k=(k+1)%stream.length;var f=play.querySelector('.flip');
+      if(SOLO&&flips>=stream.length*2){noSnap=true;soloMark(i,false,'<b>'+esc(order[i].w)+'</b>',esc(order[i].s),LT('nosnap'));showAns(false,'nosnap');return;}
+      flips++;k=(k+1)%stream.length;
+      if(k===0&&flips>1){speed=Math.min(speed+1,SPEEDS.length-1);STEP=SPEEDS[speed];}
+      var f=play.querySelector('.flip');
       var old=f.querySelector('.bsCard');if(old){old.classList.add('gone');setTimeout(function(){if(old.parentNode)old.remove();},500);}
       var w=document.createElement('div');w.innerHTML=card(stream[k],'deal');var c=w.firstChild;f.appendChild(c);void c.offsetWidth;c.classList.add('up');
       beep(1100,.03,.05);
     }
-    function tick(){if(ph!=='deal'||paused)return;var now=performance.now();if(now-last>=STEP){last=now;next();}}
+    function tick(){if(ph!=='deal'||paused||hold)return;var now=performance.now();if(now-last>=STEP){last=now;next();}}
+    /* SNAP! (bell, Space, Enter): the card that was showing stays and is marked right or wrong */
+    function trySnap(){
+      if(ph!=='deal'||hold||k<0||paused)return;
+      var d=order[i],cur=stream[k],cardEl=play.querySelector('.flip .bsCard:last-child');
+      if(cur===d.s){
+        caught=true;soloMark(i,true,'<b>'+esc(d.w)+'</b>',esc(d.s),'');
+        ph='snap';stamp('ok');if(cardEl)cardEl.classList.add('answer');
+        result('SNAP! ✓ Match'+(SOLO?'':' – Team '+'AB'[turn]));chime([880,1175,1568]);return;
+      }
+      hold=true;stamp('no');if(cardEl)cardEl.classList.add('nope');chime([440,330]);
+      if(SOLO){
+        soloMark(i,false,'<b>'+esc(d.w)+'</b>',esc(d.s),LT('snapped')+' '+esc(cur));
+        holdT=setTimeout(function(){hold=false;if(ph==='deal')showAns(false,'miss',cur);},1400);return;
+      }
+      /* class: the deck keeps dealing and the other team can steal */
+      holdT=setTimeout(function(){if(ph!=='deal')return;hold=false;stamp('');turn=1-turn;setTurn(turn);last=performance.now();next();},1600);
+    }
+    g.snapBtn=trySnap;
+    g.noBlank=function(){return ph==='deal';};
+    g.teachKey=function(key){if(ph==='deal'&&(key===' '||key==='Enter')){trySnap();return true;}return false;};
     g.soloWait=function(){return ph==='deal';};
-    g.soloKey=function(k){if(k===' '&&ph==='deal'){snap();return true;}return false;};
-    function snap(back){
-      var d=order[i];var cur=noSnap?null:stream[k];caught=!back&&cur===d.s;
-      if(!back)soloMark(i,caught,'<b>'+esc(d.w)+'</b>',esc(d.s),caught?'':(cur?LT('snapped')+' '+esc(cur):LT('nosnap')));
-      ph='snap';show('play');setTurn(i%2);round('ROUND '+(i+1)+' / '+order.length);play.classList.remove('paused');play.classList.add('p1');
-      if(back){play.querySelector('.slotT').innerHTML=card(d.w,'target');}
-      var f=play.querySelector('.flip');f.innerHTML=card(d.s,'answer up');
-      play.querySelector('.bsRes .eq').innerHTML='<b>'+esc(d.w)+'</b> = <b class="s">'+esc(d.s)+'</b>';
-      play.querySelector('.bsRes .v').textContent=back||!cur?'':(caught?'SNAP! on the right card':'Snapped on: '+cur);
+    g.soloKey=function(key){if((key===' '||key==='Enter')&&ph==='deal'){trySnap();return true;}return false;};
+    function result(v){
+      play.classList.remove('paused');play.classList.add('p1');
+      var d=order[i];play.querySelector('.bsRes .eq').innerHTML='<b>'+esc(d.w)+'</b> = <b class="s">'+esc(d.s)+'</b>';
+      play.querySelector('.bsRes .v').textContent=v||'';
       paintMarks(play.querySelector('.bsRes .gMark'),marks[i]||null);
-      if(!back)chime(caught?[880,1175,1568]:[660,880]);
+    }
+    /* show the right card: after giving up (→), stepping back, or in solo after a miss */
+    function showAns(back,why,cur){
+      clearTimeout(holdT);hold=false;
+      var d=order[i];ph='snap';show('play');setTurn(SOLO?-1:turn);round('ROUND '+(i+1)+' / '+order.length);
+      if(back){play.querySelector('.slotT').innerHTML=card(d.w,'target');play.querySelector('.pile').innerHTML='<div class="bk"></div><div class="bk"></div><div class="bk"></div>';}
+      play.querySelector('.flip').innerHTML=card(d.s,'answer up');stamp('');
+      result(back?'':why==='give'?'No one found it – here is the match':why==='miss'?'✗ '+LT('snapped')+' '+cur:why==='nosnap'?LT('nosnap'):'');
+      if(!back)chime([660,880]);
     }
     return g;
   };
@@ -4705,78 +4781,128 @@ var GAMIFY_DATA = {
   }
   var PUMP='<svg viewBox="0 0 420 560"><defs><linearGradient id="wpI" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#2a3a32"/><stop offset=".45" stop-color="#5b7a68"/><stop offset="1" stop-color="#1a2620"/></linearGradient>'+
     '<linearGradient id="wpS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b7ab94"/><stop offset="1" stop-color="#7a6e58"/></linearGradient>'+
-    '<linearGradient id="wpW" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8a5a32"/><stop offset="1" stop-color="#5a3818"/></linearGradient></defs>'+
-    '<path d="M40 470 h300 l20 60 h-340z" fill="url(#wpS)" stroke="#5a503e" stroke-width="4"/>'+
-    '<rect x="150" y="140" width="80" height="330" rx="14" fill="url(#wpI)" stroke="#121a16" stroke-width="4"/>'+
-    '<rect x="138" y="120" width="104" height="36" rx="10" fill="#2a3a32" stroke="#121a16" stroke-width="4"/><circle cx="190" cy="110" r="16" fill="#3e5448"/>'+
-    '<path d="M150 230 h-62 q-22 0 -22 22 v26 h28 v-18 h56z" fill="url(#wpI)" stroke="#121a16" stroke-width="4"/>'+
-    '<g class="wpH"><rect x="226" y="132" width="200" height="22" rx="11" fill="#2a3a32" stroke="#121a16" stroke-width="4" transform="rotate(-18 230 143)"/><circle cx="230" cy="143" r="14" fill="#56705f"/></g>'+
-    '<g transform="translate(26 400)"><path d="M10 0 h110 l-12 90 h-86z" fill="url(#wpW)" stroke="#3a2410" stroke-width="4"/><path d="M14 22 h102 M18 60 h94" stroke="#2a1a08" stroke-width="6"/>'+
-    '<clipPath id="wpC"><path d="M14 4 h102 l-11 82 h-80z"/></clipPath><rect class="wpLvl" x="0" y="90" width="130" height="0" fill="#8cc8f0" clip-path="url(#wpC)"/></g></svg>';
+    '<linearGradient id="wpG" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(255,255,255,.55)"/><stop offset=".3" stop-color="rgba(220,240,255,.18)"/><stop offset="1" stop-color="rgba(255,255,255,.4)"/></linearGradient>'+
+    '<linearGradient id="wpW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8fd0ff"/><stop offset="1" stop-color="#2f7fc4"/></linearGradient></defs>'+
+    '<path d="M20 470 h340 l20 60 h-380z" fill="url(#wpS)" stroke="#5a503e" stroke-width="4"/>'+
+    '<rect x="190" y="140" width="80" height="330" rx="14" fill="url(#wpI)" stroke="#121a16" stroke-width="4"/>'+
+    '<rect x="178" y="120" width="104" height="36" rx="10" fill="#2a3a32" stroke="#121a16" stroke-width="4"/><circle cx="230" cy="110" r="16" fill="#3e5448"/>'+
+    '<path d="M190 210 h-62 q-22 0 -22 22 v26 h28 v-18 h56z" fill="url(#wpI)" stroke="#121a16" stroke-width="4"/>'+
+    '<g class="wpH"><rect x="266" y="132" width="160" height="22" rx="11" fill="#2a3a32" stroke="#121a16" stroke-width="4" transform="rotate(-18 270 143)"/><circle cx="270" cy="143" r="14" fill="#56705f"/></g>'+
+    '<rect class="wpStream" x="110" y="258" width="18" height="60" rx="8" fill="#8cc8f0"/>'+
+    '<clipPath id="wpC"><rect x="36" y="290" width="140" height="176" rx="8"/></clipPath>'+
+    '<rect class="wpLvl" x="30" y="466" width="152" height="0" fill="url(#wpW)" clip-path="url(#wpC)"/>'+
+    '<rect x="36" y="290" width="140" height="176" rx="8" fill="url(#wpG)" stroke="#2a3a32" stroke-width="6"/>'+
+    '<path d="M44 330 h16 M44 370 h16 M44 410 h16 M44 450 h16" stroke="#2a3a32" stroke-width="4"/></svg>';
   GAMES.pump=function(){
-    var data=GAMIFY_DATA.pump,scene=gardenScene(),ctx=null,order=[],marks=[],i=0,ph='start',play,opts;
-    var GROUPS=['Despite / In spite of','Although / Even though','However, / Nonetheless, / Nevertheless,'];
+    var data=GAMIFY_DATA.pump,scene=gardenScene(),ctx=null,order=[],marks=[],picks=[],perm=[],i=0,ph='start',play,opts,lv=[-1,-1],sc=[-1,-1];
+    var TLEN=12,tm={left:TLEN,run:false,last:0,up:false};
     var g={key:'pump',title:'The Water Pump',notes:'🎮 The Water Pump',
-      how:{en:'Read each extract and tap the contrast marker (<b>A</b>, <b>B</b> or <b>C</b>) that fits the gap. Every answer pumps water into the bucket!',
-           vi:'Đọc từng đoạn trích và bấm vào từ nối chỉ sự tương phản (<b>A</b>, <b>B</b> hoặc <b>C</b>) phù hợp với chỗ trống. Mỗi câu trả lời sẽ bơm nước vào xô!'},
+      how:{en:'Read the first idea and the <b>contrast marker</b>. Then tap the ending (<b>A</b>, <b>B</b> or <b>C</b>) that really <b>contrasts</b> with the first idea. You have 12 seconds – click the timer to pause.',
+           vi:'Đọc ý thứ nhất và <b>từ nối chỉ sự tương phản</b>. Sau đó bấm vào phần kết (<b>A</b>, <b>B</b> hoặc <b>C</b>) thật sự <b>tương phản</b> với ý thứ nhất. Em có 12 giây – bấm vào đồng hồ để tạm dừng.',
+           zh:'阅读第一个意思和<b>表示对比的连接词</b>，然后点击真正与第一个意思形成<b>对比</b>的结尾（<b>A</b>、<b>B</b> 或 <b>C</b>）。你有 12 秒钟——点击计时器可以暂停。'},
       build:function(r){
         ctx=r.querySelector('.gmzBg').getContext('2d');scene.build();
-        r.querySelector('.sStart').innerHTML='<div class="wpLogo"><div class="k">IVY GREEN · TUSCUMBIA · 1887</div><div class="t">The Water Pump</div><div class="s">Choose the right contrast marker to join the two ideas – and make the water flow.</div></div><div class="wpStartPump">'+PUMP+'</div><button class="gGo">▶ Start pumping</button>';
+        r.querySelector('.sStart').innerHTML='<div class="wpLogo"><div class="k">IVY GREEN · TUSCUMBIA · 1887</div><div class="t">The Water Pump</div><div class="s">Find the ending that really contrasts – and pump water into your team’s tank.</div></div><div class="wpStartPump">'+PUMP+'</div><button class="gGo">▶ Start pumping</button>';
         r.querySelector('.gGo').onclick=function(e){e.stopPropagation();g.begin();};startRow(r);
         play=r.querySelector('.sPlay');
-        play.innerHTML='<div class="wpPump">'+uniq(PUMP,'p')+'</div>'+
-          '<div class="wpCard"><div class="lab"></div><div class="tx"></div><div class="ideas"><span class="i1">Idea 1</span><span class="i2">Idea 2</span></div></div>'+
-          '<div class="wpOpts">'+GROUPS.map(function(t,k){return '<button class="wpO" data-k="'+k+'"><span class="n">'+'ABC'[k]+'</span><span class="g">'+t+'</span></button>';}).join('')+'</div>'+
-          '<div class="wpMarks">'+markRow()+'</div>';
+        play.innerHTML=(SOLO?'':'<div class="wpTeam a"><div class="nm">TEAM A</div><div class="wpPump">'+uniq(PUMP,'a')+'</div></div><div class="wpTeam b"><div class="nm">TEAM B</div><div class="wpPump">'+uniq(PUMP,'b')+'</div></div>')+
+          '<div class="wpMid"><div class="wpCard"><div class="lab"></div><div class="tx"></div><div class="wpClock" title="Click to pause / play"><b>12</b></div></div>'+
+          '<div class="wpOpts">'+[0,1,2].map(function(k){return '<button class="wpO" data-k="'+k+'"><span class="n">'+'ABC'[k]+'</span><span class="g"></span></button>';}).join('')+'</div>'+
+          '<div class="wpMarks">'+markRow()+'</div></div>';
         wireMarks(play.querySelector('.wpMarks .gMark'),function(){return marks[i]||null;},function(v){marks[i]=v;});
+        play.querySelector('.wpClock').addEventListener('click',function(e){e.stopPropagation();clockToggle();});
         opts=[].slice.call(play.querySelectorAll('.wpO'));
-        opts.forEach(function(b){b.onclick=function(e){e.stopPropagation();if(ph!=='vote')return;var on=b.classList.contains('pick');opts.forEach(function(x){x.classList.remove('pick');});if(!on)b.classList.add('pick');
-          if(SOLO){var d=order[i],ok=+b.dataset.k===d.k;b.classList.add('pick');
-            soloMark(i,ok,'Extract '+esc(String(d.id))+': '+esc(d.s).replace('___','<b>_____</b>'),esc(d.fill)+(GROUPS[d.k].toLowerCase().indexOf(String(d.fill).toLowerCase())>=0?'':' <i>('+GROUPS[d.k]+')</i>'),ok?'':GROUPS[+b.dataset.k]);setPh('ans');}};});
+        opts.forEach(function(b){b.onclick=function(e){e.stopPropagation();if(ph!=='vote')return;
+          var k=+b.dataset.k,on=picks[i]===k;picks[i]=on?null:k;paintPick();
+          if(SOLO){picks[i]=k;paintPick();var d=order[i],ok=perm[i][k]===0;
+            soloMark(i,ok,'Extract '+esc(d.id)+': '+mk(d.s),esc(d.ok),ok?'':esc(optText(d,perm[i][k])));reveal();}};});
       },
-      draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);},
-      begin:function(){order=data.slice();marks=[];soloReset(data.length);item(0);},
+      draw:function(t,dt){if(ctx)scene.draw(ctx,t,dt);clockTick();tanks();},
+      begin:function(){order=data.slice();marks=[];picks=[];perm=order.map(function(){return shuffle([0,1,2]);});soloReset(data.length);item(0);},
       fw:function(){
         if(ph==='start')g.begin();
-        else if(ph==='vote')setPh('ans');
-        else if(ph==='ans')setPh('ideas');
-        else if(ph==='ideas'){if(i<order.length-1)item(i+1);else{ph='end';endScreen('The bucket is full!');}}
+        else if(ph==='vote')reveal();
+        else if(ph==='ans'){if(i<order.length-1)item(i+1);else{ph='end';tm.run=false;endScreen(SOLO?'The tank is full!':'Pumping finished!');}}
         else if(ph==='end')close();
       },
       bk:function(){
-        if(ph==='ideas')setPh('ans');
-        else if(ph==='ans')setPh('vote');
-        else if(ph==='vote'){if(i>0){item(i-1);setPh('ans');setPh('ideas');}else{ph='start';show('start');round('');setTurn(-1);}}
-        else if(ph==='end'){item(order.length-1);setPh('ans');setPh('ideas');}
-      }
+        if(ph==='ans')item(i,true);
+        else if(ph==='vote'){if(i>0){item(i-1,true);reveal(true);}else{tm.run=false;ph='start';show('start');round('');setTurn(-1);}}
+        else if(ph==='end'){item(order.length-1,true);reveal(true);}
+      },
+      pause:function(){clockToggle();},
+      stop:function(){tm.run=false;}
     };
     g.soloWait=function(){return ph==='vote';};
-    function level(n){var l=play.querySelector('.wpLvl');var h=Math.round(82*n/order.length);l.setAttribute('y',90-h);l.setAttribute('height',h);}
-    function hl(text,a,b){
-      var out=esc(text);
-      [[a,'i1'],[b,'i2']].forEach(function(p){if(!p[0])return;var e=esc(p[0]);out=out.replace(e,'<span class="'+p[1]+'">'+e+'</span>');});
-      return out;
+    function optText(d,j){return j===0?d.ok:d.no[j-1];}
+    function mk(s){return esc(s).replace(/\[\[(.+?)\]\]/,'<span class="mk">$1</span>');}
+    function paintPick(){opts.forEach(function(x){x.classList.toggle('pick',picks[i]===+x.dataset.k);});}
+    function item(n,back){
+      i=n;ph='vote';show('play');setTurn(SOLO?-1:i%2);round('EXTRACT '+order[i].id+'  ·  '+(i+1)+' / '+order.length);
+      var d=order[i];play.querySelector('.wpCard .lab').textContent='Extract '+d.id+' – which ending really contrasts?';
+      play.querySelector('.wpCard .tx').innerHTML=mk(d.s);
+      opts.forEach(function(x,k){x.querySelector('.g').textContent=optText(d,perm[i][k]);x.classList.remove('right','wrong');});
+      if(!back&&!SOLO)picks[i]=null;paintPick();
+      play.classList.remove('p1');paintMarks(play.querySelector('.wpMarks .gMark'),marks[i]||null);
+      tm.left=TLEN;tm.up=false;tm.run=!back;tm.last=performance.now();paintClock();
     }
-    function item(n){
-      i=n;ph='vote';show('play');setTurn(i%2);round('EXTRACT '+order[i].id+'  ·  '+(i+1)+' / '+order.length);
-      var d=order[i];play.querySelector('.wpCard .lab').textContent='Extract '+d.id+' – which marker fits the gap?';
-      var parts=d.s.split('___');
-      play.querySelector('.wpCard .tx').innerHTML=hl(parts[0],d.a,d.b)+'<span class="gap"><span class="q">?</span><span class="m">'+esc(d.fill)+'</span></span>'+hl(parts[1],d.a,d.b);
-      opts.forEach(function(x){x.classList.remove('pick','right','wrong');});
-      play.classList.remove('p1','p2');level(i);
-      paintMarks(play.querySelector('.wpMarks .gMark'),marks[i]||null);
+    function reveal(back){
+      var d=order[i];ph='ans';tm.run=false;paintClock();
+      play.querySelector('.wpCard .tx').innerHTML=mk(d.s).replace(esc(d.i1),'<span class="i1">'+esc(d.i1)+'</span>').replace(/…\s*$/,'')+' <span class="i2">'+esc(d.ok)+'</span>';
+      opts.forEach(function(x,k){var right=perm[i][k]===0;x.classList.toggle('right',right);x.classList.toggle('wrong',!right&&picks[i]===k);});
+      play.classList.add('p1');paintMarks(play.querySelector('.wpMarks .gMark'),marks[i]||null);
+      if(!back)chime([523,659,784,1047],.2);
     }
-    function setPh(p){
-      var d=order[i],right=opts[d.k];ph=p;
-      opts.forEach(function(x){x.classList.remove('right','wrong');});
-      play.classList.toggle('p1',p==='ans'||p==='ideas');play.classList.toggle('p2',p==='ideas');
-      if(p==='ans'||p==='ideas'){right.classList.add('right');opts.forEach(function(x){if(x!==right&&x.classList.contains('pick'))x.classList.add('wrong');});level(i+1);}
-      else level(i);
-      if(p==='ans'){scene.pour(1.6);var h=play.querySelector('.wpPump .wpH');h.classList.remove('crank');void h.getBoundingClientRect();h.classList.add('crank');chime([523,659,784,1047],.2);}
-      if(p==='vote')opts.forEach(function(x){x.classList.remove('pick');});
+    /* 12-second timer: click to pause / play; at zero a sound plays and TIME'S UP stays */
+    function clockToggle(){if(ph!=='vote'||tm.up)return;tm.run=!tm.run;tm.last=performance.now();paintClock();var b=root.querySelector('.gPause');if(b)b.textContent=tm.run?'❚❚':'▶';}
+    function clockTick(){if(ph!=='vote'||!tm.run)return;var now=performance.now();tm.left-=(now-tm.last)/1000;tm.last=now;
+      if(tm.left<=0){tm.left=0;tm.run=false;tm.up=true;timesUp();paintClock();
+        if(SOLO){var d=order[i];soloMark(i,false,'Extract '+esc(d.id)+': '+mk(d.s),esc(d.ok),LT('timeup'));reveal();}return;}
+      paintClock();}
+    function paintClock(){var c=play&&play.querySelector('.wpClock');if(!c)return;c.style.setProperty('--p',Math.max(0,tm.left/TLEN));
+      c.classList.toggle('low',!tm.up&&tm.left<=3&&ph==='vote');c.classList.toggle('up',tm.up);c.classList.toggle('paused',ph==='vote'&&!tm.run&&!tm.up);c.classList.toggle('done',ph!=='vote'&&!tm.up);
+      c.querySelector('b').innerHTML=tm.up?'TIME’S<br>UP':Math.ceil(tm.left);
+      var b=root.querySelector('.gPause');if(b)b.textContent=(ph==='vote'&&!tm.run&&!tm.up)?'▶':'❚❚';}
+    /* each team's tank follows the points added with the TEAM A / TEAM B buttons; the leader's tank is full */
+    function tanks(){
+      if(SOLO||!play)return;var m=Math.max(scores[0],scores[1]);
+      [0,1].forEach(function(t){var f=m?scores[t]/m:0;if(f===lv[t]&&scores[t]===sc[t])return;
+        var up=scores[t]>sc[t]&&sc[t]>=0;lv[t]=f;sc[t]=scores[t];
+        var p=play.querySelector('.wpTeam.'+'ab'[t]),l=p.querySelector('.wpLvl'),h=Math.round(176*f);l.setAttribute('y',466-h);l.setAttribute('height',h);
+        p.classList.toggle('lead',m>0&&scores[t]===m);
+        if(up){var hd=p.querySelector('.wpH'),s=p.querySelector('.wpStream');[hd,s].forEach(function(e){e.classList.remove('go');void e.getBoundingClientRect();e.classList.add('go');});}
+      });
     }
     return g;
   };
+})();
+</script>
+<script>
+/* ===== Language sign: faded "ENGLISH ONLY" in the top margin (teacher, book slides only).
+   1st click: vivid · 2nd click: flips to "ĐƯỢC DÙNG TIẾNG VIỆT" · later clicks flip back and forth.
+   Each change enlarges and glows for 2 s, then returns. Resets on every slide change. Not on warmers, the quiz or Words from today. ===== */
+(function(){
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage');if(!stage)return;
+  var s=document.createElement('div');s.id='lgSign';s.title='English only / Vietnamese allowed';
+  s.innerHTML='<div class="card"><div class="f en"><span>ENGLISH ONLY</span></div><div class="f vn"><span>ĐƯỢC DÙNG TIẾNG VIỆT</span></div></div>';
+  stage.appendChild(s);
+  var st=0,popT=null;
+  function ok(sl){return sl&&sl.dataset.page&&!sl.matches('.warm,.qz,.wft,.stitle');}
+  function reset(){st=0;clearTimeout(popT);s.classList.remove('on','vi','pop');}
+  function pop(){s.classList.remove('pop');void s.offsetWidth;s.classList.add('pop');clearTimeout(popT);popT=setTimeout(function(){s.classList.remove('pop');},2000);}
+  s.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  s.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(st===0){st=1;s.classList.add('on');}
+    else{st=st===1?2:1;s.classList.toggle('vi',st===2);s.classList.remove('on');void s.offsetWidth;s.classList.add('on');}
+    pop();
+  });
+  function sync(){var a=document.querySelector('#stage .slide.active');reset();s.classList.toggle('show',ok(a));}
+  document.querySelectorAll('#stage .slide').forEach(function(sl){
+    new MutationObserver(function(){if(sl.classList.contains('active'))sync();}).observe(sl,{attributes:true,attributeFilter:['class']});
+  });
+  sync();
 })();
 </script>
 </body>
