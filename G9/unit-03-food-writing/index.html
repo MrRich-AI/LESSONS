@@ -422,12 +422,15 @@ ul.dots li::before{content:"";position:absolute;left:6px;top:15px;width:11px;hei
 @keyframes jukebump{40%{transform:translateY(12px) scale(.94)}}
 /* choose slide */
 .dn-head{position:absolute;left:0;right:0;top:46px;text-align:center;font-size:120px;z-index:2}
-.diner .choose{position:absolute;left:70px;right:70px;top:250px;display:grid;grid-template-columns:repeat(3,1fr);gap:46px;z-index:2}
+.diner .choose{position:absolute;left:70px;right:70px;top:200px;display:grid;grid-template-columns:repeat(3,1fr);gap:46px;z-index:2}
 .diner .ccard{background:#fff8e7;border-radius:22px;border:8px solid #e6233f;box-shadow:0 0 0 5px #fff8e7,0 0 0 10px #1f1f1f,0 20px 40px rgba(0,0,0,.6);color:#1f1f1f;text-align:center;padding:22px 20px 20px;cursor:pointer;transition:transform .15s}
 .slide.warm.diner.active .ccard{animation:swingin 1.2s cubic-bezier(.3,1.6,.5,1) both;animation-delay:var(--cd,0s)}
 .diner .ccard:active{transform:translateY(8px)}
 .diner .ccard .remoji{font-size:96px;line-height:1}
-.diner .ccard .rname{font-family:"Bungee",sans-serif;font-size:40px;line-height:1.1;color:#e6233f;min-height:96px;display:flex;align-items:center;justify-content:center;margin:8px 0 12px}
+.diner .ccard .rname{font-family:"Bungee",sans-serif;font-size:40px;line-height:1.1;color:#e6233f;min-height:90px;display:flex;align-items:center;justify-content:center;margin:8px 0 12px}
+.diner .ccard .rfeat{list-style:none;margin:0 6px 16px;padding:12px 14px;min-height:222px;border-radius:14px;background:#fff;border:3px dashed #e6233f;text-align:left}
+.diner .ccard .rfeat li{position:relative;padding-left:34px;font-family:"Fredoka","Mulish",sans-serif;font-weight:600;font-size:28px;line-height:1.22;color:#1f1f1f;margin:5px 0}
+.diner .ccard .rfeat li::before{content:"★";position:absolute;left:0;top:0;color:#e6233f}
 .diner .ccard .bar{height:30px;border-radius:16px;background:#eadfc3;overflow:hidden;margin:0 10px;border:3px solid #1f1f1f}
 .diner .ccard .bar i{display:block;height:100%;width:0;background:repeating-linear-gradient(45deg,#e6233f 0 14px,#ff5d73 14px 28px);transition:width .5s cubic-bezier(.2,1.4,.4,1)}
 .diner .ccard .votes{font-family:"Bungee",sans-serif;font-size:62px;margin-top:8px;color:#1f1f1f}
@@ -1097,7 +1100,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
   <section class="slide warm diner" data-title="Would you eat here? — Choose one!" data-page="" data-bridge="› Unit 3">
     <div class="dn-wall"></div><div class="dn-floor"></div><span class="dn-star" style="left:6%;top:12%;--sd:0s">✦</span><span class="dn-star" style="left:90%;top:20%;--sd:.6s">✦</span><span class="dn-star" style="left:14%;top:62%;--sd:1.1s">✦</span><span class="dn-star" style="left:84%;top:58%;--sd:.3s">✦</span>
     <div class="dn-head neon">Choose one!</div>
-    <div class="choose"><div class="ccard" style="--cd:0.10s"><div class="remoji">🍜</div><div class="rname">Midnight Noodles</div><div class="bar"><i></i></div><div class="votes">0</div></div><div class="ccard" style="--cd:0.30s"><div class="remoji">🎤</div><div class="rname">Sing for Your Supper</div><div class="bar"><i></i></div><div class="votes">0</div></div><div class="ccard" style="--cd:0.50s"><div class="remoji">🤫</div><div class="rname">The Silent Spoon</div><div class="bar"><i></i></div><div class="votes">0</div></div></div>
+    <div class="choose"><div class="ccard" style="--cd:0.10s"><div class="remoji">🍜</div><div class="rname">Midnight Noodles</div><ul class="rfeat"><li>Open 3 a.m. – 5 a.m. only</li><li>Only one dish: super-spicy noodles</li><li>A bowl costs less than a drink</li></ul><div class="bar"><i></i></div><div class="votes">0</div></div><div class="ccard" style="--cd:0.30s"><div class="remoji">🎤</div><div class="rname">Sing for Your Supper</div><ul class="rfeat"><li>Free dessert if you sing!</li><li>Karaoke at every table</li><li>Very, very loud</li></ul><div class="bar"><i></i></div><div class="votes">0</div></div><div class="ccard" style="--cd:0.50s"><div class="remoji">🤫</div><div class="rname">The Silent Spoon</div><ul class="rfeat"><li>No talking allowed</li><li>No menu – the chef chooses</li><li>Beautiful garden view</li></ul><div class="bar"><i></i></div><div class="votes">0</div></div></div>
     <div class="dn-foot neon blue">Which one would you choose? Why?</div>
   </section>
   <section class="slide" data-title="C Writing: Review — Before writing" data-page="41">
