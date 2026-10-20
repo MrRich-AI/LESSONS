@@ -1174,7 +1174,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
       </div>
     </div>
   </section>
-  <section class="slide" data-title="C3 Adjectives to describe the features" data-page="42">
+  <section class="slide" data-copy="120" data-copy-pos="top" data-note="1" data-title="C3 Adjectives to describe the features" data-page="42">
     <div class="sec rise d1"><b>C</b>Writing: Review</div>
     <div class="act rise d1"><span class="n">3</span><span data-vitext="Những tính từ nào trong bảng có thể dùng để miêu tả các đặc điểm em đã liệt kê ở Hoạt động C1? Những tính từ nào có thể miêu tả nhiều hơn một đặc điểm?" data-zhtext="表格中的哪些形容词可以用来描述你在活动 C1 中列出的特点？哪些形容词可以描述不止一个特点？">Which adjectives from the table could you use to describe the features you listed in Activity C1? Which adjectives could describe more than one feature?</span></div>
     <div class="example rise d1">Example: <i>inconvenient location</i></div>
@@ -2525,7 +2525,8 @@ var LESSON_NOTES = {
  ],
  "C3 Adjectives to describe the features": [
   "Example: inconvenient location.",
-  "Adjectives for more than one feature: busy, attractive, quiet / loud, reasonable."
+  "Adjectives for more than one feature: busy, attractive, quiet / loud, reasonable.",
+  "NOTE: once all the ideas are showing, the \u201cAdd ideas to your notebook\u201d strip appears with a 2-minute bar – click it to pause."
  ],
  "C4 The introduction": [
   "Answer: the writer starts with a question to engage the reader.",
@@ -3879,6 +3880,10 @@ section.slide[data-game="chop"] .gmzBtn{right:auto;left:20px}
 #cpStrip.on{transform:translate(-50%,0);opacity:1}
 #cpStrip[data-pos="left"]{left:70px;width:840px;bottom:250px;transform:translate(0,160px)}
 #cpStrip[data-pos="left"].on{transform:none}
+#cpStrip[data-pos="top"]{left:auto;right:70px;width:1130px;height:66px;bottom:auto;top:292px;transform:translate(0,-40px)}
+#cpStrip[data-pos="top"].on{transform:none}
+#cpStrip[data-pos="top"] .tx{font-size:31px}
+#cpStrip.note .pn{filter:hue-rotate(160deg)}
 #cpStrip[data-pos="left"] .tx{font-size:32px}
 #cpStrip::before{content:"";position:absolute;left:66px;top:0;bottom:0;width:3px;background:#e85a6a}
 #cpStrip .ho{position:absolute;left:18px;top:50%;width:22px;height:22px;margin-top:-30px;border-radius:50%;background:#2b2f6b;box-shadow:0 38px 0 #2b2f6b}
@@ -4718,7 +4723,7 @@ var GAMIFY_DATA = {
   function paint(){el.querySelector('.bar i').style.transform='scaleX('+Math.max(0,left/len)+')';el.querySelector('.tm').textContent=up?'TIME’S UP':fmt(left);
     el.classList.toggle('low',!up&&left<=10);el.classList.toggle('up',up);el.classList.toggle('paused',!run&&!up&&el.classList.contains('on'));}
   function loop(now){if(!run){raf=null;return;}left-=(now-last)/1000;last=now;if(left<=0){left=0;run=false;up=true;sound();paint();raf=null;return;}paint();raf=requestAnimationFrame(loop);}
-  function start(){el.dataset.pos=cur.dataset.copyPos||'';len=+(cur.dataset.copy)||120;if(len<10)len=120;left=len;up=false;run=true;last=performance.now();el.classList.add('on');paint();if(!raf)raf=requestAnimationFrame(loop);}
+  function start(){el.dataset.pos=cur.dataset.copyPos||'';el.classList.toggle('note',cur.hasAttribute('data-note'));el.querySelector('.tx').textContent=cur.hasAttribute('data-note')?'Add ideas to your notebook':'Copy into your notebook';len=+(cur.dataset.copy)||120;if(len<10)len=120;left=len;up=false;run=true;last=performance.now();el.classList.add('on');paint();if(!raf)raf=requestAnimationFrame(loop);}
   function hide(){run=false;up=false;el.classList.remove('on','paused','low','up');}
   function revs(s){return [].slice.call(s.querySelectorAll('.ans, .ans-ph'));}
   function check(){
