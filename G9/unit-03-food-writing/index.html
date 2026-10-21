@@ -1518,7 +1518,8 @@ var ROSTERS = {
   function bot(){return stage.classList.contains('nopage');}
   function btn(){return bot()?btnBot:btnTop;}
   function anchor(){
-    var sr=stage.getBoundingClientRect(),k=sr.width/1920,r=btn().getBoundingClientRect();
+    var sr=stage.getBoundingClientRect(),k=sr.width/1920,r=btn().getBoundingClientRect(),lg=document.getElementById('lgSign');
+    if(!bot()&&lg&&lg.offsetWidth)r={right:lg.getBoundingClientRect().right,top:r.top,bottom:r.bottom};
     return {x:(r.right-sr.left)/k+16,top:(r.top-sr.top)/k,bottom:(r.bottom-sr.top)/k};
   }
   function placeWin(){
@@ -2521,12 +2522,12 @@ var LESSON_NOTES = {
   "Students drag the adjectives into Positive / Negative, then Check answers.",
   "Check adds the opposites (e.g. fresh ↔ stale).",
   "Note: busy and local can be either – ask for reasons.",
-  "COPY: after Check answers, the \u201cCopy into your notebook\u201d strip slides up with a 2-minute bar – click it to pause."
+  "COPY: after Check answers the \u270f\ufe0f pencil (beside the timer) glows – click it once for the \u201cCopy into your notebook\u201d strip."
  ],
  "C3 Adjectives to describe the features": [
   "Example: inconvenient location.",
   "Adjectives for more than one feature: busy, attractive, quiet / loud, reasonable.",
-  "NOTE: once all the ideas are showing, the \u201cAdd ideas to your notebook\u201d strip appears with a 2-minute bar – click it to pause."
+  "NOTE: once all the ideas are showing the \u270f\ufe0f pencil glows – click it twice for the \u201cAdd ideas to your notebook\u201d strip."
  ],
  "C4 The introduction": [
   "Answer: the writer starts with a question to engage the reader.",
@@ -2581,7 +2582,7 @@ var LESSON_NOTES = {
  ],
  "Language focus 2: More linking devices": [
   "Pairs add more linkers to each column, then reveal ideas.",
-  "COPY: once all three ideas are showing, the \u201cCopy into your notebook\u201d strip slides up with a 2-minute bar – click it to pause."
+  "COPY: once all three ideas are showing the \u270f\ufe0f pencil glows – click it once for the \u201cCopy into your notebook\u201d strip."
  ],
  "Language focus 3: however or although?": [
   "a Although, b However, c however, d Although.",
@@ -2660,7 +2661,7 @@ var LESSON_REVEALS = ".ans, .ans-ph";
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
       '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen');
-    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡'),'Pick a student')+R(K('⏱'),'Slide timer')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
+    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
   help.innerHTML='<div class="hp"><h2>Keyboard shortcuts <small>press ? or Esc to close</small></h2><div class="cols"><div>'+colA+'</div><div>'+colB+'</div></div></div>';
@@ -3624,23 +3625,6 @@ body.presenter .gmzBtn{display:none!important}
 .twNote{font-size:24px;font-weight:700;opacity:.85;margin:-4px 0 4px 286px}
 
 /* ---------- Signal Lamp: naval night signals (slide 8, D2) ---------- */
-#lgSign{position:absolute;left:560px;top:13px;width:470px;height:78px;z-index:26;perspective:900px;cursor:pointer;display:none;transition:transform .55s cubic-bezier(.3,1.3,.5,1),opacity .4s;opacity:.12}
-#lgSign.show{display:block}
-#lgSign:hover{opacity:.3}
-#lgSign.on,#lgSign.on:hover{opacity:1}
-#lgSign.pop{transform:translate(165px,488px) scale(2.6);z-index:60}
-#lgSign .card{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,1.4,.5,1)}
-#lgSign.vi .card{transform:rotateY(180deg)}
-#lgSign .f{position:absolute;inset:0;border-radius:14px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden;-webkit-backface-visibility:hidden;
-  background:radial-gradient(ellipse at 50% 40%,#1f3a7a,#0c1a44);box-shadow:0 8px 18px rgba(0,0,0,.35),inset 0 0 0 3px rgba(150,180,255,.25);font-family:"Mulish",Arial,sans-serif;font-weight:900;white-space:nowrap;color:#fff}
-#lgSign .f.en{font-size:36px;letter-spacing:4px;--a:#e8f0ff}
-#lgSign .f.vn{font-size:33px;letter-spacing:1px;transform:rotateY(180deg);--a:#ffc21a}
-#lgSign .f span{text-shadow:0 0 4px #fff,0 0 10px var(--a),0 0 22px var(--a),0 0 40px var(--a)}
-#lgSign.on .f span{animation:lgFlick 1s steps(1) 1}
-#lgSign.pop .f{box-shadow:0 0 0 3px rgba(255,255,255,.4),0 0 40px rgba(120,160,255,.9),0 0 90px rgba(120,160,255,.6)}
-#lgSign.pop.vi .f{box-shadow:0 0 0 3px rgba(255,255,255,.4),0 0 40px rgba(255,194,26,.9),0 0 90px rgba(255,194,26,.6)}
-@keyframes lgFlick{0%,12%,24%{opacity:.25}6%,18%,30%,100%{opacity:1}}
-body.student #lgSign,body.presenter #lgSign{display:none!important}
 @keyframes tShake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
 
 #gmz .twRow .twGo,#gmz .twRow .twC.sel{background:var(--ac);color:#1a1008}
@@ -3880,29 +3864,6 @@ body.student #lgSign,body.presenter #lgSign{display:none!important}
 #gmz.solo .gHow{bottom:18px;padding:10px 30px 12px}#gmz.solo .gHow .hh{font-size:19px;margin-bottom:2px}#gmz.solo .gHow .he{font-size:24px;line-height:1.25}#gmz.solo .gHow .hv{font-size:21px;line-height:1.25;margin-top:3px}
 
 section.slide[data-game="chop"] .gmzBtn{right:auto;left:20px}
-/* ---------- COPY: "Copy into your notebook" strip with a 2-minute bar (click to pause) ---------- */
-#cpStrip{position:absolute;left:50%;bottom:112px;width:1180px;height:96px;transform:translate(-50%,160px);opacity:0;z-index:25;cursor:pointer;border-radius:14px;
-  background:repeating-linear-gradient(#fffdf6 0 30px,#cfe0f2 30px 32px);background-position:0 8px;box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 0 3px #2b2f6b;transition:transform .55s cubic-bezier(.2,1.3,.4,1),opacity .35s;display:flex;align-items:center;gap:22px;padding:0 30px 0 90px;font-family:"Mulish",sans-serif}
-#cpStrip.on{transform:translate(-50%,0);opacity:1}
-#cpStrip[data-pos="left"]{left:70px;width:840px;bottom:250px;transform:translate(0,160px)}
-#cpStrip[data-pos="left"].on{transform:none}
-#cpStrip[data-pos="top"]{left:auto;right:70px;width:1130px;height:66px;bottom:auto;top:292px;transform:translate(0,-40px)}
-#cpStrip[data-pos="top"].on{transform:none}
-#cpStrip[data-pos="top"] .tx{font-size:31px}
-#cpStrip.note .pn{filter:hue-rotate(160deg)}
-#cpStrip[data-pos="left"] .tx{font-size:32px}
-#cpStrip::before{content:"";position:absolute;left:66px;top:0;bottom:0;width:3px;background:#e85a6a}
-#cpStrip .ho{position:absolute;left:18px;top:50%;width:22px;height:22px;margin-top:-30px;border-radius:50%;background:#2b2f6b;box-shadow:0 38px 0 #2b2f6b}
-#cpStrip .pn{font-size:46px;animation:cpWrite 1.1s ease-in-out infinite;transform-origin:20% 80%}
-@keyframes cpWrite{0%,100%{transform:rotate(-8deg) translateX(0)}25%{transform:rotate(4deg) translateX(10px)}50%{transform:rotate(-6deg) translateX(20px)}75%{transform:rotate(3deg) translateX(8px)}}
-#cpStrip.paused .pn,#cpStrip.up .pn{animation:none}
-#cpStrip .tx{font-size:40px;font-weight:900;color:#2b2f6b;white-space:nowrap}
-#cpStrip .bar{flex:1;height:22px;border-radius:12px;background:rgba(43,47,107,.15);overflow:hidden;box-shadow:inset 0 0 0 2px rgba(43,47,107,.3)}
-#cpStrip .bar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#0a8b99,#2bc4d4);transform-origin:left;border-radius:12px}
-#cpStrip .tm{font-size:40px;font-weight:900;color:#0a8b99;min-width:110px;text-align:right;font-variant-numeric:tabular-nums}
-#cpStrip.low .bar i{background:linear-gradient(90deg,#e0483c,#ff8a6a)}#cpStrip.low .tm{color:#e0483c;animation:gcLow .5s ease-in-out infinite alternate}
-#cpStrip.paused .tm::after{content:" ❚❚";font-size:26px}
-#cpStrip.up .tm{color:#e0483c;font-size:30px;min-width:150px}
 
 </style>
 <script>
@@ -4725,69 +4686,165 @@ var GAMIFY_DATA = {
 })();
 </script>
 
+
+<style>
+/* ---------- Language sign: faded England flag beside 🎡 (teacher, book slides only) ---------- */
+#lgSign{pointer-events:auto;display:none;align-items:center;gap:14px;height:66px;margin-top:10px;padding:0 6px;border:none;border-radius:16px;background:none;cursor:pointer;flex:none;font-family:"Mulish",sans-serif;opacity:.32;filter:grayscale(.45);transition:opacity .3s,filter .3s,transform .15s}
+#lgSign.show{display:flex}
+#lgSign:hover{opacity:.55;transform:scale(1.04)}
+#lgSign .fl{display:block;width:72px;height:48px;border-radius:6px;overflow:hidden;box-shadow:0 0 0 2px rgba(15,42,46,.35),0 4px 10px rgba(0,0,0,.2)}
+#lgSign .fl svg{display:block;width:100%;height:100%}
+#lgSign .fl .vn,#lgSign.vi .fl .en{display:none}
+#lgSign.vi .fl .vn{display:block}
+#lgSign .tx{display:none;font-size:28px;font-weight:900;letter-spacing:1px;white-space:nowrap;color:#14323a}
+#lgSign.on{opacity:1;filter:none;padding:0 20px 0 9px;background:#fff;box-shadow:0 0 0 3px #ce1124,0 6px 16px rgba(0,0,0,.18),0 0 18px rgba(206,17,36,.35)}
+#lgSign.on.vi{box-shadow:0 0 0 3px #da251d,0 6px 16px rgba(0,0,0,.18),0 0 18px rgba(255,205,0,.6)}
+#lgSign.on .tx{display:block}
+#lgSign.on.vi .tx{color:#b3170f}
+#lgSign.busy{visibility:hidden}
+#lgPop{position:absolute;inset:0;z-index:70;display:none;align-items:center;justify-content:center;pointer-events:none}
+#lgPop.on{display:flex}
+#lgPop .card{display:flex;flex-direction:column;align-items:center;gap:34px;padding:50px 90px 56px;border-radius:40px;background:#fff;font-family:"Mulish",sans-serif;box-shadow:0 0 0 6px #ce1124,0 30px 80px rgba(0,0,0,.35)}
+#lgPop.vi .card{box-shadow:0 0 0 6px #da251d,0 30px 80px rgba(0,0,0,.35)}
+#lgPop.glow .card{animation:lgGlow 1s ease-in-out infinite alternate}
+#lgPop.glow.vi .card{animation-name:lgGlowVi}
+#lgPop .fl{width:390px;height:260px;border-radius:14px;overflow:hidden;box-shadow:0 0 0 4px rgba(15,42,46,.3),0 12px 30px rgba(0,0,0,.25)}
+#lgPop .fl svg{display:block;width:100%;height:100%}
+#lgPop .tx{font-size:104px;font-weight:900;letter-spacing:4px;white-space:nowrap;color:#14323a}
+#lgPop.vi .tx{font-size:88px;letter-spacing:1px;color:#b3170f}
+@keyframes lgGlow{from{box-shadow:0 0 0 6px #ce1124,0 0 40px rgba(206,17,36,.4)}to{box-shadow:0 0 0 6px #ce1124,0 0 70px 20px rgba(206,17,36,.65),0 0 140px 40px rgba(255,255,255,.8)}}
+@keyframes lgGlowVi{from{box-shadow:0 0 0 6px #da251d,0 0 40px rgba(255,205,0,.5)}to{box-shadow:0 0 0 6px #da251d,0 0 70px 20px rgba(255,205,0,.8),0 0 140px 40px rgba(218,37,29,.45)}}
+body.student #lgSign,body.presenter #lgSign,body.student #lgPop,body.presenter #lgPop{display:none!important}
+
+/* ---------- COPY / NOTE pencil beside ⏱ (teacher, book slides only) ---------- */
+#cpPen{pointer-events:auto;display:none;width:62px;height:62px;border:none;background:none;padding:0;cursor:pointer;flex:none;filter:drop-shadow(0 4px 8px rgba(0,0,0,.18));transition:transform .15s}
+#cpPen.show{display:block}
+#cpPen:hover{transform:scale(1.08)}
+#cpPen svg{width:62px;height:62px;overflow:visible}
+#cpPen.glow{animation:cpGlow 1.6s ease-in-out infinite}
+#cpPen.on{transform:rotate(-12deg)}
+@keyframes cpGlow{0%,100%{filter:drop-shadow(0 4px 8px rgba(0,0,0,.18)) drop-shadow(0 0 0 rgba(255,200,40,0))}50%{filter:drop-shadow(0 4px 8px rgba(0,0,0,.18)) drop-shadow(0 0 14px rgba(255,190,30,.95))}}
+#cpStrip{position:absolute;left:50%;bottom:112px;height:96px;transform:translate(-50%,160px);opacity:0;z-index:25;border-radius:14px;pointer-events:none;
+  background:repeating-linear-gradient(#fffdf6 0 30px,#cfe0f2 30px 32px);background-position:0 8px;box-shadow:0 14px 34px rgba(0,0,0,.28),0 0 0 3px #2b2f6b;transition:transform .55s cubic-bezier(.2,1.3,.4,1),opacity .35s;display:flex;align-items:center;gap:26px;padding:0 50px 0 96px;font-family:"Mulish",sans-serif}
+#cpStrip.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+#cpStrip[data-pos="left"]{left:70px;bottom:250px;transform:translate(0,160px)}
+#cpStrip[data-pos="left"].on{transform:none}
+#cpStrip[data-pos="top"]{left:auto;right:70px;height:66px;bottom:auto;top:292px;transform:translate(0,-40px)}
+#cpStrip[data-pos="top"].on{transform:none}
+#cpStrip::before{content:"";position:absolute;left:66px;top:0;bottom:0;width:3px;background:#e85a6a}
+#cpStrip .ho{position:absolute;left:18px;top:50%;width:22px;height:22px;margin-top:-30px;border-radius:50%;background:#2b2f6b;box-shadow:0 38px 0 #2b2f6b}
+#cpStrip[data-pos="top"] .ho{margin-top:-11px;box-shadow:none}
+#cpStrip .pn{font-size:46px;animation:cpWrite 1.1s ease-in-out infinite;transform-origin:20% 80%}
+#cpStrip.note .pn{filter:hue-rotate(160deg)}
+#cpStrip[data-pos="top"] .pn{font-size:36px}
+#cpStrip .tx{font-size:44px;font-weight:900;color:#2b2f6b;white-space:nowrap}
+#cpStrip[data-pos="top"] .tx{font-size:34px}
+@keyframes cpWrite{0%,100%{transform:rotate(-8deg) translateX(0)}25%{transform:rotate(4deg) translateX(10px)}50%{transform:rotate(-6deg) translateX(20px)}75%{transform:rotate(3deg) translateX(8px)}}
+body.student #cpPen,body.presenter #cpPen,body.student #cpStrip,body.presenter #cpStrip{display:none!important}
+</style>
 <script>
-/* ===== Language sign: faded "ENGLISH ONLY" in the top margin (teacher, book slides only).
-   1st click: vivid · 2nd click: flips to "ĐƯỢC DÙNG TIẾNG VIỆT" · later clicks flip back and forth.
-   Each change enlarges and glows for 2 s, then returns. Resets on every slide change. Not on warmers, the quiz or Words from today. ===== */
+/* ===== Language sign: faded England flag beside 🎡 (teacher, book slides only).
+   Click: the flag enlarges to the centre with "ENGLISH ONLY" and glows ~2 s, then returns beside 🎡
+   keeping the flag + text (vivid). Next click flips to the Vietnamese flag + "ĐƯỢC DÙNG TIẾNG VIỆT";
+   later clicks flip back and forth. Resets on every slide change. Not on warmers, games, the quiz
+   or Words from today. ===== */
 (function(){
-  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|presenter)\b/i.test(location.search+location.hash))return;
-  var stage=document.getElementById('stage');if(!stage)return;
-  var s=document.createElement('div');s.id='lgSign';s.title='English only / Vietnamese allowed';
-  s.innerHTML='<div class="card"><div class="f en"><span>ENGLISH ONLY</span></div><div class="f vn"><span>ĐƯỢC DÙNG TIẾNG VIỆT</span></div></div>';
-  stage.appendChild(s);
-  var st=0,popT=null;
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage'),rpTop=document.getElementById('rpTop');if(!stage||!rpTop)return;
+  var EN='<svg class="en" viewBox="0 0 60 40"><rect width="60" height="40" fill="#fff"/><rect x="25" width="10" height="40" fill="#ce1124"/><rect y="15" width="60" height="10" fill="#ce1124"/></svg>';
+  var VN='<svg class="vn" viewBox="0 0 60 40"><rect width="60" height="40" fill="#da251d"/><polygon points="30,7.5 33.6,18.6 45.2,18.6 35.8,25.4 39.4,36.5 30,29.6 20.6,36.5 24.2,25.4 14.8,18.6 26.4,18.6" fill="#ffcd00"/></svg>';
+  var TX=['ENGLISH ONLY','ĐƯỢC DÙNG TIẾNG VIỆT'];
+  var s=document.createElement('button');s.id='lgSign';s.title='English only / Vietnamese allowed';s.setAttribute('aria-label','English only / Vietnamese allowed');
+  s.innerHTML='<span class="fl">'+EN+VN+'</span><span class="tx"></span>';
+  rpTop.parentNode.insertBefore(s,rpTop.nextSibling);
+  var pop=document.createElement('div');pop.id='lgPop';pop.innerHTML='<div class="card"><div class="fl"></div><div class="tx"></div></div>';
+  stage.appendChild(pop);
+  var card=pop.querySelector('.card'),st=0,anims=[],holdT=null;
   function ok(sl){return sl&&sl.dataset.page&&!sl.matches('.warm,.qz,.wft,.stitle');}
-  function reset(){st=0;clearTimeout(popT);s.classList.remove('on','vi','pop');}
-  function pop(){s.classList.remove('pop');void s.offsetWidth;s.classList.add('pop');clearTimeout(popT);popT=setTimeout(function(){s.classList.remove('pop');},2000);}
+  function k(){return stage.getBoundingClientRect().width/1920||1;}
+  function centre(el){var sr=stage.getBoundingClientRect(),r=el.getBoundingClientRect(),q=k();return {x:(r.left+r.width/2-sr.left)/q,y:(r.top+r.height/2-sr.top)/q,w:r.width/q};}
+  function from(){var c=centre(s),cw=card.offsetWidth||1;return 'translate('+(c.x-960)+'px,'+(c.y-540)+'px) scale('+Math.max(.08,c.w/cw)+')';}
+  /* keep the 🎡 name / window to the right of the sign */
+  function nudge(){
+    var q=k(),sr=stage.getBoundingClientRect(),x=(s.getBoundingClientRect().right-sr.left)/q+16;
+    ['rpPill','rp'].forEach(function(id){var e=document.getElementById(id);if(e&&!stage.classList.contains('nopage')&&(e.classList.contains('show')||e.classList.contains('open')))e.style.left=x+'px';});
+  }
+  function paint(){s.classList.toggle('on',st>0);s.classList.toggle('vi',st===2);s.querySelector('.tx').textContent=st?TX[st-1]:'';nudge();}
+  function stopPop(){anims.forEach(function(a){try{a.cancel();}catch(e){}});anims=[];clearTimeout(holdT);pop.className='';s.classList.remove('busy');}
+  function reset(){stopPop();st=0;paint();}
   s.addEventListener('pointerdown',function(e){e.stopPropagation();});
   s.addEventListener('click',function(e){
-    e.stopPropagation();
-    if(st===0){st=1;s.classList.add('on');}
-    else{st=st===1?2:1;s.classList.toggle('vi',st===2);s.classList.remove('on');void s.offsetWidth;s.classList.add('on');}
-    pop();
+    e.stopPropagation();if(s.classList.contains('busy'))return;
+    st=st===1?2:1;
+    var vi=st===2;
+    pop.querySelector('.fl').innerHTML=vi?VN:EN;pop.querySelector('.tx').textContent=TX[st-1];
+    pop.className='on'+(vi?' vi':'');
+    var f0=from();s.classList.add('busy');
+    var a=card.animate([{transform:f0,opacity:.5},{transform:'none',opacity:1}],{duration:480,easing:'cubic-bezier(.2,1.25,.4,1)'});anims=[a];
+    a.onfinish=function(){
+      pop.classList.add('glow');
+      holdT=setTimeout(function(){
+        pop.classList.remove('glow');paint();s.classList.remove('busy');s.style.visibility='hidden';
+        var b=card.animate([{transform:'none',opacity:1},{transform:from(),opacity:.3}],{duration:420,easing:'cubic-bezier(.5,0,.75,0)',fill:'forwards'});anims=[b];
+        b.onfinish=function(){s.style.visibility='';stopPop();};
+      },2000);
+    };
   });
-  function sync(){var a=document.querySelector('#stage .slide.active');reset();s.classList.toggle('show',ok(a));}
+  function sync(){var a=document.querySelector('#stage .slide.active');s.style.visibility='';reset();s.classList.toggle('show',ok(a));}
   document.querySelectorAll('#stage .slide').forEach(function(sl){
     new MutationObserver(function(){if(sl.classList.contains('active'))sync();}).observe(sl,{attributes:true,attributeFilter:['class']});
   });
+  window.langSign={reset:reset};
   sync();
 })();
 </script>
 <script>
-/* ===== COPY: when every answer on a slide with data-copy is showing, a notebook-paper strip slides up:
-   "Copy into your notebook" with a 2-minute bar (data-copy="120" = seconds). Click the strip to pause / play;
-   at zero a time's-up sound plays and TIME'S UP stays. Hides again if answers are hidden or the slide changes. ===== */
+/* ===== COPY / NOTE pencil beside ⏱ (teacher, book slides only).
+   1st click: "Copy into your notebook" strip · 2nd: "Add ideas to your notebook" · 3rd: hides. No bar.
+   On slides where copying fits (data-copy) the pencil glows faintly once every answer is showing;
+   the strip never appears by itself. Resets on every slide change. data-copy-pos="left|top" moves the strip. ===== */
 (function(){
-  var stage=document.getElementById('stage');if(!stage)return;
-  var slides=[].slice.call(document.querySelectorAll('#stage .slide[data-copy]'));if(!slides.length)return;
-  var el=document.createElement('div');el.id='cpStrip';el.title='Click to pause / play';
-  el.innerHTML='<span class="ho"></span><span class="pn">✏️</span><span class="tx">Copy into your notebook</span><span class="bar"><i></i></span><span class="tm">2:00</span>';
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage'),tmTop=document.getElementById('tmTop');if(!stage||!tmTop)return;
+  var pen=document.createElement('button');pen.id='cpPen';pen.title='Copy / note into your notebook';pen.setAttribute('aria-label','Copy into your notebook');
+  pen.innerHTML='<svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="30" fill="#fff" stroke="#06707c" stroke-width="4"/>'+
+    '<g transform="rotate(45 32 32)"><rect x="26" y="9" width="12" height="34" rx="1.5" fill="#ffc21a" stroke="#2b2f6b" stroke-width="2.5"/>'+
+    '<rect x="26" y="9" width="12" height="7" fill="#f28ba0" stroke="#2b2f6b" stroke-width="2.5"/><rect x="26" y="15" width="12" height="3" fill="#b9c2cc"/>'+
+    '<path d="M26 43 L32 55 L38 43 Z" fill="#f5d9b0" stroke="#2b2f6b" stroke-width="2.5" stroke-linejoin="round"/><path d="M30.2 51.3 L32 55 L33.8 51.3 Z" fill="#2b2f6b"/></g></svg>';
+  tmTop.parentNode.insertBefore(pen,tmTop);
+  var el=document.createElement('div');el.id='cpStrip';
+  el.innerHTML='<span class="ho"></span><span class="pn">✏️</span><span class="tx"></span>';
   stage.appendChild(el);
-  var cur=null,len=120,left=120,run=false,last=0,up=false,raf=null,ac=null,lastSnd=-1;
-  function sound(){try{var L=window.TIMER_SOUNDS;if(!L||!L.length)return;if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();
-    var k;do{k=Math.floor(Math.random()*L.length);}while(L.length>1&&k===lastSnd);lastSnd=k;var o=ac.createGain();o.connect(ac.destination);L[k].play(ac,o,ac.currentTime+.02);}catch(e){}}
-  function fmt(s){s=Math.ceil(s);return Math.floor(s/60)+':'+('0'+s%60).slice(-2);}
-  function paint(){el.querySelector('.bar i').style.transform='scaleX('+Math.max(0,left/len)+')';el.querySelector('.tm').textContent=up?'TIME’S UP':fmt(left);
-    el.classList.toggle('low',!up&&left<=10);el.classList.toggle('up',up);el.classList.toggle('paused',!run&&!up&&el.classList.contains('on'));}
-  function loop(now){if(!run){raf=null;return;}left-=(now-last)/1000;last=now;if(left<=0){left=0;run=false;up=true;sound();paint();raf=null;return;}paint();raf=requestAnimationFrame(loop);}
-  function start(){el.dataset.pos=cur.dataset.copyPos||'';el.classList.toggle('note',cur.hasAttribute('data-note'));el.querySelector('.tx').textContent=cur.hasAttribute('data-note')?'Add ideas to your notebook':'Copy into your notebook';len=+(cur.dataset.copy)||120;if(len<10)len=120;left=len;up=false;run=true;last=performance.now();el.classList.add('on');paint();if(!raf)raf=requestAnimationFrame(loop);}
-  function hide(){run=false;up=false;el.classList.remove('on','paused','low','up');}
-  function revs(s){return [].slice.call(s.querySelectorAll('.ans, .ans-ph'));}
-  function check(){
-    var a=document.querySelector('#stage .slide.active');
-    if(!a||!a.hasAttribute('data-copy')){cur=null;hide();return;}
-    var r=revs(a),so=a.querySelector('.sorter'),all=(r.length||so)&&r.every(function(e){return e.classList.contains('shown');})&&(!so||!!(so._api&&so._api.checked));
-    if(all){if(cur!==a||!el.classList.contains('on')){cur=a;if(so){clearTimeout(check.t);check.t=setTimeout(function(){if(cur===a&&!el.classList.contains('on'))start();},1500);}else start();}}
-    else{cur=a;hide();}
+  var st=0,cur=null,TX=['Copy into your notebook','Add ideas to your notebook'];
+  function ok(sl){return sl&&sl.dataset.page&&!sl.matches('.warm,.qz,.wft,.stitle');}
+  function paint(){
+    pen.classList.toggle('on',st>0);
+    if(!st){el.classList.remove('on');return;}
+    el.dataset.pos=(cur&&cur.dataset.copyPos)||'';el.classList.toggle('note',st===2);el.querySelector('.tx').textContent=TX[st-1];
+    el.classList.remove('on');void el.offsetWidth;el.classList.add('on');
   }
+  /* every answer showing = the bottom button reads "Hide all"; sorting slides count once checked */
+  function glow(){
+    var a=cur;if(!a||!a.hasAttribute('data-copy')){pen.classList.remove('glow');return;}
+    var rb=document.getElementById('revealBtn'),so=a.querySelector('.sorter');
+    var all=(rb&&rb.classList.contains('hiding'))||(!!so&&!!(so._api&&so._api.checked));
+    pen.classList.toggle('glow',!!all&&!st);
+  }
+  pen.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  pen.addEventListener('click',function(e){e.stopPropagation();st=(st+1)%3;paint();glow();});
   el.addEventListener('pointerdown',function(e){e.stopPropagation();});
-  el.addEventListener('click',function(e){e.stopPropagation();if(up||!el.classList.contains('on'))return;run=!run;last=performance.now();paint();if(run&&!raf)raf=requestAnimationFrame(loop);});
-  var obs=new MutationObserver(function(){clearTimeout(obs.t);obs.t=setTimeout(check,30);});
-  document.querySelectorAll('#stage .slide').forEach(function(s){obs.observe(s,{attributes:true,attributeFilter:['class']});});
-  slides.forEach(function(s){revs(s).forEach(function(e){obs.observe(e,{attributes:true,attributeFilter:['class']});});var so=s.querySelector('.sorter');if(so){obs.observe(so,{attributes:true,attributeFilter:['class'],subtree:true,childList:true});so.addEventListener('click',function(){setTimeout(check,60);});}});
-  window.copyStrip={hide:hide,check:check};
+  el.addEventListener('click',function(e){e.stopPropagation();});
+  function sync(){cur=document.querySelector('#stage .slide.active');st=0;paint();pen.classList.toggle('show',ok(cur));glow();}
+  var obs=new MutationObserver(function(){clearTimeout(obs.t);obs.t=setTimeout(glow,30);});
+  var rb=document.getElementById('revealBtn');if(rb)obs.observe(rb,{attributes:true,attributeFilter:['class']});
+  document.querySelectorAll('#stage .slide').forEach(function(sl){
+    new MutationObserver(function(){if(sl.classList.contains('active'))sync();}).observe(sl,{attributes:true,attributeFilter:['class']});
+    var so=sl.hasAttribute('data-copy')&&sl.querySelector('.sorter');
+    if(so){obs.observe(so,{attributes:true,attributeFilter:['class'],subtree:true,childList:true});so.addEventListener('click',function(){setTimeout(glow,60);});}
+  });
+  window.copyPen={reset:sync};
+  sync();
 })();
 </script>
-
 </body>
 </html>
