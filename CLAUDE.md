@@ -59,7 +59,8 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 
 ## REV (answer progression)
 - Applies to activities with specific answers from the key (incl. "suggested" answers). Never to open activities or Claude-generated ideas. Applies to every warmer slide with reveals.
-- Blank click / Space / → reveals the next hidden answer; when all show, advances. ← hides the last revealed; with none revealed, goes back.
+- Blank click / Space / → reveals the next hidden answer; when all show, advances.
+- One answer per step, never several at once: drag-and-drop sorters/matches place one item per step (in reading order, with anything tied to it, e.g. its opposite); never wire REV to Check answers / Reveal all. ← hides the last revealed; with none revealed, goes back.
 - Individual answers still toggle; progression skips opened ones. Bottom Next/Back always change slides immediately. Returning keeps answers as left.
 - Non-REV slides: Space/arrows change slides; blank clicks do nothing.
 
