@@ -3416,6 +3416,12 @@ body.presenter .gmzBtn{display:none!important}
 .twN{font-size:28px;font-weight:800;padding:4px 16px;border-radius:30px;color:#fff}
 .twT.a .twN{background:var(--ta)}.twT.b .twN{background:var(--tb)}
 .twN.pop{animation:twPop .5s cubic-bezier(.2,1.6,.4,1)}
+/* absent swap: hover a name in a number team → ✕ */
+.twN{position:relative}
+.twN .twAx,.gPill .ax{display:none;position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;border:3px solid #fff;background:#e0483c;color:#fff;font-family:"Mulish",sans-serif;font-size:18px;font-weight:900;line-height:1;cursor:pointer;align-items:center;justify-content:center;padding:0;box-shadow:0 4px 10px rgba(0,0,0,.4)}
+.twN:hover .twAx,.gPill:hover .ax{display:flex}
+.gTW.busy .twAx{display:none!important}
+.twN.gone{opacity:.3;text-decoration:line-through;transition:opacity .3s}
 @keyframes twPop{from{transform:scale(.2);opacity:0}}
 .twB{display:flex;justify-content:flex-end;align-items:center;gap:16px;margin-top:22px}
 .gTW.busy .twB button,.gTW.busy .twGo,.gTW.busy .twC{opacity:.35;pointer-events:none}
@@ -3424,7 +3430,7 @@ body.presenter .gmzBtn{display:none!important}
 #gmz .gPickWin .ps div{font-size:50px}
 #gmz .gPickWin.t0{border-color:var(--ta)}#gmz .gPickWin.t1{border-color:var(--tb)}
 #gmz .gPickWin.fade{opacity:0;transform:translateY(-12px);transition:opacity .35s,transform .35s}
-.gPill{display:none;font-family:"Mulish",sans-serif;font-size:30px;font-weight:900;padding:6px 24px;border-radius:30px;white-space:nowrap;background:var(--panel);color:#fff;border:3px solid var(--ac);box-shadow:0 0 18px rgba(255,255,255,.25)}
+.gPill{position:relative;display:none;font-family:"Mulish",sans-serif;font-size:30px;font-weight:900;padding:6px 24px;border-radius:30px;white-space:nowrap;background:var(--panel);color:#fff;border:3px solid var(--ac);box-shadow:0 0 18px rgba(255,255,255,.25)}
 .gPill.on{display:block;animation:gPillIn .45s cubic-bezier(.2,1.6,.4,1)}
 .gPill.t0{background:var(--ta);border-color:var(--taL)}.gPill.t1{background:var(--tb);border-color:var(--tbL)}
 @keyframes gPillIn{from{transform:scale(1.6);opacity:0}}
@@ -4032,6 +4038,7 @@ var GAMIFY_DATA = {
     busy=true;slideEl=s;
     try{if(window.rosterPicker)rosterPicker.close();if(window.slideTimer)slideTimer.close();}catch(e){}
     G=def();window.GAMIFY_ON=G.notes;
+    if(TM.base){TM.teams=TM.base.map(function(T){return T.slice();});TM.pools={};}TM.absent=[];
     root.className='on '+G.key+(SOLO?' solo':'');root.innerHTML='';buildCommon();G.build(root);if(SOLO)soloReset(((window.GAMIFY_DATA||{})[G.key]||[]).length);
     pickReset();scores=[0,0];paintScores();show('start');
     lastT=0;raf=requestAnimationFrame(frame);
@@ -4116,7 +4123,7 @@ var GAMIFY_DATA = {
      stay for the rest of the lesson until remade. With teams, 🎡 alternates Team A / Team B and
      picks only from that team; without teams it picks from the whole class. Picked names come
      back once everyone in the pool has been picked. */
-  var TM={cls:null,teams:null,turn:0,cur:0,pools:{},cpool:{},played:{}};
+  var TM={cls:null,teams:null,base:null,num:false,absent:[],turn:0,cur:0,pools:{},cpool:{},played:{}};
   function syncCls(cl){if(window.LESSON_CLASS&&cl.indexOf(window.LESSON_CLASS)>=0)TM.cls=window.LESSON_CLASS;if(!TM.cls&&cl.length===1)TM.cls=cl[0];if(TM.cls)window.LESSON_CLASS=TM.cls;}
   function setTurn(t){TM.cur=t;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('cur',t===i);});}
   function markRow(){if(SOLO)return '';return '<div class="gMark"><button class="mk y" data-v="y" title="Correct">✓</button><button class="mk n" data-v="n" title="Not correct">✗</button></div>';}
@@ -4153,17 +4160,48 @@ var GAMIFY_DATA = {
     var all=window.ROSTERS[TM.cls],q=TM.cpool[TM.cls];if(!q||!q.length)q=TM.cpool[TM.cls]=shuffle(all);return {name:q.pop(),team:-1,all:all};
   }
   function inSpin(){
-    var w=$('.gPickWin'),pill=$('.gPill'),r=nextPick(),tc=r.team>=0?' t'+r.team:'';
+    var r=nextPick();spinTo(r.team>=0?'TEAM '+'AB'[r.team]:esc(TM.cls),r.all,r.name,r.team);
+  }
+  function spinTo(lab,all,name,t){
+    var w=$('.gPickWin'),pill=$('.gPill'),tc=t>=0?' t'+t:'';
     pill.className='gPill';
     w.className='gPickWin on'+tc;
-    w.innerHTML='<div class="pc">'+(r.team>=0?'TEAM '+'AB'[r.team]:esc(TM.cls))+'</div><div class="pw"><div class="ps"></div></div>';
-    reel(w.querySelector('.ps'),r.all,r.name,2000,function(){
+    w.innerHTML='<div class="pc">'+lab+'</div><div class="pw"><div class="ps"></div></div>';
+    reel(w.querySelector('.ps'),all,name,2000,function(){
       w.classList.add('done');
       pk.fadeT=setTimeout(function(){
-        w.classList.add('fade');pill.textContent=r.name;pill.className='gPill on'+tc;
+        w.classList.add('fade');paintPill(name,t);
         pk.fadeT2=setTimeout(function(){w.className='gPickWin';w.innerHTML='';},380);
       },650);
     });
+  }
+  function paintPill(name,t){
+    var pill=$('.gPill');pill.textContent=name;pill.className='gPill on'+(t>=0?' t'+t:'');
+    if(t>=0&&canSwap()&&TM.teams[t].indexOf(name)>=0){var x=document.createElement('button');x.className='ax';x.title='Absent – swap in another student';x.textContent='✕';
+      x.onclick=function(e){e.stopPropagation();swapHud(t,name);};pill.appendChild(x);}
+  }
+  /* ---------- absent swap (number teams only, not "full") ----------
+     Hover a name on a team → ✕. One click takes that student out of the team for this game and a
+     2-s spin picks a replacement from students on neither team (those who haven't played first).
+     The teams as made come back when the next game opens. */
+  function canSwap(){return !SOLO&&!!TM.teams&&TM.num;}
+  function swapPick(t,name,toPool){
+    var T=TM.teams[t],ix=T.indexOf(name);if(ix<0)return null;
+    var all=window.ROSTERS[TM.cls]||[],ab=TM.absent,pl=TM.played[TM.cls]||(TM.played[TM.cls]=[]);
+    if(ab.indexOf(name)<0)ab.push(name);
+    var k=pl.indexOf(name);if(k>=0)pl.splice(k,1);
+    var free=all.filter(function(x){return TM.teams[0].indexOf(x)<0&&TM.teams[1].indexOf(x)<0&&ab.indexOf(x)<0;});
+    var fresh=free.filter(function(x){return pl.indexOf(x)<0;}),from=fresh.length?fresh:free;
+    var rp=from.length?from[Math.floor(Math.random()*from.length)]:null;
+    if(rp){T[ix]=rp;if(pl.indexOf(rp)<0)pl.push(rp);}else T.splice(ix,1);
+    var p=TM.pools[t];if(p){var j=p.indexOf(name);if(j>=0)p.splice(j,1);if(rp&&toPool)p.push(rp);}
+    return {rep:rp,all:free};
+  }
+  function swapHud(t,name){
+    var r=swapPick(t,name,false);if(!r)return;
+    pickReset();var pill=$('.gPill');
+    if(!r.rep){pill.textContent='No one left to swap in';pill.className='gPill on t'+t;return;}
+    spinTo('TEAM '+'AB'[t]+' · SWAP',r.all,r.rep,t);
   }
   /* team window on the start screen */
   function teamLabel(){return TM.teams?'👥 Teams: '+TM.teams[0].length+' v '+TM.teams[1].length:'👥 Make teams';}
@@ -4178,7 +4216,16 @@ var GAMIFY_DATA = {
       '<div class="twB"><button class="twX">✕ Close</button><button class="twNo">No teams</button><button class="twS">▶ START</button></div></div>';
     tw.classList.add('on');
     var inp=tw.querySelector('.twIn'),go=tw.querySelector('.twGo'),slot=tw.querySelector('.twSlot'),cols=[tw.querySelector('.twT.a .nm'),tw.querySelector('.twT.b .nm')],busyT=false;
-    function chip(t,n,anim){var c=document.createElement('span');c.className='twN'+(anim?' pop':'');c.textContent=n;cols[t].appendChild(c);}
+    function chip(t,n,anim,at){var c=document.createElement('span');c.className='twN'+(anim?' pop':'');c.textContent=n;
+      if(canSwap()){var x=document.createElement('button');x.className='twAx';x.title='Absent – swap in another student';x.textContent='✕';x.onclick=function(e){e.stopPropagation();if(!busyT)swapTW(t,n,c);};c.appendChild(x);}
+      if(at){cols[t].insertBefore(c,at);at.remove();}else cols[t].appendChild(c);}
+    function swapTW(t,n,c){
+      var r=swapPick(t,n,true);if(!r)return;
+      c.classList.add('gone');
+      if(!r.rep){setTimeout(function(){c.remove();updTeamBtn();note();},300);return;}
+      lock(true);slot.className='twSlot on t'+t;
+      reel(slot.querySelector('.ps'),r.all,r.rep,2000,function(){chip(t,r.rep,true,c);slot.classList.remove('on');lock(false);updTeamBtn();note();});
+    }
     function paint(){cols.forEach(function(c){c.innerHTML='';});if(TM.teams)TM.teams.forEach(function(T,t){T.forEach(function(n){chip(t,n);});});}
     function lock(on){busyT=on;tw.classList.toggle('busy',on);}
     paint();
@@ -4187,20 +4234,20 @@ var GAMIFY_DATA = {
     [].forEach.call(tw.querySelectorAll('.twC'),function(b){b.onclick=function(){if(busyT)return;TM.cls=b.dataset.c;window.LESSON_CLASS=TM.cls;TM.cpool={};note();[].forEach.call(tw.querySelectorAll('.twC'),function(x){x.classList.toggle('sel',x===b);});};});
     go.onclick=make;
     tw.querySelector('.twX').onclick=function(){if(busyT)return;closeTW();};
-    tw.querySelector('.twNo').onclick=function(){if(busyT)return;TM.teams=null;TM.pools={};TM.turn=0;paint();updTeamBtn();};
+    tw.querySelector('.twNo').onclick=function(){if(busyT)return;TM.teams=null;TM.base=null;TM.num=false;TM.pools={};TM.turn=0;paint();updTeamBtn();};
     tw.querySelector('.twS').onclick=function(){if(busyT)return;closeTW();G.begin();};
     function bad(){inp.classList.remove('bad');void inp.offsetWidth;inp.classList.add('bad');inp.focus();}
     function make(){
       if(busyT)return;
       if(!TM.cls){var cr=tw.querySelector('.twRow');cr.classList.remove('bad');void cr.offsetWidth;cr.classList.add('bad');return;}
       var v=inp.value.trim().toLowerCase(),all=window.ROSTERS[TM.cls],mix=shuffle(all);
-      if(v==='full'){TM.teams=[[],[]];mix.forEach(function(n,i){TM.teams[i%2].push(n);});done();paint();return;}
+      if(v==='full'){TM.num=false;TM.teams=[[],[]];mix.forEach(function(n,i){TM.teams[i%2].push(n);});done();paint();return;}
       var n=parseInt(v,10);if(!(n>=1)){bad();return;}
       n=Math.min(n,Math.floor(all.length/2));
       /* students already in number teams this lesson go last (topped up only if too few are left) */
       var pl=TM.played[TM.cls]||(TM.played[TM.cls]=[]);
       mix=shuffle(all.filter(function(x){return pl.indexOf(x)<0;})).concat(shuffle(all.filter(function(x){return pl.indexOf(x)>=0;})));
-      TM.teams=[[],[]];cols.forEach(function(c){c.innerHTML='';});lock(true);slot.classList.add('on');
+      TM.num=true;TM.absent=[];TM.teams=[[],[]];cols.forEach(function(c){c.innerHTML='';});lock(true);slot.classList.add('on');
       var k=0;
       (function next(){
         if(k>=n*2||!G){slot.classList.remove('on');lock(false);done();return;}
@@ -4209,7 +4256,7 @@ var GAMIFY_DATA = {
         reel(slot.querySelector('.ps'),all,name,2000,function(){TM.teams[t].push(name);chip(t,name,true);setTimeout(next,250);});
       })();
     }
-    function done(){TM.turn=0;TM.pools={};updTeamBtn();note();}
+    function done(){TM.turn=0;TM.pools={};TM.base=TM.teams.map(function(T){return T.slice();});updTeamBtn();note();}
     function note(){var el=tw.querySelector('.twNote');if(!el)return;if(!TM.cls){el.textContent='';return;}var all=window.ROSTERS[TM.cls],pl=TM.played[TM.cls]||[],left=all.filter(function(x){return pl.indexOf(x)<0;}).length;el.textContent=pl.length?left+' of '+all.length+' students have not played yet (number teams pick them first)':'';}
     note();
     setTimeout(function(){inp.focus();},50);
