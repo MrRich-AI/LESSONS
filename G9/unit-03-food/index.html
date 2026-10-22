@@ -3631,7 +3631,7 @@ var GAMIFY_DATA = {
     G=def();window.GAMIFY_ON=G.notes;
     if(TM.base){TM.teams=TM.base.map(function(T){return T.slice();});TM.pools={};}TM.absent=[];
     root.className='on '+G.key+(SOLO?' solo':'');root.innerHTML='';buildCommon();G.build(root);if(SOLO)soloReset(((window.GAMIFY_DATA||{})[G.key]||[]).length);
-    pickReset();scores=[0,0];paintScores();show('start');
+    pickReset();scores=[0,0];AW={};paintScores();show('start');
     lastT=0;raf=requestAnimationFrame(frame);
     shatter(true,function(){busy=false;});
     obs=new MutationObserver(function(){if(!s.classList.contains('active'))closeNow();});
@@ -3660,8 +3660,8 @@ var GAMIFY_DATA = {
       '<div class="gmzScr sStart"></div><div class="gmzScr sPlay"></div><div class="gmzScr sEnd"></div>'+
       '<div class="gmzHud"><div class="gTitle">'+G.title+'</div><div class="gRound"></div><div class="gSp"></div>'+
       (SOLO?'<div class="gSolo"><span class="l">'+LT('score')+'</span><b>0</b><span class="o">/ <i>0</i></span></div>':
-      '<div class="gTeam a"><button class="tm" data-t="0">TEAM A <b>0</b></button><button class="mn" data-t="0" title="Take away a point">−</button></div>'+
-      '<div class="gTeam b"><button class="tm" data-t="1">TEAM B <b>0</b></button><button class="mn" data-t="1" title="Take away a point">−</button></div>'+
+      '<div class="gTeam a"><button class="tm" data-t="0">TEAM A <b>0</b></button><button class="mn" data-t="0" title="Take away a point">−</button><div class="gReady">Ready?</div></div>'+
+      '<div class="gTeam b"><button class="tm" data-t="1">TEAM B <b>0</b></button><button class="mn" data-t="1" title="Take away a point">−</button><div class="gReady">Ready?</div></div>'+
       '<div class="gPill"></div><button class="gBtn gPick" title="Pick a student">🎡</button>')+(G.pause?'<button class="gBtn gPause" title="Pause / play">❚❚</button>':'')+
       (SOLO?'':'<button class="gBtn gPrev" title="Back">◀</button>')+'<button class="gBtn gNext" title="Next">▶</button><button class="gBtn gExit" title="Back to the slide">✕</button></div>'+
       '<div class="gPickWin"></div>';
@@ -3716,9 +3716,20 @@ var GAMIFY_DATA = {
      back once everyone in the pool has been picked. */
   var TM={cls:null,teams:null,base:null,num:false,absent:[],turn:0,cur:0,pools:{},cpool:{},played:{}};
   function syncCls(cl){if(window.LESSON_CLASS&&cl.indexOf(window.LESSON_CLASS)>=0)TM.cls=window.LESSON_CLASS;if(!TM.cls&&cl.length===1)TM.cls=cl[0];if(TM.cls)window.LESSON_CLASS=TM.cls;}
-  function setTurn(t){TM.cur=t;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('cur',t===i);});}
+  function setTurn(t){TM.cur=t;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('cur',t===i);e.classList.remove('ready');});}
+  /* "Ready?" under the team that answers next (cleared when its turn starts) */
+  function ready(t){if(SOLO)return;$$('.gmzHud .gTeam').forEach(function(e,i){e.classList.toggle('ready',t===i);});}
+  /* ✓ adds a point to the team that answered (✓ again or ✗ takes it back); one point per round */
+  var AW={};
+  function award(v){
+    if(SOLO||!G)return;var rt=($('.gRound')||{}).textContent||'',key=G.key+'|'+rt,had=AW[key];
+    if(had!==undefined&&v!=='y'){if(scores[had]>0)scores[had]--;paintScores(had);delete AW[key];}
+    if(v==='y'&&AW[key]===undefined&&(TM.cur===0||TM.cur===1)){scores[TM.cur]++;paintScores(TM.cur);AW[key]=TM.cur;}
+    var m=rt.match(/(\d+)\s*\/\s*(\d+)/),last=m&&m[1]===m[2];
+    ready(!v||last?-1:(G.nextTeam?G.nextTeam(v):(TM.cur>=0?1-TM.cur:-1)));
+  }
   function markRow(){if(SOLO)return '';return '<div class="gMark"><button class="mk y" data-v="y" title="Correct">✓</button><button class="mk n" data-v="n" title="Not correct">✗</button></div>';}
-  function wireMarks(box,get,set){if(!box)return;[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());};});}
+  function wireMarks(box,get,set){if(!box)return;[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());award(get());};});}
   function paintMarks(box,v){if(!box)return;box.classList.toggle('has',!!v);[].forEach.call(box.querySelectorAll('.mk'),function(b){b.classList.toggle('on',b.dataset.v===v);});}
   var pk={raf:null,fadeT:null,fadeT2:null};
   function classes(){var R=window.ROSTERS||{};return Object.keys(R).filter(function(k){return R[k]&&R[k].length;});}
@@ -4481,5 +4492,21 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
   window.coverBoxes={clear:clearAll};
 })();
 </script>
+<style>
+/* ---------- GAMIFY class mode: answering team glows brighter + wobbles; "Ready?" under the next team ---------- */
+.gmzHud .gTeam{position:relative;overflow:visible;margin:0 10px}
+.gmzHud .gTeam .tm{border-radius:40px 0 0 40px}
+.gmzHud .gTeam .mn{border-radius:0 40px 40px 0}
+.gmzHud .gTeam.cur{z-index:2;animation:gCurW 1.1s ease-in-out infinite}
+@keyframes gCurW{0%,100%{transform:scale(1.08) rotate(-2.5deg);box-shadow:0 0 0 5px #fff,0 0 34px 12px var(--glow),0 0 80px 22px var(--glow)}
+  50%{transform:scale(1.12) rotate(2.5deg);box-shadow:0 0 0 6px #fff,0 0 54px 20px var(--glow),0 0 120px 36px var(--glow)}}
+.gmzHud .gTeam.cur .tm{filter:brightness(1.18) saturate(1.15)}
+.gmzHud .gReady{position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%);display:none;white-space:nowrap;pointer-events:none;
+  font:900 20px "Mulish",sans-serif;letter-spacing:.12em;padding:3px 14px;border-radius:20px;background:#fff;color:#1a1008;box-shadow:0 0 0 3px var(--glow),0 4px 12px rgba(0,0,0,.35)}
+.gmzHud .gTeam.ready .gReady{display:block;animation:gReadyIn .35s cubic-bezier(.2,1.6,.4,1),gReadyP 1.2s ease-in-out .35s infinite}
+.gmzHud .gTeam.cur .gReady{top:calc(100% + 14px)}
+@keyframes gReadyIn{from{transform:translateX(-50%) scale(.3);opacity:0}}
+@keyframes gReadyP{50%{transform:translateX(-50%) scale(1.08)}}
+</style>
 </body>
 </html>
