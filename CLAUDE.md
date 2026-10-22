@@ -18,7 +18,8 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 ## Lesson Template (start every new build from it)
 - `_shared/lesson-template/template.html` has every standard feature already working: header and bottom bar, REV, reveals, sorters, drag-into-gap, choice buttons, phrase spotting, work timer, PROVE note-making windows, CLUE/VISCLUE, Words from today, all teacher tools and keys, `?student` / `?zh`, the quiz engine, the GAMIFY engine and the listening module.
 - New build: copy it to the build's folder as `index.html`, then write only what's unique — book slides, answers, warmers, "Open your book" transition, 5/6 theme, quiz questions and style, GAMIFY games — and fill in the data blocks (rosters for this grade, title screen, words, notes, zoom/read-aloud targets). `_shared/lesson-template/README.md` lists every block to replace and which sample slide shows each feature.
-- Don't rewrite the shared features from scratch. When a shared feature changes, update the template as well as the builds.
+- Don't rewrite the shared features from scratch.
+- **Template update check (every time):** whenever a new feature is added or an existing one is changed, ask Richard one yes/no question before finishing: "Update the Lesson Template too?" Yes → apply the same change to `_shared/lesson-template/template.html` (and its README if needed) and commit it with the build change. No → leave the template as it is. Skip the question only for things unique to one build (its slides, warmers, transition, 5/6 theme, quiz questions, games).
 
 ## Before building
 1. Read every page of the PDF.
