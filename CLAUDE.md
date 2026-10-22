@@ -63,6 +63,7 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 - One answer per step, never several at once: drag-and-drop sorters/matches place one item per step (in reading order, with anything tied to it, e.g. its opposite); never wire REV to Check answers / Reveal all. ← hides the last revealed; with none revealed, goes back.
 - Individual answers still toggle; progression skips opened ones. Bottom Next/Back always change slides immediately. Returning keeps answers as left.
 - Non-REV slides: Space/arrows change slides; blank clicks do nothing.
+- Highlighting text (drag-select, or double-click a word) never counts as a click: no reveal, no REV step, no slide change.
 
 ## PROVE (evidence window, Reading)
 - Default for Exam-style question sections; ask for other Reading activities.

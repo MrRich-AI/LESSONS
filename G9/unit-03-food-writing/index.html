@@ -4974,5 +4974,30 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
 @keyframes gReadyIn{from{transform:translateX(-50%) scale(.3);opacity:0}}
 @keyframes gReadyP{50%{transform:translateX(-50%) scale(1.08)}}
 </style>
+<script>
+/* ===== Highlighting text never counts as a click: a drag that moves the pointer, or a click that leaves
+   text selected, does not reveal answers, advance REV or change slides. Plain clicks work as before. ===== */
+(function(){
+  var down=null,MOVE=6;
+  document.addEventListener('pointerdown',function(e){down={x:e.clientX,y:e.clientY,b:e.button};},true);
+  function selected(){var s=window.getSelection&&window.getSelection();return !!(s&&!s.isCollapsed&&String(s).trim());}
+  document.addEventListener('click',function(e){
+    var d=down;down=null;
+    if(!d||d.b!==0)return;
+    var moved=Math.abs(e.clientX-d.x)>MOVE||Math.abs(e.clientY-d.y)>MOVE;
+    if((moved||selected())&&!(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))){e.stopPropagation();e.preventDefault();}
+  },true);
+  /* double click to select a word: the first click already counted, so undo it with one ← step */
+  function sig(){var a=document.querySelector('#stage .slide.active'),rb=document.getElementById('revealBtn');
+    return a?[[].indexOf.call(a.parentNode.children,a),a.querySelectorAll('.shown,.placed').length,rb?rb.textContent:''].join('|'):'';}
+  var pre=null;
+  document.addEventListener('mousedown',function(e){if(e.button===0&&e.detail===1)pre=sig();},true);
+  document.addEventListener('dblclick',function(e){
+    if(!selected()||pre===null||e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))return;
+    if(sig()!==pre)document.dispatchEvent(new KeyboardEvent('keydown',{key:'ArrowLeft',code:'ArrowLeft',bubbles:true,cancelable:true}));
+    pre=null;
+  },true);
+})();
+</script>
 </body>
 </html>
