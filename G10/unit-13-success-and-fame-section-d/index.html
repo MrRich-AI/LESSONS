@@ -2731,12 +2731,36 @@ var LESSON_EXTRAS = {
 
   /* ---------- Click-to-zoom ---------- */
   var zl=document.createElement('div');zl.id='zoomLayer';zl.innerHTML='<div class="zmX">✕ Esc</div>';stage.appendChild(zl);
+  /* zoomed copies always sit on a solid background: their own, else the nearest one behind them on the slide, else white */
+  /* a zoomed copy that lost slide-specific styling gets the original's look copied across (not opacity/visibility/transform, so reveals still work) */
+  var ZP=['color','background-color','background-image','background-size','background-position','background-repeat','border-top','border-right','border-bottom','border-left','border-radius','box-shadow',
+    'padding-top','padding-right','padding-bottom','padding-left','font-family','font-size','font-weight','font-style','line-height','letter-spacing','text-align','text-transform','text-shadow','white-space',
+    'display','flex-direction','flex-wrap','align-items','justify-content','gap','grid-template-columns','grid-template-rows','overflow','object-fit','object-position'],
+    ZM=['width','height','position','left','top','right','bottom'];
+  function keepLook(o,c){
+    var a=getComputedStyle(o),b=getComputedStyle(c);
+    if(a.backgroundColor===b.backgroundColor&&a.color===b.color&&a.fontSize===b.fontSize&&a.backgroundImage===b.backgroundImage&&a.overflow===b.overflow)return;
+    (function copy(x,y){if(!x||!y||x.nodeType!==1)return;var s=getComputedStyle(x);ZP.forEach(function(p){y.style.setProperty(p,s.getPropertyValue(p));});
+      if(x!==o&&/^(IMG|CANVAS|VIDEO|svg)$/.test(x.tagName))ZM.forEach(function(p){y.style.setProperty(p,s.getPropertyValue(p));});
+      for(var i=0;i<x.children.length;i++)copy(x.children[i],y.children[i]);})(o,c);
+  }
+  function solidBg(el){
+    function op(c){var m=/rgba?\(([^)]+)\)/.exec(c||'');if(!m)return 0;var p=m[1].split(',');return p.length<4?1:parseFloat(p[3]);}
+    var cs=getComputedStyle(el);if(op(cs.backgroundColor)>=.9||cs.backgroundImage!=='none')return null;
+    /* photos are solid already */
+    var im=el.querySelector('img,canvas,video'),r=el.getBoundingClientRect();if(im){var q=im.getBoundingClientRect();if(q.width*q.height>=.6*r.width*r.height)return null;}
+    for(var p=el.parentElement;p&&p!==document.body;p=p.parentElement){
+      var c=getComputedStyle(p);if(op(c.backgroundColor)>=.9)return c.backgroundColor;if(c.backgroundImage!=='none'&&!/gradient/.test(c.backgroundImage))break;
+      if(p.id==='stage')break;}
+    return '#fff';
+  }
   function zoomOpen(el){
     var sl=el.closest('.slide'),w=el.offsetWidth,h=el.offsetHeight;
     var wrap=document.createElement('div');
     wrap.className='zmWrap '+(sl?[].slice.call(sl.classList).filter(function(c){return c!=='slide'&&c!=='active';}).join(' '):'');
     var cl=el.cloneNode(true);cl.removeAttribute('id');cl.querySelectorAll('[id]').forEach(function(x){x.removeAttribute('id');});
     cl.style.width=w+'px';cl.style.height=h+'px';cl.style.margin='0';cl.style.position='relative';cl.style.left='auto';cl.style.top='auto';cl.style.transform='none';
+    var bg=solidBg(el);if(bg){wrap.style.background=bg;wrap.style.padding='22px 26px';wrap.style.borderRadius='18px';wrap.style.boxShadow='0 20px 60px rgba(0,0,0,.45)';}
     wrap.appendChild(cl);
     var zr=LESSON_EXTRAS.zoomReveal||'.clk, .rv',og=el.querySelectorAll(zr),cg=cl.querySelectorAll(zr);
     cg.forEach(function(c,i){var o=og[i];if(!o)return;c.classList.add('zmLive');
@@ -2744,7 +2768,7 @@ var LESSON_EXTRAS = {
       c.addEventListener('pointerdown',function(e){e.stopPropagation();});});
     var k=Math.min(1780/w,940/h,3.2);wrap.style.transform='scale('+k+')';
     [].slice.call(zl.querySelectorAll('.zmWrap')).forEach(function(x){x.remove();});
-    zl.appendChild(wrap);zl.classList.add('on');
+    zl.appendChild(wrap);zl.classList.add('on');keepLook(el,cl);
   }
   function zoomClose(){zl.classList.remove('on');[].slice.call(zl.querySelectorAll('.zmWrap')).forEach(function(x){x.remove();});}
   zl.addEventListener('click',function(e){e.stopPropagation();zoomClose();});

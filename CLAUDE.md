@@ -55,7 +55,7 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 - **Work timer:** planning/drafting/writing slides — 5 and 10 min presets, start/pause/reset, runs across those slides, red near the end.
 - **Coursebook videos:** no embedded video; show the book's questions plus an animated "play it on the website" placeholder.
 - **Texts from earlier in the unit:** show the completed texts with page numbers, zoomable.
-- **Click-to-zoom:** small magnifier on reading texts and photos; gap answers can be revealed by clicking the gap while zoomed.
+- **Click-to-zoom:** small magnifier on reading texts and photos; gap answers can be revealed by clicking the gap while zoomed. The zoomed view keeps the item's on-slide look (colours, crop) and always has a solid background — the item's own, else the colour behind it on the slide, else white; never transparent.
 
 ## REV (answer progression)
 - Applies to activities with specific answers from the key (incl. "suggested" answers). Never to open activities or Claude-generated ideas. Applies to every warmer slide with reveals.
