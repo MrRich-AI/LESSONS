@@ -943,6 +943,41 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
 #pvWait.on{display:block}
 #lxToast{position:absolute;left:50%;bottom:130px;transform:translateX(-50%);z-index:97;padding:16px 28px;border-radius:16px;background:#1d1d1f;color:#fff;font:700 28px "Mulish",sans-serif;opacity:0;transition:opacity .3s;pointer-events:none}
 #lxToast.on{opacity:1}
+
+/* ---------- Self-check / pair check after the Exam-style question ---------- */
+.slide.sck .ckList{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-direction:column;gap:14px}
+.slide.sck .ck{display:flex;align-items:center;gap:18px;padding:12px 18px;border-radius:10px;background:#fff;border:3px solid #9fcfd7;cursor:pointer;transition:background .25s,border-color .25s,transform .15s;font-size:32px;line-height:1.22}
+.slide.sck .ck:hover{transform:translateX(6px)}
+.slide.sck .ck .bx{flex:none;width:46px;height:46px;border-radius:8px;border:4px solid var(--teal);background:#fff;position:relative}
+.slide.sck .ck .n{flex:none;font-family:"Mulish",sans-serif;font-weight:800;font-size:26px;color:var(--teal-dark);width:22px}
+.slide.sck .ck .tx{display:flex;flex-direction:column}
+.slide.sck .ck small.ex{font-family:"Mulish",sans-serif;font-size:24px;color:#4a5a6a;margin-top:2px}
+.slide.sck .ck.on{background:#e3f6d8;border-color:#5ea72c}
+.slide.sck .ck.on .bx{background:#5ea72c;border-color:#5ea72c}
+.slide.sck .ck.on .bx::after{content:"✓";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font:900 34px/1 "Mulish",sans-serif;animation:ckPop .35s cubic-bezier(.2,1.6,.4,1)}
+@keyframes ckPop{from{transform:scale(0)}}
+.slide.sck .ckList.pair .ck{padding:18px 20px}
+.slide.sck .ckUp{display:flex;gap:16px;align-items:center;margin-top:16px;padding:14px 20px;border-radius:10px;background:#fff8e6;border:3px dashed #e89b14;font-size:28px;line-height:1.3}
+.slide.sck .ckUp .pen{font-size:40px;animation:penWig 2.4s ease-in-out infinite}
+@keyframes penWig{50%{transform:rotate(-12deg) translateY(-3px)}}
+.slide.sck .ckUp small.ex{display:block;font-family:"Mulish",sans-serif;font-size:22px;color:#6a4a10;margin-top:2px}
+.slide.sck .ckCount{align-self:flex-start;padding:10px 26px;border-radius:40px;background:var(--teal);color:#fff;font:800 34px "Mulish",sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.15)}
+.slide.sck .ckCount b{font-size:48px}
+.slide.sck .ckCount span{font-size:24px;font-weight:700;opacity:.9;margin-left:4px}
+.slide.sck .ckCount.full{background:#5ea72c;animation:ckFull .6s}
+@keyframes ckFull{40%{transform:scale(1.12)}}
+.slide.sck .ckRule{position:relative;display:flex;align-items:center;gap:12px;padding:16px 18px 30px;background:#fff;border-radius:10px;border:3px solid #9fcfd7;font:800 26px "Mulish",sans-serif;color:var(--teal-dark)}
+.slide.sck .ckRule .bar{flex:1;height:18px;border-radius:9px;background:linear-gradient(90deg,#e0483c 0,#e89b14 18%,#5ea72c 30%,#5ea72c 70%,#e89b14 82%,#e0483c 100%);position:relative;overflow:hidden}
+.slide.sck .ckRule .bar i{position:absolute;top:0;bottom:0;width:6px;background:#13213a;left:50%;animation:ckSweep 4s ease-in-out infinite}
+@keyframes ckSweep{0%,100%{left:30%}50%{left:68%}}
+.slide.sck .ckRule small{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:20px;color:#4a5a6a}
+.slide.sck .ckSwap{display:flex;align-items:center;justify-content:center;gap:22px;padding:14px;background:#fff;border-radius:10px;border:3px solid #9fcfd7}
+.slide.sck .ckSwap .p{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:900 36px "Mulish",sans-serif;color:#fff}
+.slide.sck .ckSwap .p.a{background:#3a87c7}.slide.sck .ckSwap .p.b{background:#e6175c}
+.slide.sck .ckSwap .arr{font-size:54px;color:var(--teal-dark);animation:ckArr 2s ease-in-out infinite}
+@keyframes ckArr{50%{transform:scaleX(-1)}}
+.slide.sck .esqTip .in{font-size:28px}
+.slide.sck [data-vitext].viOn{color:#57309a}
 </style>
 </head>
 <body>
@@ -1187,6 +1222,39 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
             <li><b>What you learnt</b> – facts that surprised you</li>
             <li><b>Recommendation</b> – who should watch it and why</li>
           </ol><p>Readers: students and teachers → neutral / formal style.</p></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slide dsp esq sck" data-title="Self-check: did I answer the question?" data-page="48">
+    <div class="esqBox rise d1">
+      <h3>AFTER WRITING · CHECK ON YOUR OWN</h3>
+      <div class="esqIn">
+        <div class="esqL">
+          <p class="esqH"><span data-vitext="Đọc lại bài đánh giá của em. Đánh dấu vào từng ô khi em chắc chắn bài viết đã làm được điều đó." data-zhtext="再读一遍你的评论。确定做到了以后，在每个方框里打勾。">Read your review again. Tick each box when you are sure your review does it.</span></p>
+          <ol class="ckList self"><li class="ck" tabindex="0"><span class="bx"></span><span class="n">1</span><span class="tx"><span data-vitext="Mình đã nói mình nghĩ gì về chương trình chưa?" data-zhtext="我写了自己对这个节目的看法吗？">Did I say what I thought of the programme?</span></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">2</span><span class="tx"><span data-vitext="Mình đã nói mình học được gì từ chương trình chưa?" data-zhtext="我写了从这个节目中学到了什么吗？">Did I say what I learnt from the programme?</span></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">3</span><span class="tx"><span data-vitext="Mình đã dùng một ý kiến trong khung &lt;i&gt;và&lt;/i&gt; một ý của riêng mình chưa?" data-zhtext="我用了框里的一条评论&lt;i&gt;和&lt;/i&gt;一个自己的想法吗？">Did I use a comment from the box <i>and</i> an idea of my own?</span></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">4</span><span class="tx"><span data-vitext="Mình đã dùng từ nối chỉ sự tương phản chưa?" data-zhtext="我用了表示对比的连接词吗？">Did I use contrast linkers?</span><small class="ex">however · although · on the other hand · but</small></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">5</span><span class="tx"><span data-vitext="Bài viết có khoảng 120–160 từ chưa?" data-zhtext="字数在 120–160 个词之间吗？">Is it 120–160 words?</span></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">6</span><span class="tx"><span data-vitext="Văn phong đã phù hợp với học sinh và giáo viên chưa?" data-zhtext="文风适合学生和老师阅读吗？">Is the style right for students and teachers?</span><small class="ex">neutral / formal – no slang, no text-speak</small></span></li></ol>
+        </div>
+        <div class="esqR">
+          <div class="ckCount"><b>0</b> / 6 <span>ticked</span></div>
+          <div class="tipbox esqTip"><h3>IF YOU CAN’T TICK A BOX …</h3><div class="in"><span data-vitext="Sửa ngay: thêm hoặc sửa một hai câu trước khi đổi bài với bạn." data-zhtext="现在就改：和同伴交换之前，加上或修改一两句话。">Fix it now: add or change a sentence or two before you swap with a partner.</span></div></div>
+          <div class="ckRule"><span class="w">120</span><span class="bar"><i></i></span><span class="w">160</span><small>words</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="slide dsp esq sck" data-title="Pair check: language upgrade hunt" data-page="48">
+    <div class="esqBox rise d1">
+      <h3>AFTER WRITING · CHECK IN PAIRS</h3>
+      <div class="esqIn">
+        <div class="esqL">
+          <p class="esqH"><span data-vitext="Đổi bài với bạn bên cạnh. Tìm từng mục sau trong bài của bạn và đánh dấu." data-zhtext="和同伴交换评论。在同伴的评论中找到下面每一项并打勾。">Swap reviews with a partner. Find each of these in your partner’s review and tick it.</span></p>
+          <ol class="ckList pair"><li class="ck" tabindex="0"><span class="bx"></span><span class="n">1</span><span class="tx"><span data-vitext="Một cụm từ nêu ý kiến" data-zhtext="一个表达观点的短语">An opinion phrase</span><small class="ex">In my opinion … · I thought … · I found it …</small></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">2</span><span class="tx"><span data-vitext="Một từ nối chỉ sự tương phản" data-zhtext="一个表示对比的连接词">A contrast linker</span><small class="ex">however · although · on the other hand</small></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">3</span><span class="tx"><span data-vitext="Ít nhất ba từ trong Unit 3" data-zhtext="至少三个第三单元的词">At least three words from Unit 3</span><small class="ex">consume · guaranteed · harmless · majority · underestimate</small></span></li><li class="ck" tabindex="0"><span class="bx"></span><span class="n">4</span><span class="tx"><span data-vitext="Một cụm từ đưa ra lời khuyên" data-zhtext="一个推荐的短语">A recommendation phrase</span><small class="ex">I would recommend … · If you …, you should …</small></span></li></ol>
+          <div class="ckUp"><span class="pen">✏️</span><div><b><span data-vitext="Một nâng cấp: gạch chân một từ hoặc câu còn đơn giản và gợi ý cách viết hay hơn." data-zhtext="一处升级：在一个平淡的词或句子下画线，并建议一个更好的说法。">One upgrade: underline one plain word or sentence and suggest a better one.</span></b><small class="ex">e.g. <i>good</i> → <i>informative</i> · <i>very bad</i> → <i>shocking</i></small></div></div>
+        </div>
+        <div class="esqR">
+          <div class="ckCount"><b>0</b> / 4 <span>found</span></div>
+          <div class="tipbox esqTip"><h3>BE KIND AND SPECIFIC</h3><div class="in"><span data-vitext="Hãy nói một điều bạn làm tốt trước khi góp ý sửa. Chỉ rõ từ ngữ cụ thể." data-zhtext="提出修改建议之前，先说一个同伴写得好的地方。指出具体的词句。">Say one thing your partner did well before you suggest a change. Point to the exact words.</span></div></div>
+          <div class="ckSwap"><span class="p a">A</span><span class="arr">⇄</span><span class="p b">B</span></div>
         </div>
       </div>
     </div>
@@ -2384,6 +2452,14 @@ var LESSON_NOTES = {
   "120–160 words · Content 6 + Language 9 = 15 marks.",
   "Use the work timer for planning and writing. Plan ideas behind the reveal.",
   "🎮 Bento Planner (GAMIFY button) builds the plan and shows a model review."
+ ],
+ "Self-check: did I answer the question?": [
+  "Students check their own review first (about 3 min) – click a box to tick it on screen as you model it.",
+  "Anything they can't tick: fix it before swapping."
+ ],
+ "Pair check: language upgrade hunt": [
+  "Pairs swap reviews and look for each item (about 5 min).",
+  "Each partner suggests one upgrade – one strength first, then the change."
  ],
  "🎮 Reply Rally": [
   "Game for D4 (slide 10). 8 orders: a food opinion + how to react.",
@@ -5067,5 +5143,19 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
 @keyframes gReadyIn{from{transform:translateX(-50%) scale(.3);opacity:0}}
 @keyframes gReadyP{50%{transform:translateX(-50%) scale(1.08)}}
 </style>
+<script>
+/* ===== Self-check / pair check: tap a box to tick it; counter shows how many are ticked ===== */
+(function(){
+  document.querySelectorAll('#stage .slide.sck').forEach(function(sl){
+    var items=[].slice.call(sl.querySelectorAll('.ck')),cnt=sl.querySelector('.ckCount');
+    function paint(){var n=items.filter(function(x){return x.classList.contains('on');}).length;cnt.querySelector('b').textContent=n;cnt.classList.toggle('full',n===items.length);}
+    items.forEach(function(it){
+      it.addEventListener('pointerdown',function(e){e.stopPropagation();});
+      it.addEventListener('click',function(e){e.stopPropagation();it.classList.toggle('on');paint();});
+      it.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();e.stopPropagation();it.click();}});
+    });
+  });
+})();
+</script>
 </body>
 </html>
