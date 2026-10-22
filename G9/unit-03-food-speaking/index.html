@@ -2028,13 +2028,13 @@ var LESSON_WORDS_VI = {};
   var bridge=document.getElementById('bridge'),bridgeBusy=false,bridgeTimers=[];
   function finishBridge(target){
     bridgeTimers.forEach(clearTimeout);bridgeTimers=[];
-    go(target);bridge.classList.add('out');bridge.querySelectorAll('.bx-spark').forEach(function(s){s.remove();});
+    if(oBridgeOnly)oBridgeOnly=false;else go(target);bridge.classList.add('out');bridge.querySelectorAll('.bx-spark').forEach(function(s){s.remove();});
     bridgeTimers.push(setTimeout(function(){bridge.classList.remove('play','out');bridgeBusy=false;},520));
   }
   function goNext(i){
     if(bridgeBusy) return;
-    if(i===cur+1&&slides[cur]&&slides[i]&&slides[cur].classList.contains('warm')&&!slides[i].classList.contains('warm')){
-      var t=(slides[cur].dataset.bridge||'Unit 3').replace(/^\u203a\s*/,'');
+    if(oBridgeOnly||(i===cur+1&&slides[cur]&&slides[i]&&slides[cur].classList.contains('warm')&&!slides[i].classList.contains('warm'))){
+      var t=(oBridgeOnly&&!slides[cur].classList.contains('warm')&&slides[i].dataset.page?'p. '+slides[i].dataset.page:(slides[cur].dataset.bridge||'Unit 3')).replace(/^\u203a\s*/,'');
       document.getElementById('brTarget').textContent=t;
       bridgeBusy=true;bridge.classList.remove('out');bridge.classList.add('play');
       var tg=slides[i],head=(tg.querySelector('.sec')?tg.querySelector('.sec').textContent.replace(/^D/,'D ').split(':')[0]:(tg.dataset.title||'').split(' — ')[0]),pg=parseInt(tg.dataset.page,10)||41;
@@ -2058,6 +2058,18 @@ var LESSON_WORDS_VI = {};
     }
     go(i);
   }
+
+  /* O (teacher): play the "Open your book" transition again; the slide does not change */
+  var oBridgeOnly=false;
+  document.addEventListener('keydown',function(e){
+    if((e.key!=='o'&&e.key!=='O')||e.ctrlKey||e.metaKey||e.altKey||bridgeBusy)return;
+    if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+    if(e.target&&e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))return;
+    try{if(window.gamify&&gamify.isOn())return;}catch(x){}
+    var t=cur;
+    if(slides[cur].classList.contains('warm')||!slides[cur].dataset.page){for(var k=cur+1;k<slides.length;k++)if(!slides[k].classList.contains('warm')&&slides[k].dataset.page){t=k;break;}}
+    e.preventDefault();oBridgeOnly=true;goNext(t);
+  });
 
   /* ---- REV ---- */
   function isRev(s){return s&&s.dataset.rev==='1';}
@@ -2541,7 +2553,7 @@ var LESSON_REVEALS = ".ans, .ans-ph";
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Choose an answer')+R(K('→','Enter'),'Next question')+R(K('?','Esc'),'Open / close this help');
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
-      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
+      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6')+K('O'),'Break Time screen · Open your book')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
     colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip (copy → key words → ideas)')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
