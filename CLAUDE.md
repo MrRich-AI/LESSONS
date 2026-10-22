@@ -15,6 +15,11 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 - Message format: `Add Lesson HTML: G9 Unit 3 Food (A, B1–5)` / `Update Lesson HTML: …` — always name the unit sections covered (the browser-tab `<title>` does too).
 - Never commit API keys or other secrets.
 
+## Lesson Template (start every new build from it)
+- `_shared/lesson-template/template.html` has every standard feature already working: header and bottom bar, REV, reveals, sorters, drag-into-gap, choice buttons, phrase spotting, work timer, PROVE note-making windows, CLUE/VISCLUE, Words from today, all teacher tools and keys, `?student` / `?zh`, the quiz engine, the GAMIFY engine and the listening module.
+- New build: copy it to the build's folder as `index.html`, then write only what's unique — book slides, answers, warmers, "Open your book" transition, 5/6 theme, quiz questions and style, GAMIFY games — and fill in the data blocks (rosters for this grade, title screen, words, notes, zoom/read-aloud targets). `_shared/lesson-template/README.md` lists every block to replace and which sample slide shows each feature.
+- Don't rewrite the shared features from scratch. When a shared feature changes, update the template as well as the builds.
+
 ## Before building
 1. Read every page of the PDF.
 2. Ask if the unit title or grade isn't clear.
