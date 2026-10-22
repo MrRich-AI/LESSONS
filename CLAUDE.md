@@ -91,6 +91,7 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 - **COPY / NOTE pencil ✏️** beside ⏱ on book slides: 1st click "Copy into your notebook" strip, 2nd "Add ideas to your notebook", 3rd hides. No progress bar. Glows faintly once answers are revealed where copying fits; never appears by itself. Resets each slide.
 - **Keys:** B blackout ("Eyes on me 👀" + looping shhh); W whiteout; 5 themed "5-MINUTE BREAK" timer (theme-specific countdown, sound + TIME'S UP at zero); 6 still "Break Time" image; P presenter view (second window: current + next slide, answers, notes, kept in step); ? shortcut sheet; Esc closes; 5/6/B/W switch directly.
 - **First screen:** shown still and dimmed until clicked, no prompt text.
+- **Cover boxes:** hold the right mouse button and drag to draw a solid white box over part of the slide (browser right-click menu disabled in the slideshow); several allowed; left-click a box to remove it; never triggers REV; cleared on slide change. Shift + left-drag (mouse, pen or touch) also draws, for whiteboards. In the ? sheet.
 
 ## End of deck
 - **Words from today:** every CLUE/VISCLUE word with definition, plus words from vocabulary exercises.
