@@ -2688,7 +2688,7 @@ var LESSON_REVEALS = ".ans, .ans-ph";
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Choose an answer')+R(K('→','Enter'),'Next question')+R(K('?','Esc'),'Open / close this help');
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
-      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen');
+      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W'),'Whiteout')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6'),'Break Time screen')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
     colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
@@ -4887,6 +4887,63 @@ body.student #cpPen,body.presenter #cpPen,body.student #cpStrip,body.presenter #
   });
   window.copyPen={reset:sync};
   sync();
+})();
+</script>
+<style>
+/* ---------- Cover boxes: right-drag (or Shift + drag) draws a white box over part of the slide ---------- */
+.cvBox{position:absolute;z-index:24;background:#fff;border-radius:6px;box-shadow:0 0 0 2px rgba(15,42,46,.18),0 8px 22px rgba(0,0,0,.18);cursor:pointer}
+.cvBox.drawing{box-shadow:0 0 0 3px rgba(10,139,153,.7),0 8px 22px rgba(0,0,0,.18);cursor:crosshair}
+.cvBox.gone{opacity:0;transform:scale(.96);transition:opacity .18s,transform .18s}
+#stage.cvDrawing,#stage.cvDrawing *{cursor:crosshair!important;user-select:none!important}
+body.student .cvBox,body.presenter .cvBox{display:none!important}
+</style>
+<script>
+/* ===== Cover boxes (teacher): hold the right mouse button and drag to draw a solid white box over part
+   of the slide; Shift + left-drag (mouse, pen or touch) also draws, for whiteboards. Several allowed;
+   left-click a box to remove it. Never triggers REV. Cleared on slide change. ===== */
+(function(){
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage');if(!stage)return;
+  var draw=null,justDrew=0,MIN=14;
+  function k(){return stage.getBoundingClientRect().width/1920||1;}
+  function pt(e){var r=stage.getBoundingClientRect(),q=k();return {x:Math.max(0,Math.min(1920,(e.clientX-r.left)/q)),y:Math.max(0,Math.min(1080,(e.clientY-r.top)/q))};}
+  function gameOn(){try{return !!(window.gamify&&gamify.isOn());}catch(e){return false;}}
+  function size(b,a,c){var x=Math.min(a.x,c.x),y=Math.min(a.y,c.y);b.style.left=x+'px';b.style.top=y+'px';b.style.width=Math.abs(c.x-a.x)+'px';b.style.height=Math.abs(c.y-a.y)+'px';}
+  function remove(b){b.classList.add('gone');setTimeout(function(){b.remove();},190);}
+  function clearAll(){[].slice.call(stage.querySelectorAll('.cvBox')).forEach(function(b){b.remove();});}
+  /* the slideshow has no right-click menu */
+  document.addEventListener('contextmenu',function(e){if(stage.contains(e.target)||e.target===document.body||e.target===document.documentElement)e.preventDefault();});
+  stage.addEventListener('pointerdown',function(e){
+    var right=e.button===2,shift=e.button===0&&e.shiftKey;
+    if(!right&&!shift)return;
+    if(gameOn()||e.target.closest('#contents,#lxHelp,#blackout,#whiteout,#lxBreak,#zoomLayer'))return;
+    e.preventDefault();e.stopPropagation();
+    var a=pt(e),b=document.createElement('div');b.className='cvBox drawing';size(b,a,a);stage.appendChild(b);
+    draw={a:a,b:b,id:e.pointerId};stage.classList.add('cvDrawing');
+    try{stage.setPointerCapture(e.pointerId);}catch(err){}
+  },true);
+  stage.addEventListener('pointermove',function(e){if(!draw||e.pointerId!==draw.id)return;e.preventDefault();e.stopPropagation();size(draw.b,draw.a,pt(e));},true);
+  function end(e){
+    if(!draw||e.pointerId!==draw.id)return;
+    e.preventDefault();e.stopPropagation();
+    var b=draw.b;b.classList.remove('drawing');
+    if(b.offsetWidth<MIN||b.offsetHeight<MIN)b.remove();
+    else{
+      b.title='Click to remove';
+      b.addEventListener('pointerdown',function(ev){if(ev.button===0&&!ev.shiftKey)ev.stopPropagation();});
+      b.addEventListener('click',function(ev){ev.stopPropagation();if(ev.shiftKey)return;remove(b);});
+    }
+    try{stage.releasePointerCapture(draw.id);}catch(err){}
+    draw=null;justDrew=Date.now();stage.classList.remove('cvDrawing');
+  }
+  stage.addEventListener('pointerup',end,true);
+  stage.addEventListener('pointercancel',end,true);
+  /* the click that ends a Shift-drag never reaches the slide (no REV, no reveal) */
+  document.addEventListener('click',function(e){if(Date.now()-justDrew<350){e.preventDefault();e.stopPropagation();}},true);
+  document.querySelectorAll('#stage .slide').forEach(function(sl){
+    new MutationObserver(function(){if(sl.classList.contains('active'))clearAll();}).observe(sl,{attributes:true,attributeFilter:['class']});
+  });
+  window.coverBoxes={clear:clearAll};
 })();
 </script>
 </body>
