@@ -5346,5 +5346,88 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
 })();
 </script>
 <!-- ===== end "Close your books" ===== -->
+<style>
+/* ---------- D7 "Ideas for your pair": full-screen pop-up in the "Touch, don't look" warmer style ---------- */
+#pairPop{position:absolute;inset:0;z-index:86;display:none;overflow:hidden;background:#050505;cursor:pointer;font-family:"Mulish",sans-serif}
+#pairPop.on{display:block;animation:ppIn .45s ease}
+@keyframes ppIn{from{opacity:0;transform:scale(1.04)}}
+#pairPop .bgph{position:absolute;inset:-40px;overflow:hidden}
+#pairPop .bgph .fallback{position:absolute;inset:0;background:radial-gradient(ellipse at 40% 45%,#4a3a28 0,#1b140d 55%,#050505 100%)}
+#pairPop .bgph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1s}
+#pairPop .bgph img.ok{opacity:1}
+#pairPop.on .bgph img.ok{animation:pushin 26s ease-out forwards}
+#pairPop .grade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,30,40,.35),rgba(60,30,0,.28));mix-blend-mode:soft-light;pointer-events:none}
+#pairPop .vign{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 30%,rgba(0,0,0,.78) 100%);pointer-events:none}
+#pairPop .scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.25) 45%,rgba(0,0,0,.55));pointer-events:none}
+#pairPop .leak{position:absolute;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(255,150,60,.35),rgba(255,90,20,0) 65%);mix-blend-mode:screen;pointer-events:none;left:-300px;top:-300px;animation:leak 9s ease-in-out infinite alternate}
+#pairPop .grain{position:absolute;inset:-100px;opacity:.13;pointer-events:none;animation:grain .5s steps(4) infinite}
+#pairPop .bars:before,#pairPop .bars:after{content:"";position:absolute;left:0;right:0;height:70px;background:#000;z-index:3}
+#pairPop .bars:before{top:0}#pairPop .bars:after{bottom:0}
+#pairPop .ppIn{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:1500px;z-index:5;text-align:center;color:#fbf5ea}
+#pairPop .ppPre{font-size:30px;letter-spacing:18px;text-transform:uppercase;color:#e9c98d;text-shadow:0 2px 12px rgba(0,0,0,.9);opacity:0;animation:fadeup 1.1s ease .2s forwards}
+#pairPop .ppMain{font-family:"Cinzel","Trajan Pro",Georgia,serif;font-weight:700;font-size:96px;line-height:1.05;letter-spacing:5px;color:#fff8ec;
+  text-shadow:0 0 40px rgba(255,200,120,.4),0 6px 30px rgba(0,0,0,.95),0 2px 4px rgba(0,0,0,.9);margin:14px 0 18px;opacity:0;animation:fadeup 1.2s ease .35s forwards}
+#pairPop .ppRule{height:2px;width:620px;margin:0 auto 34px;background:linear-gradient(90deg,transparent,#e9c98d,transparent);transform:scaleX(0);animation:ppRule 1.2s ease .8s forwards}
+@keyframes ppRule{to{transform:scaleX(1)}}
+#pairPop .ppPanel{margin:0 auto;width:1340px;padding:30px 46px;border-radius:26px;text-align:left;background:rgba(12,9,6,.72);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  box-shadow:0 0 0 2px rgba(233,201,141,.45),0 30px 80px rgba(0,0,0,.7)}
+#pairPop .ppStep{display:flex;align-items:center;gap:28px;font-size:44px;line-height:1.3;color:#fff8ec;padding:14px 0;opacity:0;transform:translateY(18px);animation:ppStep .7s ease forwards}
+#pairPop .ppStep+.ppStep{border-top:1px solid rgba(233,201,141,.25)}
+#pairPop .ppStep b{color:#ffd98a}
+#pairPop .ppN{flex:none;width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;font:700 40px "Cinzel",Georgia,serif;color:#1b140d;
+  background:radial-gradient(circle at 35% 30%,#fff1c9,#e9c98d 55%,#b98a3c);box-shadow:0 0 22px rgba(233,201,141,.6)}
+@keyframes ppStep{to{opacity:1;transform:none}}
+#pairPop .ppPalm{display:flex;justify-content:center;gap:22px;margin-top:30px}
+#pairPop .ppPalm i{font:700 54px "Cinzel",Georgia,serif;font-style:normal;color:#ffd98a;text-shadow:0 0 18px rgba(255,200,120,.8),0 3px 10px rgba(0,0,0,.9);opacity:.12;animation:ppLetter 5s ease-in-out infinite;animation-delay:calc(var(--k)*.5s + 2s)}
+@keyframes ppLetter{0%,8%{opacity:.12;transform:scale(.9)}14%{opacity:1;transform:scale(1.15)}22%,70%{opacity:1;transform:none}86%,100%{opacity:.12}}
+#pairPop .ppX{position:absolute;right:34px;top:92px;z-index:6;font:800 26px "Mulish",sans-serif;color:#fff8ec;background:rgba(0,0,0,.45);border:2px solid rgba(233,201,141,.6);border-radius:12px;padding:6px 16px}
+</style>
+<script>
+/* ===== D7 "Ideas for your pair": clicking the box reveals it and opens a full-screen pop-up with the
+   "Touch, don't look" warmer intro look (Braille photo, push-in, light leak, grain, bars) and the ideas.
+   Click anywhere / Esc / ✕ closes. Reveal all does not open it. ===== */
+(function(){
+  var stage=document.getElementById('stage'),sl=document.querySelector('#stage section.slide.sd7');if(!stage||!sl)return;
+  var box=[].slice.call(sl.querySelectorAll('.ans.clk')).filter(function(a){return /Ideas for your pair/i.test(a.querySelector('.cover')?a.querySelector('.cover').textContent:'');})[0];if(!box)return;
+  var items=[].slice.call(box.querySelectorAll('.body li')).map(function(li){return li.innerHTML;});
+  var grainCss=(function(){var g=document.querySelector('.warm .grain');return g?getComputedStyle(g).backgroundImage:'none';})();
+  var pop=document.createElement('div');pop.id='pairPop';pop.title='Click to close';
+  pop.innerHTML='<div class="bgph"><div class="fallback"></div><img alt=""></div><div class="grade"></div><div class="scrim"></div><div class="vign"></div><div class="leak"></div><div class="grain"></div><div class="bars"></div>'+
+    '<div class="ppX">✕ Esc</div>'+
+    '<div class="ppIn"><div class="ppPre">Try Anne Sullivan’s method</div><div class="ppMain">IDEAS FOR YOUR PAIR</div><div class="ppRule"></div>'+
+    '<div class="ppPanel">'+items.map(function(h,i){return '<div class="ppStep" style="animation-delay:'+(1+i*.35)+'s"><span class="ppN">'+(i+1)+'</span><span>'+h+'</span></div>';}).join('')+'</div>'+
+    '<div class="ppPalm">'+'WATER'.split('').map(function(c,i){return '<i style="--k:'+i+'">'+c+'</i>';}).join('')+'</div></div>';
+  pop.querySelector('.grain').style.backgroundImage=grainCss;
+  stage.appendChild(pop);
+  var img=pop.querySelector('.bgph img');img.onload=function(){img.classList.add('ok');};
+  /* the intro's Braille photo: reuse it once loaded, else fetch it the same way */
+  function photo(){
+    if(img.classList.contains('ok'))return;
+    var src=document.querySelector('.slide.warm .bgph img[data-wiki]');
+    if(src&&src.classList.contains('ok')&&src.src){img.src=src.src;return;}
+    var list=((src&&src.dataset.wiki)||'en:Braille|en:Tactile alphabet').split('|');
+    (function tryOne(k){
+      if(k>=list.length||!window.fetch)return;
+      var lt=list[k].split(':'),lang=lt.shift(),title=lt.join(':');
+      fetch('https://'+lang+'.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=1600&redirects=1&titles='+encodeURIComponent(title))
+        .then(function(r){return r.json();}).then(function(d){var p=d&&d.query&&d.query.pages,s=null;
+          if(p)Object.keys(p).some(function(q){var t=p[q].thumbnail;if(t&&t.source){s=t.source;return true;}});
+          if(s){img.onerror=function(){tryOne(k+1);};img.src=s;}else tryOne(k+1);}).catch(function(){tryOne(k+1);});
+    })(0);
+  }
+  function open(){photo();pop.classList.remove('on');void pop.offsetWidth;pop.classList.add('on');}
+  function close(){pop.classList.remove('on');}
+  /* click on the box: reveal it (first time) and open the pop-up; a revealed box is not hidden again by a click */
+  box.addEventListener('click',function(e){
+    if(box.classList.contains('shown')){e.stopImmediatePropagation();e.stopPropagation();}
+    setTimeout(open,box.classList.contains('shown')?0:60);
+  },true);
+  pop.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  pop.addEventListener('click',function(e){e.stopPropagation();close();});
+  window.addEventListener('keydown',function(e){if(pop.classList.contains('on')&&(e.key==='Escape'||e.key===' '||e.key==='Enter')){e.preventDefault();e.stopPropagation();close();}},true);
+  new MutationObserver(function(){if(!sl.classList.contains('active'))close();}).observe(sl,{attributes:true,attributeFilter:['class']});
+  window.pairPopup={open:open,close:close};
+})();
+</script>
 </body>
 </html>
