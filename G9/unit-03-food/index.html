@@ -643,7 +643,7 @@ body.student .rpBtn,body.student .swBtn,body.student .tmDisp,body.student #rpPil
 /* ---------- Keyboard cheat sheet (? key) ---------- */
 #lxHelp{position:absolute;inset:0;z-index:96;display:none;align-items:center;justify-content:center;background:rgba(8,20,24,.72)}
 #lxHelp.on{display:flex;animation:boIn .25s ease}
-#lxHelp .hp{width:1500px;max-height:900px;background:#fff;border-radius:28px;border-top:14px solid var(--teal);box-shadow:0 30px 80px rgba(0,0,0,.45);padding:34px 48px 30px;font-family:"Mulish","Segoe UI",sans-serif;color:#1d1d1f}
+#lxHelp .hp{width:1740px;max-height:1010px;background:#fff;border-radius:28px;border-top:14px solid var(--teal);box-shadow:0 30px 80px rgba(0,0,0,.45);padding:34px 48px 30px;font-family:"Mulish","Segoe UI",sans-serif;color:#1d1d1f}
 #lxHelp h2{margin:0 0 20px;font-size:46px;font-weight:800;color:var(--teal-dark);display:flex;justify-content:space-between;align-items:baseline}
 #lxHelp h2 small{font-size:24px;font-weight:700;color:#6a6a70}
 #lxHelp .cols{display:grid;grid-template-columns:1fr 1fr;gap:10px 56px}
@@ -2404,7 +2404,7 @@ var LESSON_REVEALS = ".ans, .ans-ph";
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Choose an answer')+R(K('→','Enter'),'Next question')+R(K('?','Esc'),'Open / close this help');
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
-      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W')+K('C'),'Whiteout · Close your books')+R(K('5'),'5-minute break timer (click: start / pause)')+R(K('6')+K('O'),'Break Time screen · Open your book')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
+      '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W')+K('C'),'Whiteout · Close your books')+R(K('5')+K('T'),'5-minute break timer · Time’s up buzzer')+R(K('6')+K('O'),'Break Time screen · Open your book')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
     colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip (copy → key words → ideas)')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
@@ -4374,9 +4374,9 @@ body.student #cpPen,body.presenter #cpPen,body.student #cpStrip,body.presenter #
 </style>
 <script>
 /* ===== Language sign: faded England flag beside 🎡 (teacher, book slides only).
-   Click: the flag enlarges to the centre with "ENGLISH ONLY" and glows ~1 s, then returns beside 🎡
-   keeping the flag + text (vivid). Clicking the enlarged sign flips it to the other language.
-   Next click flips to the Vietnamese flag + "ĐƯỢC DÙNG TIẾNG VIỆT"; later clicks flip back and forth.
+   Click: the sign enlarges to the centre with the Vietnamese flag + "ĐƯỢC DÙNG TIẾNG VIỆT" and glows ~1 s,
+   then returns beside 🎡 keeping the flag + text (vivid). Clicking the enlarged sign flips it to the other language.
+   Next click flips to the England flag + "ENGLISH ONLY"; later clicks flip back and forth.
    Quick double click on the header sign: back to the faded England flag.
    Resets on every slide change. Not on warmers, games, the quiz or Words from today. ===== */
 (function(){
@@ -4413,7 +4413,7 @@ body.student #cpPen,body.presenter #cpPen,body.student #cpStrip,body.presenter #
     },HOLD);
   }
   function show(){
-    st=st===1?2:1;fill();pop.classList.add('on');
+    st=st===2?1:2;fill();pop.classList.add('on');
     var f0=from();s.classList.add('busy');
     var a=card.animate([{transform:f0,opacity:.5},{transform:'none',opacity:1}],{duration:420,easing:'cubic-bezier(.2,1.25,.4,1)'});anims=[a];
     a.onfinish=function(){pop.classList.add('glow');hold();};
@@ -4489,6 +4489,131 @@ body.student #cpPen,body.presenter #cpPen,body.student #cpStrip,body.presenter #
   });
   window.copyPen={reset:sync};
   sync();
+})();
+</script>
+<style>
+/* ---------- Note strip: press and hold, then drag it anywhere ---------- */
+#cpStrip.on{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none}
+#cpStrip.moved,#cpStrip.moved.on{left:var(--cpx);top:var(--cpy);right:auto;bottom:auto;transform:none}
+#stage.audioOn #cpStrip{z-index:36}
+#stage.audioOn #cpStrip[data-pos=""]:not(.moved){bottom:212px}
+#cpStrip.dragging{cursor:grabbing;transition:opacity .35s;animation:none;scale:1.04;box-shadow:0 26px 50px rgba(0,0,0,.35),0 0 0 3px #2b2f6b,0 0 40px 14px rgba(255,190,30,.9)}
+/* ---------- T: Time's up buzzer (teacher) ---------- */
+#lxTU{position:absolute;inset:0;z-index:96;display:none;align-items:center;justify-content:center;cursor:pointer;background:radial-gradient(ellipse at 50% 50%,rgba(20,16,0,.9),rgba(3,6,8,.96) 70%);font-family:"Orbitron","Consolas","Courier New",monospace}
+#lxTU.on{display:flex;animation:tuIn .35s cubic-bezier(.2,1.2,.4,1)}
+#lxTU .tuBox{position:relative;padding:60px 110px;border-radius:44px;background:#081a1d;border:8px solid #8a6a00;box-shadow:0 0 60px rgba(255,184,0,.45),inset 0 0 50px rgba(255,200,40,.12);animation:tuShake .5s cubic-bezier(.3,.8,.3,1)}
+#lxTU .tuTx{font-weight:900;font-size:230px;line-height:1;letter-spacing:12px;color:#ffe36a;white-space:nowrap;text-shadow:0 0 14px #ffd23a,0 0 44px #ffb800,0 0 110px rgba(255,160,0,.75)}
+#lxTU.flash .tuTx{animation:tuFlash .5s steps(1) infinite}
+#lxTU.flash .tuBox{animation:tuShake .5s cubic-bezier(.3,.8,.3,1),tuPulse .5s ease-in-out infinite}
+@keyframes tuIn{from{opacity:0}to{opacity:1}}
+@keyframes tuFlash{0%{opacity:1}50%{opacity:.18}}
+@keyframes tuPulse{0%,100%{box-shadow:0 0 60px rgba(255,184,0,.45),inset 0 0 50px rgba(255,200,40,.12)}50%{box-shadow:0 0 140px 30px rgba(255,184,0,.75),inset 0 0 70px rgba(255,200,40,.25)}}
+@keyframes tuShake{0%{transform:scale(.6)}55%{transform:scale(1.06) rotate(-1deg)}75%{transform:scale(.98) rotate(1deg)}100%{transform:none}}
+body.student #lxTU,body.presenter #lxTU{display:none!important}
+/* ---------- Student versions: the GAMIFY button is never faded; it glows and wobbles slightly ---------- */
+body.student .gmzBtn{opacity:1;color:#06707c;background:#fff;border-color:#0a8b99;animation:gmzLive 2.4s ease-in-out infinite}
+body.student .gmzBtn .gi{filter:none}
+body.student .gmzBtn:hover{animation-play-state:paused}
+@keyframes gmzLive{0%,100%{rotate:-2deg;box-shadow:0 6px 16px rgba(0,0,0,.15),0 0 0 0 rgba(10,190,205,0)}50%{rotate:2deg;box-shadow:0 6px 16px rgba(0,0,0,.15),0 0 26px 8px rgba(10,190,205,.75)}}
+</style>
+<script>
+/* ===== Note strip: press and hold, then drag it to another part of the screen.
+   It stays there for the rest of the slide (also when the pencil changes the message); reset on slide change. ===== */
+(function(){
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage'),el=document.getElementById('cpStrip');if(!stage||!el)return;
+  var d=null,HOLD=180,MOVE=5;
+  function k(){return stage.getBoundingClientRect().width/1920||1;}
+  function place(x,y){
+    var w=el.offsetWidth,h=el.offsetHeight;
+    x=Math.max(0,Math.min(1920-w,x));y=Math.max(0,Math.min(1080-h,y));
+    el.style.setProperty('--cpx',x+'px');el.style.setProperty('--cpy',y+'px');
+  }
+  function start(){
+    var sr=stage.getBoundingClientRect(),r=el.getBoundingClientRect(),q=k();
+    d.ox=(d.x-r.left)/q;d.oy=(d.y-r.top)/q;d.on=true;
+    place((r.left-sr.left)/q,(r.top-sr.top)/q);el.classList.add('moved','dragging');
+    try{el.setPointerCapture(d.id);}catch(e){}
+  }
+  el.addEventListener('pointerdown',function(e){
+    if(e.button!==0||e.shiftKey||!el.classList.contains('on'))return;
+    e.preventDefault();
+    d={id:e.pointerId,x:e.clientX,y:e.clientY,on:false};
+    d.t=setTimeout(function(){if(d&&!d.on)start();},HOLD);
+  });
+  el.addEventListener('pointermove',function(e){
+    if(!d||e.pointerId!==d.id)return;
+    if(!d.on&&Math.hypot(e.clientX-d.x,e.clientY-d.y)>MOVE)start();
+    if(!d.on)return;
+    var sr=stage.getBoundingClientRect(),q=k();d.x=e.clientX;d.y=e.clientY;
+    place((e.clientX-sr.left)/q-d.ox,(e.clientY-sr.top)/q-d.oy);
+  });
+  function end(e){
+    if(!d||e.pointerId!==d.id)return;
+    clearTimeout(d.t);if(d.on){el.classList.remove('dragging');try{el.releasePointerCapture(d.id);}catch(err){}}
+    d=null;
+  }
+  el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
+  function reset(){if(d){clearTimeout(d.t);d=null;}el.classList.remove('moved','dragging');el.style.removeProperty('--cpx');el.style.removeProperty('--cpy');}
+  document.querySelectorAll('#stage .slide').forEach(function(sl){
+    new MutationObserver(function(){if(sl.classList.contains('active'))reset();}).observe(sl,{attributes:true,attributeFilter:['class']});
+  });
+})();
+</script>
+<script>
+/* ===== T — Time's up (teacher): a buzzer (one of 4 loud but gentle sounds, never the same twice in a row)
+   and a glowing digital TIME'S UP in the slide-timer style. Flashes for 3 s, then stays until click / T / Esc.
+   Registered in LX_SCREENS so 5 / 6 / B / W / C / T switch directly. Never changes the slide. ===== */
+(function(){
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var stage=document.getElementById('stage');if(!stage)return;
+  var el=document.createElement('div');el.id='lxTU';
+  el.innerHTML='<div class="tuBox"><div class="tuTx">TIME’S UP</div></div>';
+  stage.appendChild(el);
+  var on=false,flashT=null,ac=null,bus=null,last=-1;
+  function audio(){try{if(!ac)ac=new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();}catch(e){ac=null;}return ac;}
+  /* soft-edged tones through a low-pass and a compressor: loud, but no harsh edge */
+  function out(c){
+    var comp=c.createDynamicsCompressor();comp.threshold.value=-18;comp.ratio.value=4;comp.attack.value=.005;comp.release.value=.2;
+    var g=c.createGain();g.gain.value=1;comp.connect(g);g.connect(c.destination);return {i:comp,g:g};
+  }
+  function tone(c,o,f,t,d,p){
+    p=p||{};var os=c.createOscillator(),g=c.createGain(),lp=c.createBiquadFilter();
+    os.type=p.type||'triangle';os.frequency.setValueAtTime(f,t);if(p.f2)os.frequency.exponentialRampToValueAtTime(p.f2,t+d);
+    if(p.vib){var l=c.createOscillator(),lg=c.createGain();l.frequency.value=p.vib;lg.gain.value=p.vibAmt||4;l.connect(lg);lg.connect(os.frequency);l.start(t);l.stop(t+d+.05);}
+    lp.type='lowpass';lp.frequency.value=p.lp||2200;lp.Q.value=.5;
+    var a=p.a||.03,v=p.v||.3;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(v,t+a);g.gain.setValueAtTime(v,t+Math.max(a,d-.12));g.gain.exponentialRampToValueAtTime(.0001,t+d);
+    os.connect(lp);lp.connect(g);g.connect(o);os.start(t);os.stop(t+d+.05);
+  }
+  var SOUNDS=[
+    /* warm game-show buzzer: two detuned low saws, rounded off */
+    function(c,o,t){[146.8,148.6,73.4].forEach(function(f){tone(c,o,f,t,1.3,{type:'sawtooth',v:.26,lp:900,a:.02});});},
+    /* double buzz */
+    function(c,o,t){[0,.62].forEach(function(s){[174.6,176.4].forEach(function(f){tone(c,o,f,t+s,.5,{type:'square',v:.17,lp:1000,a:.015});});});},
+    /* mellow three-beep alarm */
+    function(c,o,t){[0,.38,.76].forEach(function(s){tone(c,o,880,t+s,.28,{type:'sine',v:.5,a:.01});tone(c,o,1760,t+s,.28,{type:'sine',v:.08,a:.01});});},
+    /* soft horn chord, gently falling */
+    function(c,o,t){[220,277.2,329.6].forEach(function(f){tone(c,o,f,t,1.4,{type:'triangle',f2:f*.94,v:.3,lp:1600,a:.05,vib:5,vibAmt:3});});}
+  ];
+  function buzz(){
+    var c=audio();if(!c)return;
+    var i;do{i=Math.floor(Math.random()*SOUNDS.length);}while(i===last);last=i;
+    if(bus){try{bus.g.disconnect();}catch(e){}}
+    bus=out(c);SOUNDS[i](c,bus.i,c.currentTime+.02);return i;
+  }
+  function open(){
+    on=true;el.classList.add('on','flash');clearTimeout(flashT);flashT=setTimeout(function(){el.classList.remove('flash');},3000);
+    buzz();
+  }
+  function close(){
+    on=false;clearTimeout(flashT);el.classList.remove('on','flash');
+    if(bus){try{bus.g.gain.setTargetAtTime(0,ac.currentTime,.05);}catch(e){}}
+  }
+  el.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  el.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();close();});
+  window.LX_SCREENS=window.LX_SCREENS||[];
+  LX_SCREENS.push({keys:['t','T'],isOn:function(){return on;},set:function(v){v?open():close();}});
+  window.timesUp={open:open,close:close,buzz:buzz};
 })();
 </script>
 <style>

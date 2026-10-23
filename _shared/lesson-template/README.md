@@ -8,7 +8,7 @@
 - **Interactive features:** drag-into-gap, sorters with Check answers, choice/vote buttons, phrase spotting, model-text summary loop, info-slide loops, work timer (10/15 min).
 - **PROVE:** evidence windows for note-making answers (rows with class `evr`).
 - **Vocabulary:** CLUE / VISCLUE cards (on every slide a word appears) and the automatic Words from today slide.
-- **Keys:** B, W, 5, 6, C, O, P, ?, Esc. Also cover boxes, click-to-zoom and the offline-font notice.
+- **Keys:** B, W, 5, 6, C, O, T, P, ?, Esc. Also cover boxes, click-to-zoom and the offline-font notice.
 - **Student versions:** `?student` and `?zh` with the title screen, VI/中文 toggle, read-aloud, flashcards and Check your progress (`stuOnly` slides).
 - **End of deck:** the quiz engine.
 - **GAMIFY:** the full engine — button, transition, teams, spinner, ✓/✗ marks, absent-student swap and solo mode.
