@@ -4,6 +4,9 @@ Teacher-led, projected HTML slideshows of Cambridge IGCSE ESL coursebook unit ac
 
 These are NOT student games: no name/class screen, no scoring submission, no data sent anywhere, no Try Again.
 
+## Pending (remind Richard at the start of the next session)
+- Roll out CLICK to all builds (so far only G10 Unit 13 Exam slides 1–2 and G9 Unit 3 Speaking slide 14 use it; CONTROL has it). Remove this line once done.
+
 ## Repo layout
 - One folder per unit, by grade: `/G9/unit-03-food/index.html`, `/G10/unit-13-success-and-fame/index.html` (two-digit unit number, lowercase hyphenated name). A deck covering part of a unit may sit in a subfolder of the unit.
 - Landing page with Unit buttons — add new builds to it.

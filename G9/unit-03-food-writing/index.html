@@ -2690,6 +2690,7 @@ var LESSON_NOTES = {
   "Each word stamps itself 1 s after it lands if it is a linker, 2 s if not – clap or don't! A click during the wait stamps it at once.",
   "With teams: Team A answers first, then alternate. 🎡 Pick chooses a player from the glowing team; after the stamp click ✓ / ✗ on the team card (✓ adds the point).",
   "Click a score to add a point, − takes one away (scores can go below 0). ← takes the last word back (with its point).",
+  "After round 16, one more click shows the RESULTS screen (with teams: final scores, ✓ right answers per team and the winner); the next click moves on.",
   "Ask what each linker does: add, contrast or result."
  ],
  "Language focus 1: Linking devices": [
@@ -5770,6 +5771,36 @@ body.presenter .xplBtn{display:none!important}
 @keyframes wtWob{0%,100%{rotate:-1.6deg}50%{rotate:1.6deg}}
 @keyframes wtBlink{0%,100%{opacity:1}50%{opacity:.35}}
 @keyframes wtBump{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+.wtRes{position:absolute;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 40%,rgba(43,37,128,.96),rgba(6,5,29,.98) 70%);font-family:"Righteous",sans-serif;color:#fff;overflow:hidden}
+.wtRes.on{display:flex;animation:rsIn .45s ease}
+.wtRes .rsCf{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.wtRes .rsIn{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:6px;width:1700px}
+.wtRes .rsK{font-size:34px;letter-spacing:6px;color:#00e1ff;text-shadow:0 0 14px #00b7ff}
+.wtRes h2{margin:0;font-size:150px;font-weight:400;line-height:1;letter-spacing:8px;color:#ffcc33;text-shadow:0 8px 0 #b37a00,0 0 50px rgba(255,204,51,.6);animation:rsPop .7s cubic-bezier(.2,1.5,.4,1) both}
+.wtRes .rsWin{margin:10px 0 26px;font-size:64px;letter-spacing:4px;padding:8px 46px;border-radius:60px;background:#ff2d55;box-shadow:0 8px 0 #a3122e,0 0 40px rgba(255,45,85,.6);transform:skewX(-8deg);animation:rsPop .7s .25s cubic-bezier(.2,1.5,.4,1) both}
+.wtRes .rsTeams{display:flex;align-items:center;gap:50px}
+.wtRes .rsVs{font-size:70px;color:#ffcc33;opacity:.8}
+.wtRes .rsT{position:relative;width:640px;padding:26px 30px 28px;border-radius:30px;background:linear-gradient(180deg,#1b1464,#0d0a3a);text-align:center;animation:rsUp .6s .45s ease both}
+.wtRes .rsT.a{box-shadow:0 0 0 6px #00e1ff}.wtRes .rsT.b{box-shadow:0 0 0 6px #ff4d6d}
+.wtRes .rsT.a.win{box-shadow:0 0 0 8px #00e1ff,0 0 80px 20px rgba(0,225,255,.6);animation:rsUp .6s .45s ease both,wtWob 1.6s 1.1s ease-in-out infinite}
+.wtRes .rsT.b.win{box-shadow:0 0 0 8px #ff4d6d,0 0 80px 20px rgba(255,77,109,.6);animation:rsUp .6s .45s ease both,wtWob 1.6s 1.1s ease-in-out infinite}
+.wtRes .rsT h4{margin:0;font-size:52px;font-weight:400;letter-spacing:4px}.wtRes .rsT.a h4{color:#00e1ff}.wtRes .rsT.b h4{color:#ff4d6d}
+.wtRes .rsT b{display:block;font-size:180px;line-height:1;font-weight:400;color:#ffcc33;text-shadow:0 0 30px rgba(255,204,51,.7)}
+.wtRes .rsT b.neg{color:#ff8a9a;text-shadow:0 0 30px rgba(255,77,109,.6)}
+.wtRes .rsT small{display:block;font-size:34px;letter-spacing:3px;color:#c9c4ff;margin-top:-6px}
+.wtRes .rsR{margin-top:14px;font-size:38px;color:#16e06f}
+.wtRes .rsN{margin-top:10px;font-family:"Mulish",sans-serif;font-weight:800;font-size:28px;color:#e6e3ff}
+.wtRes .rsCrown{position:absolute;left:50%;top:-84px;margin-left:-55px;width:110px;height:110px;line-height:1;filter:drop-shadow(0 0 18px rgba(255,204,51,.9));animation:rsPop .8s .9s cubic-bezier(.2,1.6,.4,1) both}
+.wtRes .rsCrown svg{width:100%;height:100%;display:block}
+.wtRes .rsLists{display:grid;grid-template-columns:1fr 1fr;gap:50px;width:1600px}
+.wtRes .rsL{border-radius:26px;overflow:hidden;background:linear-gradient(180deg,#2b2580,#15114a);box-shadow:0 0 0 6px #ffcc33;animation:rsUp .6s .45s ease both}
+.wtRes .rsL h4{margin:0;padding:12px;font-size:46px;font-weight:400;letter-spacing:3px;text-align:center}
+.wtRes .rsL.yes h4{background:#16c45f}.wtRes .rsL.no h4{background:#ff2d55}
+.wtRes .rsL>div{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;padding:22px 20px 26px}
+.wtRes .rsL span{font-size:40px;padding:6px 20px;border-radius:12px;background:#ffcc33;color:#15114a;box-shadow:0 5px 0 #b38600}
+@keyframes rsIn{from{opacity:0}to{opacity:1}}
+@keyframes rsPop{from{transform:scale(.3) rotate(-6deg);opacity:0}to{opacity:1}}
+@keyframes rsUp{from{transform:translateY(60px);opacity:0}to{transform:none;opacity:1}}
 .wtPW{position:absolute;left:50%;top:230px;width:820px;margin-left:-410px;z-index:20;display:none;flex-direction:column;align-items:center;gap:10px;padding:20px 30px 26px;border-radius:30px;background:#06051d;font-family:"Righteous",sans-serif;color:#fff}
 .wtPW.on{display:flex}.wtPW.fade{opacity:0;transition:opacity .35s}
 .wtPW.t0{box-shadow:0 0 0 6px #00e1ff,0 0 60px rgba(0,225,255,.6)}.wtPW.t1{box-shadow:0 0 0 6px #ff4d6d,0 0 60px rgba(255,77,109,.6)}
@@ -5935,11 +5966,16 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
   function blocked(){var c=document.getElementById('contents');return (c&&c.classList.contains('open'))||!!document.querySelector('#bridge.play,#zoomLayer.on,#lxHelp.on')||pw.classList.contains('on');}
   function fwd(){
     if(L.waiting()){L.judge();sync();return true;}
+    var k=shown();
+    /* after the last word: one more step opens the results screen; the step after that moves on */
+    if(k===N&&!res.classList.contains('on')){showRes();return true;}
+    if(res.classList.contains('on'))return false;
     if(!on())return false;
-    var k=shown();if(k<N){L.words[k].classList.add('shown');return true;}
+    if(k<N){L.words[k].classList.add('shown');return true;}
     return false;
   }
   function bwd(){
+    if(res.classList.contains('on')){hideRes();return true;}
     if(!on())return false;
     var k=shown();if(!k)return false;var w=L.words[k-1];
     /* ← takes the last word back, with its point */
@@ -5961,7 +5997,42 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
   },true);
   new MutationObserver(function(){if(s21.classList.contains('active'))btn.textContent=label();if(s22.classList.contains('active'))sync();}).observe(s22,{attributes:true,attributeFilter:['class']});
   new MutationObserver(function(){if(!s21.classList.contains('active')&&win.classList.contains('on')&&!busy)closeWin();}).observe(s21,{attributes:true,attributeFilter:['class']});
-  window.warmTeams={sync:sync,open:openWin};
+  /* ---------- results screen (after round 16) ---------- */
+  var res=document.createElement('div');res.className='wtRes';s22.appendChild(res);
+  ['pointerdown','click'].forEach(function(ev){res.addEventListener(ev,function(e){if(e.type==='click'&&!e.target.closest('button'))return;e.stopPropagation();});});
+  var cf=null;
+  function chips(k){return L.words.filter(function(w){return w.dataset.k===k;}).map(function(w){return '<span>'+esc(w.dataset.w)+'</span>';}).join('');}
+  function showRes(){
+    var h='<canvas class="rsCf"></canvas><div class="rsIn"><div class="rsK">LINKER OR NOT?</div><h2>RESULTS</h2>';
+    if(on()){
+      var right=[0,1].map(function(t){return Object.keys(marks).filter(function(i){return team(+i)===t&&marks[i]==='y';}).length;}),
+          turns=[0,1].map(function(t){return L.words.filter(function(w,i){return team(i)===t;}).length;}),
+          win=sc[0]===sc[1]?-1:(sc[0]>sc[1]?0:1);
+      h+='<div class="rsWin">'+(win<0?'IT’S A TIE!':'TEAM '+'AB'[win]+' WINS!')+'</div><div class="rsTeams">'+[0,1].map(function(t){
+        return '<div class="rsT '+'ab'[t]+(win===t?' win':'')+'">'+(win===t?'<div class="rsCrown"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><linearGradient id="rsG" x1="0" x2="1"><stop offset="0" stop-color="#b37a00"/><stop offset=".35" stop-color="#ffe37a"/><stop offset=".6" stop-color="#ffcc33"/><stop offset="1" stop-color="#a86b00"/></linearGradient></defs><path d="M24 14 h52 v10 c0 20 -10 34 -26 38 c-16 -4 -26 -18 -26 -38z" fill="url(#rsG)" stroke="#7a4f00" stroke-width="2.5"/><path d="M24 22 h-12 c0 14 8 22 18 24 M76 22 h12 c0 14 -8 22 -18 24" fill="none" stroke="url(#rsG)" stroke-width="6" stroke-linecap="round"/><rect x="44" y="60" width="12" height="14" fill="url(#rsG)"/><rect x="30" y="74" width="40" height="10" rx="3" fill="url(#rsG)" stroke="#7a4f00" stroke-width="2"/><path d="M34 20 q2 14 10 22" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".8"/></svg></div>':'')+'<h4>TEAM '+'AB'[t]+'</h4><b class="'+(sc[t]<0?'neg':'')+'">'+fmt(sc[t])+'</b><small>'+(sc[t]===1||sc[t]===-1?'point':'points')+'</small>'+
+          '<div class="rsR">✓ '+right[t]+' of '+turns[t]+' right</div><div class="rsN">'+TM.teams[t].map(esc).join(' · ')+'</div></div>';}).join('<div class="rsVs">VS</div>')+'</div>';
+    }else{
+      h+='<div class="rsWin">ALL '+N+' SORTED!</div><div class="rsLists"><div class="rsL yes"><h4>✓ LINKERS</h4><div>'+chips('1')+'</div></div><div class="rsL no"><h4>✗ NOT LINKERS</h4><div>'+chips('0')+'</div></div></div>';
+    }
+    res.innerHTML=h+'</div>';res.classList.add('on');
+    fanfare();confetti(res.querySelector('.rsCf'),on()?(sc[0]===sc[1]?-1:(sc[0]>sc[1]?0:1)):-1);
+  }
+  function hideRes(){res.classList.remove('on');res.innerHTML='';if(cf){cancelAnimationFrame(cf);cf=null;}}
+  function fanfare(){if(!API.beep)return;[[523,0],[659,.14],[784,.28],[1047,.46],[784,.66],[1047,.8]].forEach(function(n){setTimeout(function(){API.beep(n[0],n[1]>=.8?.5:.16,.12);},n[1]*1000);});}
+  function confetti(cv,win){
+    if(!cv)return;var W=cv.width=1920,H=cv.height=1080,c=cv.getContext('2d'),t0=performance.now();
+    var cols=win===0?['#00e1ff','#7ff3ff','#ffcc33','#ffffff']:win===1?['#ff4d6d','#ff9db0','#ffcc33','#ffffff']:['#ffcc33','#00e1ff','#ff4d6d','#16c45f','#ffffff'];
+    var P=[];for(var i=0;i<220;i++)P.push({x:Math.random()*W,y:-Math.random()*H*.6-20,vx:(Math.random()-.5)*3,vy:2+Math.random()*4,r:Math.random()*Math.PI,vr:(Math.random()-.5)*.25,w:10+Math.random()*12,h:6+Math.random()*8,c:cols[i%cols.length]});
+    (function f(now){
+      var el=now-t0;c.clearRect(0,0,W,H);
+      P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.035;p.r+=p.vr;if(p.y>H+30&&el<2600){p.y=-20;p.vy=2+Math.random()*3;}
+        c.save();c.translate(p.x,p.y);c.rotate(p.r);c.globalAlpha=el>3800?Math.max(0,1-(el-3800)/1200):1;c.fillStyle=p.c;c.fillRect(-p.w/2,-p.h/2,p.w,p.h*Math.abs(Math.cos(p.r*2)));c.restore();});
+      if(el<5000&&res.classList.contains('on'))cf=requestAnimationFrame(f);else{c.clearRect(0,0,W,H);cf=null;}
+    })(t0);
+  }
+  /* leaving the slide closes it; the scores stay */
+  new MutationObserver(function(){if(!s22.classList.contains('active')&&res.classList.contains('on'))hideRes();}).observe(s22,{attributes:true,attributeFilter:['class']});
+  window.warmTeams={sync:sync,open:openWin,results:showRes};
   sync();
 })();
 </script>
