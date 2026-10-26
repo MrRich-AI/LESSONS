@@ -31,6 +31,7 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 7. Reading activities: ask whether each needs PROVE (default only for Exam-style question sections).
 8. Listening builds: get the answer key and audioscript first.
 9. If a request clashes with these rules, ask before building.
+10. EXPLAIN: list every slide that meets the EXPLAIN criteria (see below) with a one-line summary of its rule/pattern, and ask Richard which to include. Never add EXPLAIN without asking.
 
 ## Base rules
 - **Style:** match the book (colours, section letters, activity numbering, coloured word boxes, tip/reflection boxes, tables). Book-page slides keep the same format build to build.
@@ -83,6 +84,16 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 - **VISCLUE:** same trigger; large linked photo (freely licensed, e.g. Wikimedia Commons) + very short definition, no Vietnamese. Known words (pizza, banana) get no card.
 - A CLUE/VISCLUE word gets its card on every book slide it appears on (first appearance per slide), not just the first slide.
 - At the end of each build, list CLUE candidates for approval — never add automatically; skip the unit's target vocabulary.
+
+## EXPLAIN (rule/pattern explainer)
+- **What it is:** a light-bulb button that opens a B1-level explanation of the slide's content and the English rule or pattern behind it, based on the slide and standard English rules/guidelines.
+- **Criteria:** a book slide whose activity depends on an English rule or pattern (grammar, word formation, collocations, linking words, punctuation, text organisation, register, exam strategy) that the book doesn't clearly state or name on that slide. Not for warmers, games, open discussion with no pattern, or slides where the book already explains the rule in full.
+- **Ask first:** whenever Claude finds a slide that meets the criteria (before building, or while editing an existing build), list it by slide number + activity number with a one-line summary of the rule and ask Richard whether to include it. Never add it automatically.
+- **Icon:** a classic glowing light bulb, code-drawn SVG (glass bulb, zigzag filament, screw base, glass highlight, gently pulsing rays). No text, no emoji. Never faded. A slight continuous wobble that pauses on hover. Placed in a free corner: bottom-left just above the bottom bar by default (GAMIFY uses bottom-right); if that corner is taken on a slide, use the nearest free corner. Never covers slide content.
+- **Panel:** click opens a large pop-up over the dimmed slide, readable from the back of the room. B1 English: short sentences, common words, grammar terms only when needed and explained. Four parts: (1) **What this slide is about** — one line; (2) **The rule / pattern** — 2–4 sentences; (3) **Examples** — 2–3 examples with the pattern highlighted; (4) **Watch out!** — one common mistake with the correction.
+- **No spoilers:** never shows hidden answers. Use the book's own example items, items already completed in the book, or new examples of the same pattern.
+- **Behaviour:** close with the bulb, a click outside, or Esc; opening/closing never triggers REV or changes the slide; closes on slide change. Listed in the ? sheet; shown in presenter view.
+- **Student versions:** the bulb appears in `?student` with the Vietnamese under each part (Chinese only in `?zh`), plus read-aloud on the panel and a title-screen tile.
 
 ## Warmers and non-book slides
 - Never the word "Warmer" on slides; teacher instructions never on slides; no page badge.
