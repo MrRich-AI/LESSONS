@@ -4842,7 +4842,8 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
   function selected(){var s=window.getSelection&&window.getSelection();return !!(s&&!s.isCollapsed&&String(s).trim());}
   document.addEventListener('click',function(e){
     var d=down;down=null;
-    if(!d||d.b!==0)return;
+    /* keyboard / scripted clicks (detail 0) are never text highlighting */
+    if(!d||d.b!==0||e.detail===0)return;
     var moved=Math.abs(e.clientX-d.x)>MOVE||Math.abs(e.clientY-d.y)>MOVE;
     if((moved||selected())&&!(e.target.closest&&e.target.closest('input,textarea,select,[contenteditable]'))){e.stopPropagation();e.preventDefault();}
   },true);

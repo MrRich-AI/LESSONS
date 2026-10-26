@@ -20,7 +20,10 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 - **It is the master for every build in every Project.** Any build that uses a shared feature — Lesson HTML, INCLASS, RVW, or any other build type that uses only some features — takes that feature's code from the current CONTROL, not from an older build. The written rules describe how a feature behaves; CONTROL holds the code that does it.
 - New Lesson build: copy CONTROL to the build's folder as `index.html`, then write only what's unique — book slides, answers, warmers, "Open your book" transition, 5/6 theme, quiz questions and style, GAMIFY games — and fill in the data blocks (rosters for this grade, title screen, words, notes, zoom/read-aloud targets, EXPLAIN panels). `_shared/control/README.md` lists every block to replace and which sample slide shows each feature.
 - Don't rewrite the shared features from scratch.
-- **Keep CONTROL current (every time, no need to ask):** whenever a shared feature is added or changed in any build, apply the same change to `_shared/control/control.html` (with a working sample if it's a new feature) and its README, and commit it together with the build change. Only things unique to one build stay out (its slides, answers, warmers, transition, 5/6 theme, quiz questions, games). If it's unclear whether a change is shared or build-only, ask Richard.
+- **Keep CONTROL current:**
+  - **New rules / new shared features or fixes — always, no need to ask:** apply the same change to `_shared/control/control.html` (with a working sample if it's a new feature) and its README, add the rule here, and commit it together with the build change.
+  - **Changes to an established rule — ask first:** ask Richard "Update CONTROL too?" before changing how an existing rule/feature works in CONTROL (and its wording here). Yes → apply and commit with the build change; No → CONTROL stays as it is.
+  - Only things unique to one build stay out (its slides, answers, warmers, transition, 5/6 theme, quiz questions, games). If it's unclear whether a change is shared or build-only, ask Richard.
 
 ## Before building
 1. Read every page of the PDF.
