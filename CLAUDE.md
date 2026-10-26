@@ -69,8 +69,16 @@ Render every slide at 1920×1080 (answers hidden and revealed). Confirm no overf
 - Blank click / Space / → reveals the next hidden answer; when all show, advances.
 - One answer per step, never several at once: drag-and-drop sorters/matches place one item per step (in reading order, with anything tied to it, e.g. its opposite); never wire REV to Check answers / Reveal all. ← hides the last revealed; with none revealed, goes back.
 - Individual answers still toggle; progression skips opened ones. Bottom Next/Back always change slides immediately. Returning keeps answers as left.
-- Non-REV slides: Space/arrows change slides; blank clicks do nothing.
+- Non-REV slides: Space/arrows change slides; blank clicks do nothing — unless CLICK applies (below).
 - Highlighting text (drag-select, or double-click a word) never counts as a click: no reveal, no REV step, no slide change.
+
+## CLICK (step-through for everything REV skips)
+- **Default** on every slide where pressing Next would change the slide while something is still waiting to be revealed or played: play buttons / audio, open-activity and Claude sample answers, warmer reveals and cards. Not optional pop-ups (GAMIFY, EXPLAIN, zoom, CLUE cards, teacher tools).
+- **Same triggers as REV:** blank click / Space / → = next step; ← undoes the last step (hides it, or stops it and marks it unplayed); with none done, ← goes back a slide. When every step is done, the next step changes slide. Bottom Next/Back always change slides immediately. Ignored while an overlay or the "Open your book" transition is showing.
+- **One step at a time,** in reading order or the order the presenter notes describe. On slides that also have REV answers, CLICK and REV share one sequence (e.g. play each option → reveal the answer → play the record speed → reveal the card).
+- **Audio:** a click while something is playing stops it and does the next step (plays the next option or reveals the next item). Leaving the slide stops audio.
+- **By hand still works:** anything revealed or played by hand counts as done and is skipped. Returning to a slide keeps it as left.
+- **Markup:** `data-click="1"` on the slide; `data-step="1"`, `"2"`, … on each play button or revealable, in order.
 
 ## PROVE (evidence window, Reading)
 - Default for Exam-style question sections; ask for other Reading activities.
