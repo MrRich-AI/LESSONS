@@ -1,11 +1,12 @@
 # Lesson Template
 
-`template.html` is the starting point for every new Lesson HTML build. Copy it into the new build's folder as `index.html`, then replace only what is unique to the build.
+`template.html` is the starting point for every new Lesson HTML build, and the **master copy of every shared feature**. Copy it into the new build's folder as `index.html`, then replace only what is unique to the build. INCLASS and RVW builds that use a shared feature (roster picker, stopwatch, work timer, EXPLAIN, CLICK, teacher keys…) take that feature's code from the current version of this file.
 
 ## Already built in (don't rewrite)
 - **Page frame:** header (page badge, 🎡 roster picker, language sign, ✏️ COPY/NOTE pencil, ⏱ slide stopwatch, unit label) and bottom bar (Contents, Reveal all, Back, counter, Next).
 - **Answers:** REV progression, click-to-reveal, Reveal all / Hide all, highlighting never counts as a click.
-- **Interactive features:** drag-into-gap, sorters with Check answers, choice/vote buttons, phrase spotting, model-text summary loop, info-slide loops, work timer (10/15 min).
+- **CLICK:** step-through for everything REV skips (play buttons, open-activity/sample answers, warmer reveals). `data-click="1"` on the slide, `data-step="1"`, `"2"`… on each play button or revealable, in order. Add `data-noclick` to anything else clickable on a CLICK slide that must not count as a blank click.
+- **Interactive features:** drag-into-gap, sorters with Check answers, choice/vote buttons, phrase spotting, model-text summary loop, info-slide loops, work timer (10/15 min presets, "+1m" button, stays on screen once started).
 - **PROVE:** evidence windows for note-making answers (rows with class `evr`).
 - **Vocabulary:** CLUE / VISCLUE cards (on every slide a word appears) and the automatic Words from today slide.
 - **Keys:** B, W, 5, 6, C, O, T, P, ?, Esc. Also cover boxes, click-to-zoom and the offline-font notice.
@@ -41,7 +42,7 @@
 | C The task | click-to-reveal answers |
 | C2 Positive or negative adjectives? | sorter (drag into a table + Check answers) |
 | C6 The opinion paragraph | drag-into-gap with a word bank |
-| C9 The recommendation | phrase spotting |
+| C9 The recommendation | phrase spotting + CLICK (`data-click`, three `data-step` answers) |
 | Language focus 3 | choice/vote buttons + GAMIFY button + EXPLAIN 💡 bulb (`data-xpl`) |
 | C The complete sample review | model-text summary |
 | C10 Plan your review | work timer (`data-timer="1"`) |
@@ -54,6 +55,9 @@
 
 ## Not yet in the template
 - **PROVE for multiple choice / matching:** the 4-step window with a red-herring distractor isn't built in any build yet. Build it the first time it's needed, then add it here.
+
+## Keeping it the master copy
+Whenever a shared feature is added or changed in any build (here or in Claude Code), the same change goes into `template.html` (and this README) in the same commit. Only things unique to one build stay out: its slides, answers, warmers, transition, 5/6 theme, quiz questions and games.
 
 ## Source
 Built on 22 Oct 2026 from G9 Unit 3 Speaking (engine, tools, student versions, GAMIFY, audio), with sample slides from G9 Unit 3 Writing and evidence windows from the G10 Unit 13 exam build. When a shared feature changes, update this template as well as the builds.

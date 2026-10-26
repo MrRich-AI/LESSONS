@@ -15,11 +15,12 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 - Message format: `Add Lesson HTML: G9 Unit 3 Food (A, B1–5)` / `Update Lesson HTML: …` — always name the unit sections covered (the browser-tab `<title>` does too).
 - Never commit API keys or other secrets.
 
-## Lesson Template (start every new build from it)
-- `_shared/lesson-template/template.html` has every standard feature already working: header and bottom bar, REV, reveals, sorters, drag-into-gap, choice buttons, phrase spotting, work timer, PROVE note-making windows, CLUE/VISCLUE, Words from today, all teacher tools and keys, `?student` / `?zh`, the quiz engine, the GAMIFY engine and the listening module.
-- New build: copy it to the build's folder as `index.html`, then write only what's unique — book slides, answers, warmers, "Open your book" transition, 5/6 theme, quiz questions and style, GAMIFY games — and fill in the data blocks (rosters for this grade, title screen, words, notes, zoom/read-aloud targets). `_shared/lesson-template/README.md` lists every block to replace and which sample slide shows each feature.
+## Lesson Template (master copy of every shared feature)
+- `_shared/lesson-template/template.html` has every standard feature already working: header and bottom bar, REV, CLICK, reveals, sorters, drag-into-gap, choice buttons, phrase spotting, work timer (with "+1m"), PROVE note-making windows, CLUE/VISCLUE, Words from today, EXPLAIN, all teacher tools and keys, `?student` / `?zh`, the quiz engine, the GAMIFY engine and the listening module.
+- **It is the master.** Any build that uses a shared feature — Lesson HTML, INCLASS or RVW — takes that feature's code from the current template, not from an older build. The written rules describe how a feature behaves; the template holds the code that does it.
+- New Lesson build: copy it to the build's folder as `index.html`, then write only what's unique — book slides, answers, warmers, "Open your book" transition, 5/6 theme, quiz questions and style, GAMIFY games — and fill in the data blocks (rosters for this grade, title screen, words, notes, zoom/read-aloud targets, EXPLAIN panels). `_shared/lesson-template/README.md` lists every block to replace and which sample slide shows each feature.
 - Don't rewrite the shared features from scratch.
-- **Template update check (every time):** whenever a new feature is added or an existing one is changed, ask Richard one yes/no question before finishing: "Update the Lesson Template too?" Yes → apply the same change to `_shared/lesson-template/template.html` (and its README if needed) and commit it with the build change. No → leave the template as it is. Skip the question only for things unique to one build (its slides, warmers, transition, 5/6 theme, quiz questions, games).
+- **Keep the template current (every time, no need to ask):** whenever a shared feature is added or changed in any build, apply the same change to `_shared/lesson-template/template.html` (with a working sample if it's a new feature) and its README, and commit it together with the build change. Only things unique to one build stay out (its slides, answers, warmers, transition, 5/6 theme, quiz questions, games). If it's unclear whether a change is shared or build-only, ask Richard.
 
 ## Before building
 1. Read every page of the PDF.
