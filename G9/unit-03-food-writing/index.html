@@ -2391,6 +2391,37 @@ var LESSON_WORDS_VI = {};
       var w=fly.w;fly=null;
       if(land&&w.classList.contains('shown')) drop(w,true);
     }
+    /* the word flies to the middle; the stamp comes 1.35 s later – or, in team mode, on the next step */
+    function makeFly(w,anim){
+      var el=document.createElement('div');el.className='flyword';el.textContent=w.dataset.w;lane.appendChild(el);
+      var LW=lane.offsetWidth,W=el.offsetWidth,mid=(LW-W)/2;
+      if(anim)el.animate([{transform:'translateX('+(LW+40)+'px) rotate(8deg)'},{transform:'translateX('+mid+'px) rotate(-3deg)',offset:.8},{transform:'translateX('+mid+'px) rotate(0)'}],{duration:1300,easing:'cubic-bezier(.2,.8,.3,1)',fill:'forwards'});
+      else el.style.transform='translateX('+mid+'px)';
+      var st=document.createElement('div');st.className='stamp '+(w.dataset.k==='1'?'yes':'no');st.textContent=w.dataset.k==='1'?'✓ LINKER':'✗ NOT A LINKER';
+      st.style.left=Math.max(20,Math.min(LW-460,mid+W-200))+'px';
+      fly={w:w,el:el,st:st,mid:mid,parts:[el,st],timers:[],wait:false};
+      if(s.classList.contains('wtOn'))fly.wait=true;else stampIt(fly,1350);
+    }
+    function stampIt(f,d){
+      f.wait=false;var w=f.w,el=f.el,st=f.st,mid=f.mid;
+      f.timers.push(setTimeout(function(){
+        lane.appendChild(st);var fx=w.dataset.k==='1'?'ding':'buzz';s.classList.add(fx);setTimeout(function(){s.classList.remove(fx);},700);
+        st.animate([{transform:'rotate(-12deg) scale(3)',opacity:0},{transform:'rotate(-12deg) scale(1)',opacity:1}],{duration:350,easing:'cubic-bezier(.3,1.6,.5,1)',fill:'forwards'});
+        if(s._onStamp)s._onStamp(w);
+      },d));
+      f.timers.push(setTimeout(function(){
+        el.animate([{transform:'translateX('+mid+'px)',opacity:1},{transform:'translateX('+mid+'px) translateY(360px) scale(.3)',opacity:0}],{duration:600,easing:'ease-in',fill:'forwards'});
+        st.animate([{opacity:1},{opacity:0}],{duration:400,fill:'forwards'});
+      },d+1550));
+      f.timers.push(setTimeout(function(){if(fly===f)endFly(true);},d+2130));
+    }
+    /* team mode API: is a word waiting for its stamp? stamp it now / put a stamped word back in the lane */
+    s._lane={
+      words:words,
+      waiting:function(){return !!(fly&&fly.wait);},
+      judge:function(){if(fly&&fly.wait){stampIt(fly,0);return true;}return false;},
+      unjudge:function(w){if(fly){fly.timers.forEach(clearTimeout);fly.parts.forEach(function(p){p.remove();});fly=null;}var c=chipFor(w);if(c)c.remove();makeFly(w,false);fly.wait=true;}
+    };
     words.forEach(function(w){
       new MutationObserver(function(){
         if(w.classList.contains('shown')){
@@ -2400,22 +2431,7 @@ var LESSON_WORDS_VI = {};
             if(bulk) words.forEach(function(o){if(o.classList.contains('shown'))drop(o,false);});
             drop(w,false);count();return;
           }
-          var el=document.createElement('div');el.className='flyword';el.textContent=w.dataset.w;lane.appendChild(el);
-          var LW=lane.offsetWidth,W=el.offsetWidth,mid=(LW-W)/2;
-          el.animate([{transform:'translateX('+(LW+40)+'px) rotate(8deg)'},{transform:'translateX('+mid+'px) rotate(-3deg)',offset:.8},{transform:'translateX('+mid+'px) rotate(0)'}],{duration:1300,easing:'cubic-bezier(.2,.8,.3,1)',fill:'forwards'});
-          var st=document.createElement('div');st.className='stamp '+(w.dataset.k==='1'?'yes':'no');st.textContent=w.dataset.k==='1'?'✓ LINKER':'✗ NOT A LINKER';
-          st.style.left=Math.max(20,Math.min(LW-460,mid+W-200))+'px';
-          fly={w:w,parts:[el,st],timers:[]};
-          var f=fly;
-          f.timers.push(setTimeout(function(){
-            lane.appendChild(st);var fx=w.dataset.k==='1'?'ding':'buzz';s.classList.add(fx);setTimeout(function(){s.classList.remove(fx);},700);
-            st.animate([{transform:'rotate(-12deg) scale(3)',opacity:0},{transform:'rotate(-12deg) scale(1)',opacity:1}],{duration:350,easing:'cubic-bezier(.3,1.6,.5,1)',fill:'forwards'});
-          },1350));
-          f.timers.push(setTimeout(function(){
-            el.animate([{transform:'translateX('+mid+'px)',opacity:1},{transform:'translateX('+mid+'px) translateY(360px) scale(.3)',opacity:0}],{duration:600,easing:'ease-in',fill:'forwards'});
-            st.animate([{opacity:1},{opacity:0}],{duration:400,fill:'forwards'});
-          },2900));
-          f.timers.push(setTimeout(function(){if(fly===f)endFly(true);},3480));
+          makeFly(w,true);count();return;
         }else{
           if(fly&&fly.w===w){fly.timers.forEach(clearTimeout);fly.parts.forEach(function(p){p.remove();});fly=null;}
           var c=chipFor(w);if(c)c.remove();
@@ -2665,10 +2681,13 @@ var LESSON_NOTES = {
   "Students then make changes to their own review."
  ],
  "Linker or not?": [
-  "Game: students clap only for linking words."
+  "Game: students clap only for linking words.",
+  "Optional: click 👥 TEAMS – choose the class; the spinner makes Team A and Team B (4 each). Hover a name → ✕ if absent. ▶ PLAY. The teams stay for the GAMIFY games later."
  ],
  "Linker or not? — the game": [
   "16 rounds – click / → for the next word.",
+  "With teams: Team A answers first, then alternate. Click 1 = word flies in (🎡 Pick chooses a player from the glowing team); click 2 = stamp, then ✓ / ✗ on the team card (✓ adds the point).",
+  "Click a score to add a point, − takes one away. ← undoes the stamp, then the word.",
   "Ask what each linker does: add, contrast or result."
  ],
  "Language focus 1: Linking devices": [
@@ -4222,6 +4241,8 @@ var GAMIFY_DATA = {
   function wireMarks(box,get,set){if(!box)return;[].forEach.call(box.querySelectorAll('.mk'),function(b){b.addEventListener('pointerdown',function(e){e.stopPropagation();});b.onclick=function(e){e.stopPropagation();set(get()===b.dataset.v?null:b.dataset.v);paintMarks(box,get());award(get());};});}
   function paintMarks(box,v){if(!box)return;box.classList.toggle('has',!!v);[].forEach.call(box.querySelectorAll('.mk'),function(b){b.classList.toggle('on',b.dataset.v===v);});}
   var pk={raf:null,fadeT:null,fadeT2:null};
+  /* shared with the warmer team mode (same teams, spinner and absent swap for the rest of the lesson) */
+  window.GMZ_API={TM:TM,reel:reel,swapPick:swapPick,classes:classes,syncCls:syncCls,shuffle:shuffle,beep:beep};
   function classes(){var R=window.ROSTERS||{};return Object.keys(R).filter(function(k){return R[k]&&R[k].length;});}
   function pickReset(){if(pk.raf)cancelAnimationFrame(pk.raf);pk.raf=null;clearTimeout(pk.fadeT);clearTimeout(pk.fadeT2);}
   function reel(ps,all,pick,D,done){
@@ -5680,6 +5701,259 @@ body.presenter .xplBtn{display:none!important}
     if(e.key==='Escape'){close();e.preventDefault();e.stopImmediatePropagation();return;}
     if([' ','ArrowRight','ArrowLeft','ArrowUp','ArrowDown','PageUp','PageDown','Enter'].indexOf(e.key)>-1||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();}
   },true);
+})();
+</script>
+<style>
+/* ---------- Warmer team mode ("Linker or not?"): GAMIFY class mode on slides 21–22 ---------- */
+.wtBtn{position:absolute;left:50%;top:880px;transform:translateX(-50%);z-index:4;font-family:"Righteous",sans-serif;font-size:42px;letter-spacing:2px;padding:14px 46px;border-radius:60px;border:none;cursor:pointer;
+  background:linear-gradient(180deg,#ffd84d,#ffb300);color:#15114a;box-shadow:0 8px 0 #b37a00,0 0 0 5px #fff,0 0 40px rgba(255,204,51,.7)}
+.wtBtn:hover{filter:brightness(1.08)}
+.wtWin{position:absolute;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(4,3,24,.72)}
+.wtWin.on{display:flex}
+.wtBox{width:1500px;border-radius:34px;padding:34px 50px 36px;background:linear-gradient(180deg,#1b1464,#0d0a3a);box-shadow:0 0 0 8px #ffcc33,0 0 80px rgba(255,204,51,.45),0 30px 70px rgba(0,0,0,.6);font-family:"Righteous",sans-serif;color:#fff;position:relative}
+.wtBox h3{margin:0 0 18px;font-size:64px;font-weight:400;letter-spacing:4px;color:#ffcc33;text-align:center;text-shadow:0 0 18px rgba(255,204,51,.6)}
+.wtRow{display:flex;align-items:center;justify-content:center;gap:18px;margin-bottom:14px;font-size:30px;color:#00e1ff;letter-spacing:2px}
+.wtRow button{font-family:inherit;font-size:34px;padding:8px 30px;border-radius:40px;border:3px solid #00e1ff;background:transparent;color:#fff;cursor:pointer}
+.wtRow button.sel{background:#00e1ff;color:#06051d}
+.wtRow.bad{animation:shake .5s}
+.wtSlot{height:120px;margin:6px auto 16px;width:760px;border-radius:22px;background:#06051d;box-shadow:inset 0 0 0 4px #ffcc33;overflow:hidden;visibility:hidden}
+.wtSlot.on{visibility:visible}
+.wtSlot.t0{box-shadow:inset 0 0 0 5px #00e1ff,0 0 30px rgba(0,225,255,.5)}.wtSlot.t1{box-shadow:inset 0 0 0 5px #ff4d6d,0 0 30px rgba(255,77,109,.5)}
+.wtSlot .ps div,.wtPW .ps div{height:120px;line-height:120px;text-align:center;font-size:76px;white-space:nowrap}
+.wtCols{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.wtCol{border-radius:22px;padding:14px 22px 18px;min-height:250px;background:rgba(255,255,255,.06)}
+.wtCol h4{margin:0 0 10px;font-size:40px;font-weight:400;letter-spacing:3px;text-align:center}
+.wtCol.a{box-shadow:0 0 0 4px #00e1ff}.wtCol.a h4{color:#00e1ff}.wtCol.b{box-shadow:0 0 0 4px #ff4d6d}.wtCol.b h4{color:#ff4d6d}
+.wtCol .nm{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.wtN{position:relative;font-size:40px;padding:6px 22px;border-radius:14px;background:#ffcc33;color:#15114a}
+.wtN.pop{animation:dropin .55s cubic-bezier(.2,1.6,.4,1)}
+.wtN.gone{opacity:0;transform:scale(.6);transition:all .3s}
+.wtAx{position:absolute;right:-12px;top:-12px;width:34px;height:34px;border-radius:50%;border:3px solid #fff;background:#e2231a;color:#fff;font:900 18px/1 sans-serif;cursor:pointer;display:none;padding:0}
+.wtN:hover .wtAx,.wtNm:hover .wtAx{display:block}
+.wtNote{text-align:center;font-family:"Mulish",sans-serif;font-size:24px;color:#c9c4ff;min-height:30px;margin-top:10px}
+.wtB{display:flex;justify-content:center;gap:24px;margin-top:20px}
+.wtB button{font-family:inherit;font-size:34px;letter-spacing:2px;padding:10px 34px;border-radius:40px;border:3px solid #fff;background:transparent;color:#fff;cursor:pointer}
+.wtB .wtPlay{background:#16c45f;border-color:#16c45f;box-shadow:0 6px 0 #0c7a3a}
+.wtBox.busy .wtB button,.wtBox.busy .wtRow button{opacity:.4;pointer-events:none}
+/* slide 22 HUD */
+.slide.wtOn .bins{left:270px;right:270px}
+.wtCard{position:absolute;top:250px;width:226px;z-index:5;display:none;flex-direction:column;align-items:center;gap:8px;padding:14px 12px 16px;border-radius:24px;background:linear-gradient(180deg,#1b1464,#0d0a3a);font-family:"Righteous",sans-serif;color:#fff;transition:box-shadow .3s,filter .3s}
+.slide.wtOn .wtCard{display:flex}
+.wtCard.a{left:20px;box-shadow:0 0 0 5px #00e1ff}.wtCard.b{right:20px;box-shadow:0 0 0 5px #ff4d6d}
+.wtCard .wtH{font-size:34px;letter-spacing:3px}.wtCard.a .wtH{color:#00e1ff}.wtCard.b .wtH{color:#ff4d6d}
+.wtCard .wtSc{display:flex;align-items:center;gap:12px}
+.wtCard .wtSc b{font-size:84px;line-height:1;font-weight:400;cursor:pointer;min-width:70px;text-align:center;color:#ffcc33;text-shadow:0 0 14px rgba(255,204,51,.7)}
+.wtCard .wtMinus{width:44px;height:44px;border-radius:50%;border:3px solid rgba(255,255,255,.5);background:transparent;color:#fff;font-size:30px;line-height:1;cursor:pointer;padding:0}
+.wtCard .wtNames{display:flex;flex-direction:column;gap:4px;width:100%}
+.wtNm{position:relative;font-family:"Mulish",sans-serif;font-weight:800;font-size:24px;text-align:center;padding:3px 6px;border-radius:10px;background:rgba(255,255,255,.08)}
+.wtNm.pk{background:#ffcc33;color:#15114a}
+.wtNm .wtAx{right:-8px;top:-8px;width:28px;height:28px;font-size:15px}
+.wtCard .wtSpin{font-family:inherit;font-size:26px;padding:6px 18px;border-radius:30px;border:3px solid #ffcc33;background:transparent;color:#ffcc33;cursor:pointer;display:none}
+.wtCard.cur .wtSpin{display:block}
+.wtCard .wtMk{display:none;gap:12px}
+.wtCard.cur.judged .wtMk{display:flex}
+.wtMk button{width:70px;height:70px;border-radius:50%;font-size:40px;line-height:1;cursor:pointer;padding:0;border:4px solid #fff;background:transparent;color:#fff}
+.wtMk .y.on{background:#16c45f;border-color:#16c45f;box-shadow:0 0 24px #16c45f}
+.wtMk .n.on{background:#ff2d55;border-color:#ff2d55;box-shadow:0 0 24px #ff2d55}
+.wtCard .wtReady{position:absolute;left:50%;bottom:-46px;transform:translateX(-50%);font-size:28px;letter-spacing:2px;color:#ffcc33;white-space:nowrap;display:none;animation:wtBlink 1.2s ease-in-out infinite}
+.wtCard.ready .wtReady{display:block}
+.wtCard.cur{animation:wtWob 1.6s ease-in-out infinite;filter:brightness(1.2)}
+.wtCard.a.cur{box-shadow:0 0 0 6px #00e1ff,0 0 50px 10px rgba(0,225,255,.75)}
+.wtCard.b.cur{box-shadow:0 0 0 6px #ff4d6d,0 0 50px 10px rgba(255,77,109,.75)}
+.wtCard .wtSc b.bump{animation:wtBump .5s cubic-bezier(.3,1.6,.5,1)}
+@keyframes wtWob{0%,100%{rotate:-1.6deg}50%{rotate:1.6deg}}
+@keyframes wtBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes wtBump{0%{transform:scale(1)}40%{transform:scale(1.45)}100%{transform:scale(1)}}
+.wtPW{position:absolute;left:50%;top:230px;width:820px;margin-left:-410px;z-index:20;display:none;flex-direction:column;align-items:center;gap:10px;padding:20px 30px 26px;border-radius:30px;background:#06051d;font-family:"Righteous",sans-serif;color:#fff}
+.wtPW.on{display:flex}.wtPW.fade{opacity:0;transition:opacity .35s}
+.wtPW.t0{box-shadow:0 0 0 6px #00e1ff,0 0 60px rgba(0,225,255,.6)}.wtPW.t1{box-shadow:0 0 0 6px #ff4d6d,0 0 60px rgba(255,77,109,.6)}
+.wtPW .pc{font-size:36px;letter-spacing:3px;color:#ffcc33}
+.wtPW .pw{height:120px;width:100%;overflow:hidden}
+.wtPW.done .ps div:last-child{color:#ffcc33;text-shadow:0 0 20px rgba(255,204,51,.8)}
+body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .wtCard{display:none!important}
+</style>
+<script>
+/* ===== Warmer team mode for "Linker or not?" (slides 21–22), GAMIFY class mode:
+   Slide 21 "👥 Teams": class → a 2-s spinner picks 4 players for Team A and 4 for Team B (no typing, no "full");
+   the teams are GAMIFY's own, so they stay for the GAMIFY games later in the lesson (until remade).
+   Slide 22 with teams: Team A first, then alternate (no steals). Step 1 flies the word in and holds it; 🎡 picks a
+   player from the answering team (students who haven't played first); step 2 stamps it and shows ✓ / ✗ on that team:
+   ✓ adds the point (✓ again or ✗ takes it back); click a score to add a point, − takes one away.
+   The answering team glows and wobbles; "Ready?" shows under the team that answers next. Hover a name: ✕ absent → 2-s swap. ===== */
+(function(){
+  if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
+  var API=window.GMZ_API;if(!API)return;
+  var TM=API.TM,s21=[].find.call(document.querySelectorAll('#stage section.slide'),function(x){return x.dataset.title==='Linker or not?';}),
+      s22=[].find.call(document.querySelectorAll('#stage section.slide'),function(x){return x.dataset.title==='Linker or not? — the game';});
+  if(!s21||!s22||!s22._lane)return;
+  var L=s22._lane,N=L.words.length,PER=4;
+  var sc=[0,0],marks={},aw={},pick={};
+  function esc(t){return String(t).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+  function on(){return !!(TM.teams&&TM.teams[0].length&&TM.teams[1].length);}
+  function label(){return on()?'👥 TEAMS: '+TM.teams[0].length+' v '+TM.teams[1].length:'👥 TEAMS';}
+
+  /* ---------- slide 21: Teams button + window ---------- */
+  var btn=document.createElement('button');btn.className='wtBtn';btn.textContent=label();s21.appendChild(btn);
+  var win=document.createElement('div');win.className='wtWin';s21.appendChild(win);
+  ['pointerdown','click'].forEach(function(t){btn.addEventListener(t,function(e){e.stopPropagation();});win.addEventListener(t,function(e){e.stopPropagation();});});
+  btn.addEventListener('click',openWin);
+  var busy=false;
+  function openWin(){
+    var cl=API.classes();API.syncCls(cl);
+    win.innerHTML='<div class="wtBox"><h3>TEAMS</h3>'+
+      '<div class="wtRow cls"><span>CLASS</span>'+cl.map(function(k){return '<button data-c="'+esc(k)+'"'+(k===TM.cls?' class="sel"':'')+'>'+esc(k)+'</button>';}).join('')+'</div>'+
+      '<div class="wtSlot"><div class="ps"></div></div>'+
+      '<div class="wtCols"><div class="wtCol a"><h4>TEAM A</h4><div class="nm"></div></div><div class="wtCol b"><h4>TEAM B</h4><div class="nm"></div></div></div>'+
+      '<div class="wtNote"></div>'+
+      '<div class="wtB"><button class="wtX">✕ Close</button><button class="wtNew">↺ New teams</button><button class="wtNo">No teams</button><button class="wtPlay">▶ PLAY</button></div></div>';
+    win.classList.add('on');
+    win.querySelectorAll('.wtRow.cls button').forEach(function(b){b.onclick=function(){if(busy)return;TM.cls=b.dataset.c;window.LESSON_CLASS=TM.cls;TM.cpool={};
+      win.querySelectorAll('.wtRow.cls button').forEach(function(x){x.classList.toggle('sel',x===b);});make();};});
+    win.querySelector('.wtX').onclick=function(){if(!busy)closeWin();};
+    win.querySelector('.wtNew').onclick=function(){if(busy)return;if(!TM.cls){nudge();return;}make();};
+    win.querySelector('.wtNo').onclick=function(){if(busy)return;TM.teams=null;TM.base=null;TM.num=false;TM.pools={};TM.turn=0;paintCols();sync();};
+    win.querySelector('.wtPlay').onclick=function(){if(busy)return;closeWin();document.getElementById('nextBtn').click();};
+    paintCols();
+    if(!on()){if(TM.cls)make();else note('Choose the class');}
+  }
+  function closeWin(){win.classList.remove('on');win.innerHTML='';btn.textContent=label();}
+  function nudge(){var r=win.querySelector('.wtRow.cls');r.classList.remove('bad');void r.offsetWidth;r.classList.add('bad');}
+  function note(t){var n=win.querySelector('.wtNote');if(n)n.textContent=t||'';}
+  function lock(v){busy=v;var b=win.querySelector('.wtBox');if(b)b.classList.toggle('busy',v);}
+  function cols(){return [win.querySelector('.wtCol.a .nm'),win.querySelector('.wtCol.b .nm')];}
+  function chip(t,n,anim,at){
+    var c=document.createElement('span');c.className='wtN'+(anim?' pop':'');c.textContent=n;
+    var x=document.createElement('button');x.className='wtAx';x.title='Absent – swap in another student';x.textContent='✕';
+    x.onclick=function(e){e.stopPropagation();if(!busy)swapWin(t,n,c);};c.appendChild(x);
+    var cc=cols()[t];if(at){cc.insertBefore(c,at);at.remove();}else cc.appendChild(c);
+  }
+  function paintCols(){var c=cols();if(!c[0])return;c.forEach(function(x){x.innerHTML='';});if(on())TM.teams.forEach(function(T,t){T.forEach(function(n){chip(t,n);});});
+    note(on()?'Hover a name and click ✕ if a student is absent':'');}
+  function make(){
+    var all=window.ROSTERS[TM.cls]||[];if(!all.length)return;
+    var n=Math.min(PER,Math.floor(all.length/2)),pl=TM.played[TM.cls]||(TM.played[TM.cls]=[]);
+    var mix=API.shuffle(all.filter(function(x){return pl.indexOf(x)<0;})).concat(API.shuffle(all.filter(function(x){return pl.indexOf(x)>=0;})));
+    TM.num=true;TM.absent=[];TM.teams=[[],[]];sc=[0,0];marks={};aw={};pick={};
+    cols().forEach(function(c){c.innerHTML='';});lock(true);note('');
+    var slot=win.querySelector('.wtSlot'),k=0;
+    (function next(){
+      if(!win.classList.contains('on')){lock(false);done();return;}
+      if(k>=n*2){slot.className='wtSlot';lock(false);done();return;}
+      var t=k%2,name=mix[k];k++;if(pl.indexOf(name)<0)pl.push(name);
+      slot.className='wtSlot on t'+t;
+      API.reel(slot.querySelector('.ps'),all,name,2000,function(){TM.teams[t].push(name);chip(t,name,true);setTimeout(next,250);});
+    })();
+  }
+  function done(){TM.turn=0;TM.pools={};TM.base=TM.teams.map(function(T){return T.slice();});btn.textContent=label();
+    note('Hover a name and click ✕ if a student is absent');sync();}
+  function swapWin(t,n,c){
+    var r=API.swapPick(t,n,true);if(!r)return;
+    c.classList.add('gone');
+    if(!r.rep){setTimeout(function(){c.remove();btn.textContent=label();sync();},300);return;}
+    lock(true);var slot=win.querySelector('.wtSlot');slot.className='wtSlot on t'+t;
+    API.reel(slot.querySelector('.ps'),r.all,r.rep,2000,function(){chip(t,r.rep,true,c);slot.className='wtSlot';lock(false);btn.textContent=label();sync();});
+  }
+
+  /* ---------- slide 22: team cards, turns, ✓ / ✗ ---------- */
+  var cards=[0,1].map(function(t){
+    var c=document.createElement('div');c.className='wtCard '+'ab'[t];
+    c.innerHTML='<div class="wtH">TEAM '+'AB'[t]+'</div><div class="wtSc"><button class="wtMinus" title="Take a point away">−</button><b title="Click to add a point">0</b></div>'+
+      '<div class="wtNames"></div><button class="wtSpin">🎡 Pick</button><div class="wtMk"><button class="y" title="Correct">✓</button><button class="n" title="Not correct">✗</button></div><div class="wtReady">Ready?</div>';
+    ['pointerdown','click'].forEach(function(ev){c.addEventListener(ev,function(e){e.stopPropagation();});});
+    c.querySelector('.wtSc b').onclick=function(){sc[t]++;paintSc(t);};
+    c.querySelector('.wtMinus').onclick=function(){if(sc[t]>0){sc[t]--;paintSc(t);}};
+    c.querySelector('.wtSpin').onclick=function(){spin(t);};
+    c.querySelectorAll('.wtMk button').forEach(function(b){b.onclick=function(){var i=round();if(i<0)return;mark(i,marks[i]===b.className.split(' ')[0]?null:b.className.split(' ')[0]);};});
+    s22.appendChild(c);return c;
+  });
+  var pw=document.createElement('div');pw.className='wtPW';pw.innerHTML='<div class="pc"></div><div class="pw"><div class="ps"></div></div>';s22.appendChild(pw);
+  ['pointerdown','click'].forEach(function(ev){pw.addEventListener(ev,function(e){e.stopPropagation();});});
+  function paintSc(t){var b=cards[t].querySelector('.wtSc b');b.textContent=sc[t];b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+  function shown(){return L.words.filter(function(w){return w.classList.contains('shown');}).length;}
+  function round(){var k=shown();return k?k-1:-1;}
+  function team(i){return i%2;}
+  /* ✓ adds a point to the team that answered (✓ again or ✗ takes it back); one point per round */
+  function mark(i,v){
+    marks[i]=v;var t=team(i);
+    if(aw[i]!==undefined&&v!=='y'){if(sc[aw[i]]>0)sc[aw[i]]--;paintSc(aw[i]);delete aw[i];}
+    if(v==='y'&&aw[i]===undefined){sc[t]++;paintSc(t);aw[i]=t;}
+    sync();
+  }
+  function names(){
+    cards.forEach(function(c,t){
+      var box=c.querySelector('.wtNames');box.innerHTML='';if(!on())return;
+      TM.teams[t].forEach(function(n){
+        var e=document.createElement('div');e.className='wtNm'+(pick[round()]===n&&team(round())===t?' pk':'');e.textContent=n;
+        var x=document.createElement('button');x.className='wtAx';x.title='Absent – swap in another student';x.textContent='✕';
+        x.onclick=function(ev){ev.stopPropagation();swapHud(t,n);};e.appendChild(x);box.appendChild(e);
+      });
+    });
+  }
+  function spinShow(t,lab,all,name,cb){
+    pw.className='wtPW on t'+t;pw.querySelector('.pc').textContent=lab;
+    API.reel(pw.querySelector('.ps'),all,name,2000,function(){pw.classList.add('done');setTimeout(function(){pw.classList.add('fade');setTimeout(function(){pw.className='wtPW';if(cb)cb();},360);},650);});
+  }
+  function spin(t){
+    if(!on()||pw.classList.contains('on'))return;
+    var p=TM.pools[t];if(!p||!p.length)p=TM.pools[t]=API.shuffle(TM.teams[t]);
+    var name=p.pop(),i=round();
+    spinShow(t,'TEAM '+'AB'[t],TM.teams[t],name,function(){pick[i]=name;names();});
+  }
+  function swapHud(t,n){
+    var r=API.swapPick(t,n,true);if(!r)return;
+    Object.keys(pick).forEach(function(i){if(pick[i]===n)delete pick[i];});
+    if(!r.rep){names();btn.textContent=label();return;}
+    spinShow(t,'TEAM '+'AB'[t]+' · SWAP',r.all,r.rep,function(){names();btn.textContent=label();});
+  }
+  function sync(){
+    s22.classList.toggle('wtOn',on());
+    if(!on())return;
+    var i=round(),waiting=L.waiting(),judged=i>=0&&!waiting,cur=i>=0?team(i):-1;
+    cards.forEach(function(c,t){
+      c.classList.toggle('cur',t===cur);c.classList.toggle('judged',t===cur&&judged);
+      c.querySelectorAll('.wtMk button').forEach(function(b){b.classList.toggle('on',t===cur&&marks[i]===b.className.split(' ')[0]);});
+      var nextT=i<0?0:(judged&&marks[i]&&i<N-1?team(i+1):-1);
+      c.classList.toggle('ready',t===nextT&&!(i>=0&&t===cur&&!judged));
+      c.querySelector('.wtSc b').textContent=sc[t];
+    });
+    names();
+  }
+  L.words.forEach(function(w){new MutationObserver(function(){setTimeout(sync,0);}).observe(w,{attributes:true,attributeFilter:['class']});});
+  s22._onStamp=function(){sync();};
+
+  /* ---------- progression in team mode: 2 steps per word (fly in → stamp) ---------- */
+  function active(){return s22.classList.contains('active')&&on();}
+  function blocked(){var c=document.getElementById('contents');return (c&&c.classList.contains('open'))||!!document.querySelector('#bridge.play,#zoomLayer.on,#lxHelp.on')||pw.classList.contains('on');}
+  function fwd(){
+    if(L.waiting()){L.judge();sync();return true;}
+    var k=shown();if(k<N){L.words[k].classList.add('shown');return true;}
+    return false;
+  }
+  function bwd(){
+    var k=shown();if(!k)return false;var w=L.words[k-1];
+    if(!L.waiting()){
+      if(aw[k-1]!==undefined){if(sc[aw[k-1]]>0)sc[aw[k-1]]--;paintSc(aw[k-1]);delete aw[k-1];}
+      delete marks[k-1];L.unjudge(w);sync();return true;
+    }
+    w.classList.remove('shown');return true;
+  }
+  document.addEventListener('keydown',function(e){
+    if(!active()||blocked()||e.ctrlKey||e.metaKey||e.altKey)return;
+    var t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'))return;
+    var k=e.key,r=null;
+    if(k===' '||e.code==='Space'||k==='ArrowRight'||k==='PageDown')r=fwd();
+    else if(k==='ArrowLeft'||k==='PageUp')r=bwd();
+    if(r){e.preventDefault();e.stopImmediatePropagation();if(document.activeElement&&document.activeElement.blur)document.activeElement.blur();}
+  },true);
+  s22.addEventListener('click',function(e){
+    if(!active()||blocked())return;
+    if(e.target.closest('button,a,.wtCard,.wtPW,.clue'))return;
+    if(fwd()){e.stopImmediatePropagation();e.stopPropagation();}
+  },true);
+  new MutationObserver(function(){if(s21.classList.contains('active'))btn.textContent=label();if(s22.classList.contains('active'))sync();}).observe(s22,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(function(){if(!s21.classList.contains('active')&&win.classList.contains('on')&&!busy)closeWin();}).observe(s21,{attributes:true,attributeFilter:['class']});
+  window.warmTeams={sync:sync,open:openWin};
+  sync();
 })();
 </script>
 </body>
