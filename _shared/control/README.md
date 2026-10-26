@@ -1,6 +1,8 @@
-# Lesson Template
+# CONTROL
 
-`template.html` is the starting point for every new Lesson HTML build, and the **master copy of every shared feature**. Copy it into the new build's folder as `index.html`, then replace only what is unique to the build. INCLASS and RVW builds that use a shared feature (roster picker, stopwatch, work timer, EXPLAIN, CLICK, teacher keys…) take that feature's code from the current version of this file.
+CONTROL (formerly the Lesson Template) is the **master copy of every shared feature** for all of Richard's builds, in every Project. Lesson HTML builds start from it; any other build (INCLASS, RVW, WB, Essay, games…) that uses one of its features takes that feature's code from here, even if it uses only one or two.
+
+`control.html` is the starting point for every new Lesson HTML build. Copy it into the new build's folder as `index.html`, then replace only what is unique to the build. INCLASS and RVW builds that use a shared feature (roster picker, stopwatch, work timer, EXPLAIN, CLICK, teacher keys…) take that feature's code from the current version of this file.
 
 ## Already built in (don't rewrite)
 - **Page frame:** header (page badge, 🎡 roster picker, language sign, ✏️ COPY/NOTE pencil, ⏱ slide stopwatch, unit label) and bottom bar (Contents, Reveal all, Back, counter, Next).
@@ -53,11 +55,11 @@
 | Check your progress | student-only slide (`stuOnly`) |
 | Section Quiz | end-of-deck quiz |
 
-## Not yet in the template
+## Not yet in CONTROL
 - **PROVE for multiple choice / matching:** the 4-step window with a red-herring distractor isn't built in any build yet. Build it the first time it's needed, then add it here.
 
 ## Keeping it the master copy
-Whenever a shared feature is added or changed in any build (here or in Claude Code), the same change goes into `template.html` (and this README) in the same commit. Only things unique to one build stay out: its slides, answers, warmers, transition, 5/6 theme, quiz questions and games.
+Whenever a shared feature is added or changed in any build (here or in Claude Code), the same change goes into `control.html` (and this README) in the same commit. Only things unique to one build stay out: its slides, answers, warmers, transition, 5/6 theme, quiz questions and games.
 
 ## Source
 Built on 22 Oct 2026 from G9 Unit 3 Speaking (engine, tools, student versions, GAMIFY, audio), with sample slides from G9 Unit 3 Writing and evidence windows from the G10 Unit 13 exam build. When a shared feature changes, update this template as well as the builds.
