@@ -2689,7 +2689,7 @@ var LESSON_NOTES = {
   "16 rounds – click / → for the next word.",
   "Each word stamps itself 1 s after it lands if it is a linker, 2 s if not – clap or don't! A click during the wait stamps it at once.",
   "With teams: Team A answers first, then alternate. 🎡 Pick chooses a player from the glowing team; after the stamp click ✓ / ✗ on the team card (✓ adds the point).",
-  "Click a score to add a point, − takes one away. ← takes the last word back (with its point).",
+  "Click a score to add a point, − takes one away (scores can go below 0). ← takes the last word back (with its point).",
   "Ask what each linker does: add, contrast or result."
  ],
  "Language focus 1: Linking devices": [
@@ -5762,6 +5762,7 @@ body.presenter .xplBtn{display:none!important}
 .wtCard.cur{animation:wtWob 1.6s ease-in-out infinite;filter:brightness(1.2)}
 .wtCard.a.cur{box-shadow:0 0 0 6px #00e1ff,0 0 50px 10px rgba(0,225,255,.75)}
 .wtCard.b.cur{box-shadow:0 0 0 6px #ff4d6d,0 0 50px 10px rgba(255,77,109,.75)}
+.wtCard .wtSc b.neg{color:#ff6b81;text-shadow:0 0 14px rgba(255,77,109,.7)}
 .wtCard .wtSc b.bump{animation:wtBump .5s cubic-bezier(.3,1.6,.5,1)}
 @keyframes wtWob{0%,100%{rotate:-1.6deg}50%{rotate:1.6deg}}
 @keyframes wtBlink{0%,100%{opacity:1}50%{opacity:.35}}
@@ -5781,7 +5782,7 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
    Slide 22 with teams: Team A first, then alternate (no steals). Each step flies a word in; it stamps itself 1 s after
    landing (linker) or 2 s (not a linker) – a click during the wait stamps it at once. 🎡 picks a player from the
    answering team (students who haven't played first); after the stamp ✓ / ✗ show on that team:
-   ✓ adds the point (✓ again or ✗ takes it back); click a score to add a point, − takes one away.
+   ✓ adds the point (✓ again or ✗ takes it back); click a score to add a point, − takes one away (scores can go below 0).
    The answering team glows and wobbles; "Ready?" shows under the team that answers next. Hover a name: ✕ absent → 2-s swap. ===== */
 (function(){
   if(window.LESSON_MODE==='student'||/(^|[?&#])(student|zh|presenter)\b/i.test(location.search+location.hash))return;
@@ -5791,6 +5792,8 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
   if(!s21||!s22||!s22._lane)return;
   var L=s22._lane,N=L.words.length,PER=4;
   var sc=[0,0],marks={},aw={},pick={};
+  /* negative scores show with a real minus sign */
+  function fmt(n){return n<0?'−'+(-n):String(n);}
   function esc(t){return String(t).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
   function on(){return !!(TM.teams&&TM.teams[0].length&&TM.teams[1].length);}
   function label(){return on()?'👥 TEAMS: '+TM.teams[0].length+' v '+TM.teams[1].length:'👥 TEAMS';}
@@ -5864,21 +5867,21 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
       '<div class="wtNames"></div><button class="wtSpin">🎡 Pick</button><div class="wtMk"><button class="y" title="Correct">✓</button><button class="n" title="Not correct">✗</button></div><div class="wtReady">Ready?</div>';
     ['pointerdown','click'].forEach(function(ev){c.addEventListener(ev,function(e){e.stopPropagation();});});
     c.querySelector('.wtSc b').onclick=function(){sc[t]++;paintSc(t);};
-    c.querySelector('.wtMinus').onclick=function(){if(sc[t]>0){sc[t]--;paintSc(t);}};
+    c.querySelector('.wtMinus').onclick=function(){sc[t]--;paintSc(t);};
     c.querySelector('.wtSpin').onclick=function(){spin(t);};
     c.querySelectorAll('.wtMk button').forEach(function(b){b.onclick=function(){var i=round();if(i<0)return;mark(i,marks[i]===b.className.split(' ')[0]?null:b.className.split(' ')[0]);};});
     s22.appendChild(c);return c;
   });
   var pw=document.createElement('div');pw.className='wtPW';pw.innerHTML='<div class="pc"></div><div class="pw"><div class="ps"></div></div>';s22.appendChild(pw);
   ['pointerdown','click'].forEach(function(ev){pw.addEventListener(ev,function(e){e.stopPropagation();});});
-  function paintSc(t){var b=cards[t].querySelector('.wtSc b');b.textContent=sc[t];b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+  function paintSc(t){var b=cards[t].querySelector('.wtSc b');b.textContent=fmt(sc[t]);b.classList.toggle('neg',sc[t]<0);b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
   function shown(){return L.words.filter(function(w){return w.classList.contains('shown');}).length;}
   function round(){var k=shown();return k?k-1:-1;}
   function team(i){return i%2;}
   /* ✓ adds a point to the team that answered (✓ again or ✗ takes it back); one point per round */
   function mark(i,v){
     marks[i]=v;var t=team(i);
-    if(aw[i]!==undefined&&v!=='y'){if(sc[aw[i]]>0)sc[aw[i]]--;paintSc(aw[i]);delete aw[i];}
+    if(aw[i]!==undefined&&v!=='y'){sc[aw[i]]--;paintSc(aw[i]);delete aw[i];}
     if(v==='y'&&aw[i]===undefined){sc[t]++;paintSc(t);aw[i]=t;}
     sync();
   }
@@ -5917,7 +5920,7 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
       c.querySelectorAll('.wtMk button').forEach(function(b){b.classList.toggle('on',t===cur&&marks[i]===b.className.split(' ')[0]);});
       var nextT=i<0?0:(judged&&marks[i]&&i<N-1?team(i+1):-1);
       c.classList.toggle('ready',t===nextT&&!(i>=0&&t===cur&&!judged));
-      c.querySelector('.wtSc b').textContent=sc[t];
+      c.querySelector('.wtSc b').textContent=fmt(sc[t]);c.querySelector('.wtSc b').classList.toggle('neg',sc[t]<0);
     });
     names();
   }
@@ -5937,7 +5940,7 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
     if(!on())return false;
     var k=shown();if(!k)return false;var w=L.words[k-1];
     /* ← takes the last word back, with its point */
-    if(aw[k-1]!==undefined){if(sc[aw[k-1]]>0)sc[aw[k-1]]--;paintSc(aw[k-1]);delete aw[k-1];}
+    if(aw[k-1]!==undefined){sc[aw[k-1]]--;paintSc(aw[k-1]);delete aw[k-1];}
     delete marks[k-1];w.classList.remove('shown');return true;
   }
   document.addEventListener('keydown',function(e){
