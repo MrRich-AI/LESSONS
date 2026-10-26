@@ -2391,7 +2391,8 @@ var LESSON_WORDS_VI = {};
       var w=fly.w;fly=null;
       if(land&&w.classList.contains('shown')) drop(w,true);
     }
-    /* the word flies to the middle; the stamp comes 1.35 s later – or, in team mode, on the next step */
+    /* the word flies to the middle (1.3 s); the stamp comes by itself 1 s after it lands for a linker,
+       2 s for a non-linker (time to clap – or not); a click / → during the wait stamps it at once */
     function makeFly(w,anim){
       var el=document.createElement('div');el.className='flyword';el.textContent=w.dataset.w;lane.appendChild(el);
       var LW=lane.offsetWidth,W=el.offsetWidth,mid=(LW-W)/2;
@@ -2399,13 +2400,13 @@ var LESSON_WORDS_VI = {};
       else el.style.transform='translateX('+mid+'px)';
       var st=document.createElement('div');st.className='stamp '+(w.dataset.k==='1'?'yes':'no');st.textContent=w.dataset.k==='1'?'✓ LINKER':'✗ NOT A LINKER';
       st.style.left=Math.max(20,Math.min(LW-460,mid+W-200))+'px';
-      fly={w:w,el:el,st:st,mid:mid,parts:[el,st],timers:[],wait:false};
-      if(s.classList.contains('wtOn'))fly.wait=true;else stampIt(fly,1350);
+      fly={w:w,el:el,st:st,mid:mid,parts:[el,st],timers:[],wait:true};
+      var f=fly;f.stampT=setTimeout(function(){if(fly===f&&f.wait)stampIt(f,0);},(anim?1300:0)+(w.dataset.k==='1'?1000:2000));f.timers.push(f.stampT);
     }
     function stampIt(f,d){
-      f.wait=false;var w=f.w,el=f.el,st=f.st,mid=f.mid;
+      if(f.stamping)return;f.stamping=true;clearTimeout(f.stampT);var w=f.w,el=f.el,st=f.st,mid=f.mid;
       f.timers.push(setTimeout(function(){
-        lane.appendChild(st);var fx=w.dataset.k==='1'?'ding':'buzz';s.classList.add(fx);setTimeout(function(){s.classList.remove(fx);},700);
+        f.wait=false;lane.appendChild(st);var fx=w.dataset.k==='1'?'ding':'buzz';s.classList.add(fx);setTimeout(function(){s.classList.remove(fx);},700);
         st.animate([{transform:'rotate(-12deg) scale(3)',opacity:0},{transform:'rotate(-12deg) scale(1)',opacity:1}],{duration:350,easing:'cubic-bezier(.3,1.6,.5,1)',fill:'forwards'});
         if(s._onStamp)s._onStamp(w);
       },d));
@@ -2418,9 +2419,9 @@ var LESSON_WORDS_VI = {};
     /* team mode API: is a word waiting for its stamp? stamp it now / put a stamped word back in the lane */
     s._lane={
       words:words,
-      waiting:function(){return !!(fly&&fly.wait);},
+      waiting:function(){return !!(fly&&fly.wait&&!fly.stamping);},
       judge:function(){if(fly&&fly.wait){stampIt(fly,0);return true;}return false;},
-      unjudge:function(w){if(fly){fly.timers.forEach(clearTimeout);fly.parts.forEach(function(p){p.remove();});fly=null;}var c=chipFor(w);if(c)c.remove();makeFly(w,false);fly.wait=true;}
+      unjudge:function(w){if(fly){fly.timers.forEach(clearTimeout);fly.parts.forEach(function(p){p.remove();});fly=null;}var c=chipFor(w);if(c)c.remove();makeFly(w,false);}
     };
     words.forEach(function(w){
       new MutationObserver(function(){
@@ -2686,8 +2687,9 @@ var LESSON_NOTES = {
  ],
  "Linker or not? — the game": [
   "16 rounds – click / → for the next word.",
-  "With teams: Team A answers first, then alternate. Click 1 = word flies in (🎡 Pick chooses a player from the glowing team); click 2 = stamp, then ✓ / ✗ on the team card (✓ adds the point).",
-  "Click a score to add a point, − takes one away. ← undoes the stamp, then the word.",
+  "Each word stamps itself 1 s after it lands if it is a linker, 2 s if not – clap or don't! A click during the wait stamps it at once.",
+  "With teams: Team A answers first, then alternate. 🎡 Pick chooses a player from the glowing team; after the stamp click ✓ / ✗ on the team card (✓ adds the point).",
+  "Click a score to add a point, − takes one away. ← takes the last word back (with its point).",
   "Ask what each linker does: add, contrast or result."
  ],
  "Language focus 1: Linking devices": [
@@ -5776,8 +5778,9 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
 /* ===== Warmer team mode for "Linker or not?" (slides 21–22), GAMIFY class mode:
    Slide 21 "👥 Teams": class → a 2-s spinner picks 4 players for Team A and 4 for Team B (no typing, no "full");
    the teams are GAMIFY's own, so they stay for the GAMIFY games later in the lesson (until remade).
-   Slide 22 with teams: Team A first, then alternate (no steals). Step 1 flies the word in and holds it; 🎡 picks a
-   player from the answering team (students who haven't played first); step 2 stamps it and shows ✓ / ✗ on that team:
+   Slide 22 with teams: Team A first, then alternate (no steals). Each step flies a word in; it stamps itself 1 s after
+   landing (linker) or 2 s (not a linker) – a click during the wait stamps it at once. 🎡 picks a player from the
+   answering team (students who haven't played first); after the stamp ✓ / ✗ show on that team:
    ✓ adds the point (✓ again or ✗ takes it back); click a score to add a point, − takes one away.
    The answering team glows and wobbles; "Ready?" shows under the team that answers next. Hover a name: ✕ absent → 2-s swap. ===== */
 (function(){
@@ -5922,20 +5925,20 @@ body.student .wtBtn,body.student .wtCard,body.presenter .wtBtn,body.presenter .w
   s22._onStamp=function(){sync();};
 
   /* ---------- progression in team mode: 2 steps per word (fly in → stamp) ---------- */
-  function active(){return s22.classList.contains('active')&&on();}
+  function active(){return s22.classList.contains('active');}
   function blocked(){var c=document.getElementById('contents');return (c&&c.classList.contains('open'))||!!document.querySelector('#bridge.play,#zoomLayer.on,#lxHelp.on')||pw.classList.contains('on');}
   function fwd(){
     if(L.waiting()){L.judge();sync();return true;}
+    if(!on())return false;
     var k=shown();if(k<N){L.words[k].classList.add('shown');return true;}
     return false;
   }
   function bwd(){
+    if(!on())return false;
     var k=shown();if(!k)return false;var w=L.words[k-1];
-    if(!L.waiting()){
-      if(aw[k-1]!==undefined){if(sc[aw[k-1]]>0)sc[aw[k-1]]--;paintSc(aw[k-1]);delete aw[k-1];}
-      delete marks[k-1];L.unjudge(w);sync();return true;
-    }
-    w.classList.remove('shown');return true;
+    /* ← takes the last word back, with its point */
+    if(aw[k-1]!==undefined){if(sc[aw[k-1]]>0)sc[aw[k-1]]--;paintSc(aw[k-1]);delete aw[k-1];}
+    delete marks[k-1];w.classList.remove('shown');return true;
   }
   document.addEventListener('keydown',function(e){
     if(!active()||blocked()||e.ctrlKey||e.metaKey||e.altKey)return;
