@@ -732,6 +732,7 @@ ul.dots li::before{content:"";position:absolute;left:6px;top:15px;width:11px;hei
 #ptimer .tt{font-size:48px;font-weight:800;color:var(--teal-dark);font-variant-numeric:tabular-nums;min-width:140px;text-align:center}
 #ptimer button{font-family:inherit;font-size:22px;font-weight:800;border-radius:12px;padding:8px 12px;border:3px solid var(--teal);background:#fff;color:var(--teal-dark);cursor:pointer}
 #ptimer button.go{background:var(--teal);color:#fff}
+#ptimer button.p1{font-size:18px;padding:6px 9px;border-width:2px}
 #ptimer.run .tt{color:var(--teal)}
 #ptimer.low .tt{color:#e2231a}
 #ptimer.done{border-color:#e2231a;animation:tdone 1s ease-in-out infinite}
@@ -1468,7 +1469,7 @@ body.presenter #pvUI{display:block;font-family:"Mulish","Segoe UI",sans-serif;co
     <div class="bx-skip">click to skip ›</div>
   </div>
 
-  <div id="ptimer"><span class="tt">10:00</span><button data-min="10">10 min</button><button data-min="15">15 min</button><button class="go">▶ Start</button><button class="rs">↺</button></div>
+  <div id="ptimer"><span class="tt">10:00</span><button data-min="10">10 min</button><button data-min="15">15 min</button><button class="go">▶ Start</button><button class="p1" title="Add 1 minute">+1m</button><button class="rs">↺</button></div>
   <div id="fontwarn">⚠ Offline: special fonts not loaded (slides still work) ✕</div>
 
   <div class="navbar">
@@ -2521,6 +2522,8 @@ var LESSON_WORDS_VI = {};
   /* click the time itself to start / pause too */
   ptT.style.cursor='pointer';ptT.title='Click to start / pause';ptT.onclick=function(e){e.stopPropagation();ptRun?ptStop():ptStart();};
   pt.querySelectorAll('[data-min]').forEach(function(b){b.onclick=function(e){e.stopPropagation();ptStop();ptLeft=+b.dataset.min*60;ptShow();};});
+  /* +1m: adds a minute to the set time, or while it counts down (also after Time's up) */
+  pt.querySelector('.p1').onclick=function(e){e.stopPropagation();ptLeft=Math.min(ptLeft+60,99*60);ptShow();};
   pt.querySelector('.rs').onclick=function(e){e.stopPropagation();ptStop();ptLeft=600;ptShow();pt.classList.remove('act');var a=document.querySelector('#stage .slide.active');pt.classList.toggle('on',!!(a&&a.dataset.timer));};
   ptShow();
 
