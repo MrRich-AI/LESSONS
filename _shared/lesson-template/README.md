@@ -11,6 +11,7 @@
 - **Keys:** B, W, 5, 6, C, O, T, P, ?, Esc. Also cover boxes, click-to-zoom and the offline-font notice.
 - **Student versions:** `?student` and `?zh` with the title screen, VI/中文 toggle, read-aloud, flashcards and Check your progress (`stuOnly` slides).
 - **End of deck:** the quiz engine.
+- **EXPLAIN 💡:** the light-bulb engine — bulb (bottom-left, raised on audio slides; `data-xpl-pos="bl|br|tl|tr"` moves it), B1 panel (about · rule · examples · watch out), text auto-fit, Esc/outside click to close, presenter-view notes, ? sheet row, and in student versions the Vietnamese/Chinese lines, read-aloud and title tile.
 - **GAMIFY:** the full engine — button, transition, teams, spinner, ✓/✗ marks, absent-student swap and solo mode.
 - **Listening:** the audio module (audio bar, markers, auto-pause, "Hear it" clips, synced audioscript). It switches on when a slide has `data-audio="1"` and `LX_AUDIO` is set.
 
@@ -23,6 +24,7 @@
 | Student title screen | `STUDENT_TITLE_PHOTO`, `STUDENT_TITLE` |
 | Words from today | `LESSON_WORDS` |
 | Presenter notes | `LESSON_NOTES` |
+| EXPLAIN panels | `EXPLAIN_DATA` (one entry per slide Richard approved) + `data-xpl="<key>"` on that slide. Delete the sample entry. |
 | Zoom / read-aloud targets | `LESSON_EXTRAS` |
 | Quiz questions and style | `QUIZ`; quiz slide title. Change the quiz look to this build's random style. |
 | 5/6 screens theme | `LX_THEME` and its CSS. The example is the judges' kitchen; make a new theme. |
@@ -40,7 +42,7 @@
 | C2 Positive or negative adjectives? | sorter (drag into a table + Check answers) |
 | C6 The opinion paragraph | drag-into-gap with a word bank |
 | C9 The recommendation | phrase spotting |
-| Language focus 3 | choice/vote buttons + GAMIFY button |
+| Language focus 3 | choice/vote buttons + GAMIFY button + EXPLAIN 💡 bulb (`data-xpl`) |
 | C The complete sample review | model-text summary |
 | C10 Plan your review | work timer (`data-timer="1"`) |
 | Sample reading text + Sample notes | PROVE evidence windows (`data-text` names the text) |

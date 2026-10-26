@@ -1006,7 +1006,7 @@ mark.p{--hl:#bfe0ff}mark.a{--hl:#ffe24d;font-weight:700}
       <div class="rise d4" style="grid-column:1 / span 2"><div class="ans " style="height:150px"><div class="cover">Other phrases</div><div class="body"><div class="ansbox" style="font-size:31px;line-height:1.45"><i>I would (highly) recommend … · It is definitely worth a visit. · I suggest you try … · Why not give it a try? · If you are looking for …, … is the place for you. · I would not recommend … unless …</i></div></div></div></div>
     </div>
   </section>
-  <section class="slide" data-rev="1" data-game="rally" data-title="Language focus 3: however or although?" data-page="45">
+  <section class="slide" data-rev="1" data-game="rally" data-xpl="however-although" data-title="Language focus 3: however or although?" data-page="45">
     <div class="lfbox rise d1" style="height:850px">
       <h3>LANGUAGE FOCUS: Linking devices <span style="font-weight:400;opacity:.85">(continued)</span></h3>
       <div class="in">
@@ -1594,6 +1594,10 @@ var STUDENT_TITLE = {"grade": "9", "unit": "Unit 0: Template", "sections": ["Sec
   if(document.querySelector('#stage section.slide[data-game]'))F.push(ZH
     ?['<span class="ic gm">🎮</span>','GAMIFY 游戏','点击部分页面角落的 <b>🎮 GAMIFY</b>，自己玩复习游戏。']
     :['<span class="ic gm">🎮</span>','GAMIFY games','Click <b>🎮 GAMIFY</b> in the corner of some slides to play a review game.','Trò chơi GAMIFY','Bấm <b>🎮 GAMIFY</b> ở góc một số trang để chơi trò chơi ôn tập.']);
+  /* EXPLAIN tile when the deck has light bulbs */
+  if(document.querySelector('#stage section.slide[data-xpl]'))F.push(ZH
+    ?['<span class="ic gm">💡</span>','讲解','点击部分页面角落的 <b>💡 灯泡</b>，看这一页的英语规则。']
+    :['<span class="ic gm">💡</span>','Light bulb','Click the <b>💡 light bulb</b> in the corner of some pages to learn the English rule.','Bóng đèn','Bấm vào <b>💡 bóng đèn</b> ở góc một số trang để học quy tắc tiếng Anh.']);
   var first=document.querySelector('.slide');if(!first)return;
   var op=window.STUDENT_TITLE_PHOTO?{getAttribute:function(){return STUDENT_TITLE_PHOTO;}}:document.querySelector('.slide.s1 img, .slide.s1 .photo img');
   var sec=document.createElement('section');sec.className='slide stitle'+(ZH?'':' bi');sec.dataset.page='';sec.dataset.title=L.title+' · '+T.unit;
@@ -2172,6 +2176,43 @@ var LESSON_REVEALS = ".ans, .ans-ph";
 /* ===== end of teacher notes ===== */
 </script>
 <script>
+/* ===== EXPLAIN data (💡 light bulb) — one entry per approved slide; the slide gets data-xpl="<key>".
+   B1 English. about = one line · rule = 2–4 sentences (array) · examples = 2–3, pattern in <mark> · watch = {wrong, right, why}.
+   Never give away hidden answers: use the book's own examples or new examples of the same pattern.
+   vi / zh = student-version translations (about, rule array in the same order, watch = the "why" line). Optional title = panel heading. ===== */
+var EXPLAIN_DATA = {
+ "however-although": {
+  about: "You choose <i>however</i> or <i>although</i> to join two ideas that are different.",
+  rule: [
+   "Both words show a <b>contrast</b>: the second idea is different from the first, or surprising.",
+   "<b>Although</b> joins the two ideas in <b>one</b> sentence. Put a comma between the two parts: <i>Although …, …</i>",
+   "<b>However</b> usually starts a <b>new</b> sentence. Put a comma after it: <i>… . However, …</i>"
+  ],
+  examples: [
+   "<mark>Although</mark> it was raining, we walked to the café.",
+   "We enjoyed the meal, <mark>although</mark> it was expensive.",
+   "The pizza was cold. <mark>However</mark>, the staff were very friendly."
+  ],
+  watch: {wrong: "However it was raining, we walked to the café.", right: "Although it was raining, we walked to the café.", why: "Don't use <i>however</i> to join two parts of one sentence. Use <i>although</i>."},
+  vi: {
+   about: "Em chọn <i>however</i> hoặc <i>although</i> để nối hai ý trái ngược nhau.",
+   rule: ["Cả hai từ đều chỉ sự tương phản: ý thứ hai khác với ý thứ nhất, hoặc gây bất ngờ.",
+          "<i>Although</i> nối hai ý trong <b>một</b> câu. Đặt dấu phẩy giữa hai phần.",
+          "<i>However</i> thường mở đầu một câu <b>mới</b>. Đặt dấu phẩy sau nó."],
+   watch: "Không dùng <i>however</i> để nối hai phần của một câu. Hãy dùng <i>although</i>."
+  },
+  zh: {
+   about: "选择 <i>however</i> 或 <i>although</i> 来连接两个相反的意思。",
+   rule: ["这两个词都表示对比：第二个意思和第一个不同，或出人意料。",
+          "<i>Although</i> 在<b>一个</b>句子里连接两个意思，两部分之间用逗号。",
+          "<i>However</i> 通常放在<b>新</b>句子的开头，后面加逗号。"],
+   watch: "不要用 <i>however</i> 连接一个句子的两个部分，要用 <i>although</i>。"
+  }
+ }
+};
+/* ===== end of EXPLAIN data ===== */
+</script>
+<script>
 /* ===== Lesson tools 2: ? cheat sheet, P presenter view, VI instructions + read-aloud speed (student) ===== */
 (function(){
   var stage=document.getElementById('stage');
@@ -2194,12 +2235,12 @@ var LESSON_REVEALS = ".ans, .ans-ph";
   if(STUDENT){
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / show the next answer')+R(K('←'),'Go back / hide the last answer')+R(K('☰'),'Contents: jump to any slide')+
       '<h3>Answers</h3>'+R(K('click'),'Click an answer box to show it')+R(K('Reveal all'),'Show (or hide) every answer on the slide');
-    colB='<h3>Help with reading</h3>'+R(K('🔊'),'Listen to a text, word or phrase')+R(K('🐢'),'Read-aloud speed: Slow / Normal')+R(K('VI'),'Instructions in Vietnamese')+R(K('🔍'),'Zoom in on a text or picture')+R(K('hold'),'Hold the mouse on a dotted word for 2 seconds: word card')+
+    colB='<h3>Help with reading</h3>'+R(K('🔊'),'Listen to a text, word or phrase')+R(K('🐢'),'Read-aloud speed: Slow / Normal')+R(K('VI'),'Instructions in Vietnamese')+R(K('🔍'),'Zoom in on a text or picture')+R(K('💡'),'Light bulb: the English rule behind this page')+R(K('hold'),'Hold the mouse on a dotted word for 2 seconds: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Choose an answer')+R(K('→','Enter'),'Next question')+R(K('?','Esc'),'Open / close this help');
   }else{
     colA='<h3>Moving around</h3>'+R(K('→','Space'),'Next slide / reveal the next answer')+R(K('←'),'Back / hide the last answer')+R(K('click'),'Reveal one answer')+R(K('Esc'),'Close a screen, zoom or Contents')+
       '<h3>Screens</h3>'+R(K('B'),'Blackout – “Eyes on me” + shhh')+R(K('W')+K('C'),'Whiteout · Close your books')+R(K('5')+K('T'),'5-minute break timer · Time’s up buzzer')+R(K('6')+K('O'),'Break Time screen · Open your book')+R(K('right-drag'),'Cover box (Shift-drag on a whiteboard) · click it to remove');
-    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip (copy → key words → ideas)')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
+    colB='<h3>Tools</h3>'+R(K('P'),'Presenter view (open on your laptop screen)')+R(K('?'),'This help')+R(K('🔍'),'Zoom in on a text')+R(K('🎡')+K('EN'),'Pick a student · English-only flag')+R(K('⏱')+K('✏️'),'Slide timer · notebook strip (copy → key words → ideas)')+R(K('🎮'),'GAMIFY game (corner of some slides): Space/→ next, ← back, Esc ends')+R(K('💡'),'EXPLAIN: B1 rule/pattern panel (corner of some slides); Esc closes')+R(K('hold'),'Hover a dotted word for 2 s: word card')+
       '<h3>Quiz</h3>'+R(K('1','2','3','4'),'Answer')+R(K('→','Space','Enter'),'Next question');
   }
   help.innerHTML='<div class="hp"><h2>Keyboard shortcuts <small>press ? or Esc to close</small></h2><div class="cols"><div>'+colA+'</div><div>'+colB+'</div></div></div>';
@@ -5038,5 +5079,175 @@ body.student .cvBox,body.presenter .cvBox{display:none!important}
 })();
 </script>
 <!-- ===== end "Close your books" ===== -->
+<!-- ===== EXPLAIN: light-bulb rule/pattern explainer (both versions) =====
+     A slide gets the bulb when it has data-xpl="<key>" and EXPLAIN_DATA has that key.
+     Bulb: bottom-left above the bottom bar (raised on audio slides); data-xpl-pos="bl|br|tl|tr" moves it.
+     Click → B1 panel: What this slide is about · The rule / pattern · Examples · Watch out!
+     Student versions add Vietnamese (?student) or Chinese (?zh) under each part + read-aloud. ===== -->
+<style>
+.xplBtn{position:absolute;left:3px;bottom:112px;z-index:24;width:66px;height:66px;padding:0;border:none;background:none;cursor:pointer;
+  animation:xplWob 2.6s ease-in-out infinite;transform-origin:50% 88%;filter:drop-shadow(0 6px 10px rgba(0,0,0,.28))}
+.xplBtn:hover{animation-play-state:paused;filter:drop-shadow(0 8px 14px rgba(0,0,0,.32)) drop-shadow(0 0 18px rgba(255,200,60,.8))}
+.xplBtn:focus-visible{outline:4px solid var(--teal,#0a8b99);outline-offset:4px;border-radius:50%}
+.xplBtn[data-pos="br"]{left:auto;right:3px}
+.xplBtn[data-pos="tl"]{bottom:auto;top:150px}
+.xplBtn[data-pos="tr"]{bottom:auto;top:150px;left:auto;right:3px}
+#stage.audioOn .xplBtn[data-pos="bl"],#stage.audioOn .xplBtn[data-pos="br"]{bottom:200px}
+.xplBtn svg{width:100%;height:100%;overflow:visible;display:block}
+.xplBtn .xRays line{animation:xplRay 1.8s ease-in-out infinite}
+.xplBtn .xRays line:nth-child(2n){animation-delay:.45s}
+.xplBtn .xGlow{animation:xplGlow 1.8s ease-in-out infinite}
+.xplBtn.open .xGlow{opacity:1;animation:none}
+@keyframes xplWob{0%,100%{rotate:0deg}18%{rotate:-6deg}36%{rotate:5deg}54%{rotate:-3deg}72%{rotate:2deg}}
+@keyframes xplRay{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes xplGlow{0%,100%{opacity:.35}50%{opacity:.85}}
+body.presenter .xplBtn{display:none!important}
+
+#xplWin{position:absolute;inset:0;z-index:70;display:none}
+#xplWin.on{display:block}
+#xplWin .xDim{position:absolute;inset:0;background:rgba(10,30,36,.55);animation:xplFade .25s ease both}
+#xplWin .xCard{position:absolute;left:50%;top:28px;width:1700px;max-height:1024px;overflow:hidden;margin-left:-850px;background:#fffdf6;border-radius:28px;
+  border:4px solid #f0b429;box-shadow:0 30px 70px rgba(0,0,0,.4),0 0 0 10px rgba(255,214,102,.25);padding:30px 44px 34px;font-family:"Mulish",sans-serif;color:#1d2b30;
+  display:flex;flex-direction:column;gap:18px;transform-origin:var(--xo,8% 100%);animation:xplPop .38s cubic-bezier(.2,.9,.3,1.2) both}
+#xplWin .xHead{display:flex;align-items:center;gap:20px}
+#xplWin .xHead svg{width:74px;height:74px;flex:none;overflow:visible}
+#xplWin .xHead .xT{font-size:26px;font-weight:900;letter-spacing:.14em;color:#b07300}
+#xplWin .xHead .xS{font-size:40px;font-weight:800;line-height:1.15;color:#1d2b30}
+#xplWin .xClose{margin-left:auto;align-self:flex-start;width:56px;height:56px;border-radius:50%;border:3px solid #d9c690;background:#fff;color:#7a6320;font-size:34px;line-height:1;cursor:pointer}
+#xplWin .xClose:hover{background:#fff4d1}
+#xplWin .xBody{display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:18px 22px;min-height:0}
+#xplWin .xPart{position:relative;border-radius:18px;padding:16px 24px 18px;background:#fff;border:3px solid #e5ecee;animation:xplRise .45s ease both}
+#xplWin .pAbout{grid-column:1 / span 2}#xplWin .pRule{grid-column:1;grid-row:2 / span 2}#xplWin .pEx{grid-column:2;grid-row:2}#xplWin .pWatch{grid-column:2;grid-row:3}
+#xplWin .xPart:nth-child(2){animation-delay:.08s}#xplWin .xPart:nth-child(3){animation-delay:.16s}#xplWin .xPart:nth-child(4){animation-delay:.24s}
+#xplWin .xLab{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}
+#xplWin .xTxt{font-size:var(--xf,36px);line-height:1.36;font-weight:600}
+#xplWin .xTxt b{font-weight:900;color:#0b4f58}
+#xplWin .xTxt p{margin:0 0 6px}
+#xplWin .xTxt i{font-style:italic}
+#xplWin .pAbout{background:#e8f6f7;border-color:#9fd6dc}#xplWin .pAbout .xLab{color:#06707c}
+#xplWin .pRule{background:#fff8e1;border-color:#f3cf6b}#xplWin .pRule .xLab{color:#a86b00}
+#xplWin .pEx{background:#f3f0fb;border-color:#cbbff0}#xplWin .pEx .xLab{color:#57309a}
+#xplWin .pWatch{background:#fdeee9;border-color:#f3b4a3}#xplWin .pWatch .xLab{color:#b3401f}
+#xplWin .pEx ul{margin:0;padding-left:34px}#xplWin .pEx li{margin:2px 0}
+#xplWin mark{background:linear-gradient(transparent 12%,#ffd84d 12%,#ffd84d 88%,transparent 88%);color:inherit;padding:0 4px;border-radius:4px;font-weight:800}
+#xplWin .xWrong{color:#b3401f}#xplWin .xWrong s{text-decoration-thickness:3px}
+#xplWin .xRight{color:#1d7a3a}
+#xplWin .xTr{display:block;font-size:calc(var(--xf,36px)*.76);line-height:1.35;font-weight:700;color:#57309a;margin-top:2px}
+#xplWin .xSpk{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;border:none;background:var(--teal,#0a8b99);color:#fff;cursor:pointer;margin-left:auto}
+#xplWin .xSpk svg{width:21px;height:21px}#xplWin .xSpk.on{background:#e6175c}
+@keyframes xplFade{from{opacity:0}}
+@keyframes xplPop{from{opacity:0;transform:scale(.18)}}
+@keyframes xplRise{from{opacity:0;transform:translateY(18px)}}
+</style>
+<script>
+(function(){
+  var stage=document.getElementById('stage');if(!stage)return;
+  var Q=location.search+location.hash;
+  var PRES=/(^|[?&#])presenter\b/i.test(Q);
+  var STUDENT=window.LESSON_MODE==='student'||/(^|[?&#])(student|zh)\b/i.test(Q);
+  var LANG=window.LESSON_LANG==='zh'?'zh':(STUDENT?'vi':'');
+  var DATA=window.EXPLAIN_DATA||{};
+  var slides=[].slice.call(document.querySelectorAll('#stage section.slide[data-xpl]')).filter(function(s){return DATA[s.dataset.xpl];});
+  if(!slides.length)return;
+  var LAB={about:['What this slide is about','Bài này nói về gì','这一页讲什么'],rule:['The rule / pattern','Quy tắc / mẫu','规则 / 规律'],
+           ex:['Examples','Ví dụ','例子'],watch:['Watch out!','Cẩn thận!','注意！'],head:['EXPLAIN','GIẢI THÍCH','讲解']};
+  function lab(k){var t=LAB[k];return t[0]+(LANG==='vi'?' <span style="opacity:.75;letter-spacing:.04em">· '+t[1]+'</span>':LANG==='zh'?' <span style="opacity:.75;letter-spacing:.04em">· '+t[2]+'</span>':'');}
+  function strip(h){var d=document.createElement('div');d.innerHTML=h||'';return d.textContent.replace(/\s+/g,' ').trim();}
+  function arr(x){return x==null?[]:[].concat(x);}
+
+  /* the bulb: glass, zigzag filament, screw base, glass highlight, pulsing rays */
+  var uid=0;
+  function bulb(){
+    var g='xg'+(++uid);
+    return '<svg viewBox="0 0 80 80" aria-hidden="true"><defs>'+
+      '<radialGradient id="'+g+'a" cx="42%" cy="36%" r="62%"><stop offset="0" stop-color="#fffbe6"/><stop offset=".45" stop-color="#ffe17a"/><stop offset="1" stop-color="#f2a91b"/></radialGradient>'+
+      '<radialGradient id="'+g+'h" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#ffe680" stop-opacity=".95"/><stop offset="1" stop-color="#ffd23f" stop-opacity="0"/></radialGradient>'+
+      '<linearGradient id="'+g+'b" x1="0" x2="1"><stop offset="0" stop-color="#6d6c66"/><stop offset=".45" stop-color="#d3d1c7"/><stop offset=".6" stop-color="#b4b2a9"/><stop offset="1" stop-color="#55544f"/></linearGradient></defs>'+
+      '<circle class="xGlow" cx="40" cy="32" r="34" fill="url(#'+g+'h)"/>'+
+      '<g class="xRays" stroke="#f2a91b" stroke-width="3.4" stroke-linecap="round"><line x1="40" y1="-4" x2="40" y2="2"/><line x1="12" y1="6" x2="16" y2="10.5"/><line x1="68" y1="6" x2="64" y2="10.5"/><line x1="0" y1="30" x2="6" y2="30"/><line x1="80" y1="30" x2="74" y2="30"/></g>'+
+      '<path d="M40 10 C26 10 17 20 17 32 C17 41 22 46 27 51 C29 53 30 56 30 59 L50 59 C50 56 51 53 53 51 C58 46 63 41 63 32 C63 20 54 10 40 10Z" fill="url(#'+g+'a)" stroke="#b97a0e" stroke-width="2.4"/>'+
+      '<path d="M33.5 59 V45 l2.6-4.4 l3.9 4.4 l3.9-4.4 l2.6 4.4 V59" fill="none" stroke="#8a5300" stroke-width="2.2" stroke-linejoin="round"/>'+
+      '<path d="M25 27 q2.5-8.5 10.5-10.5" fill="none" stroke="#fff" stroke-width="3.6" stroke-linecap="round" opacity=".9"/><circle cx="24.2" cy="32.4" r="1.9" fill="#fff" opacity=".85"/>'+
+      '<rect x="29" y="59" width="22" height="13" rx="3" fill="url(#'+g+'b)"/><path d="M29.5 63.3 h21 M29.5 67.6 h21" stroke="#4a4945" stroke-width="1.6" opacity=".7"/>'+
+      '<path d="M34 72 h12 l-3 5.2 h-6z" fill="#3e3d39"/></svg>';
+  }
+  var SPK='<svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 4V5L7 9H3z"/><path d="M16 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M18.6 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+
+  /* presenter view: add each explanation to that slide's teacher notes */
+  if(PRES){
+    var N=window.LESSON_NOTES=window.LESSON_NOTES||{};
+    slides.forEach(function(s){var d=DATA[s.dataset.xpl],t=s.dataset.title,a=[].concat(N[t]||[]);
+      a.push('💡 EXPLAIN — '+strip(d.about));arr(d.rule).forEach(function(r){a.push('Rule: '+strip(r));});
+      arr(d.examples).forEach(function(x){a.push('e.g. '+strip(x));});
+      if(d.watch)a.push('Watch out: ✗ '+strip(d.watch.wrong)+' → ✓ '+strip(d.watch.right)+(d.watch.why?' ('+strip(d.watch.why)+')':''));
+      N[t]=a;});
+    return;
+  }
+
+  var win=document.createElement('div');win.id='xplWin';stage.appendChild(win);
+  var openBtn=null;
+  function close(){
+    if(!win.classList.contains('on'))return;
+    win.classList.remove('on');win.innerHTML='';
+    if(openBtn){openBtn.classList.remove('open');openBtn=null;}
+    try{if(window.speechSynthesis)speechSynthesis.cancel();}catch(e){}
+  }
+  function part(cls,k,html,tr,say){
+    var spk=STUDENT&&say?'<button class="xSpk" title="Listen" aria-label="Listen" data-say="'+say.replace(/"/g,'&quot;')+'">'+SPK+'</button>':'';
+    return '<div class="xPart '+cls+'"><div class="xLab">'+lab(k)+spk+'</div><div class="xTxt">'+html+(tr?'<span class="xTr">'+tr+'</span>':'')+'</div></div>';
+  }
+  function open(s,btn){
+    var d=DATA[s.dataset.xpl];if(!d)return;
+    if(window.rosterPicker)try{rosterPicker.close();}catch(e){}
+    var T=LANG&&d[LANG]||{};
+    var rule=arr(d.rule).map(function(r,i){var t=arr(T.rule)[i];return '<p>'+r+(t?'<span class="xTr">'+t+'</span>':'')+'</p>';}).join('');
+    var ex='<ul>'+arr(d.examples).map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+    var w=d.watch||{},watch=w.wrong?'<p><span class="xWrong">✗ <s>'+w.wrong+'</s></span><br><span class="xRight">✓ '+w.right+'</span></p>'+(w.why?'<p style="font-size:.9em">'+w.why+'</p>':''):'';
+    var sub=d.title||(s.dataset.title||'').replace(/\s*\(\d+\/\d+\)$/,'');
+    win.innerHTML='<div class="xDim"></div><div class="xCard" role="dialog" aria-label="Explanation">'+
+      '<div class="xHead">'+bulb()+'<div><div class="xT">'+lab('head')+'</div><div class="xS">'+sub+'</div></div><button class="xClose" aria-label="Close">×</button></div>'+
+      '<div class="xBody">'+
+        part('pAbout full','about',d.about||'',T.about,strip(d.about))+
+        part('pRule','rule',rule,'',arr(d.rule).map(strip).join(' '))+
+        part('pEx','ex',ex,'',arr(d.examples).map(strip).join('. '))+
+        (watch?part('pWatch full','watch',watch,T.watch,'Wrong: '+strip(w.wrong)+'. Right: '+strip(w.right)+'. '+strip(w.why)):'')+
+      '</div></div>';
+    var r=btn.getBoundingClientRect(),sr=stage.getBoundingClientRect(),k=sr.width/1920;
+    win.querySelector('.xCard').style.setProperty('--xo',((r.left+r.width/2-sr.left)/k-140)+'px '+((r.top-sr.top)/k-44)+'px');
+    win.classList.add('on');btn.classList.add('open');openBtn=btn;
+    /* fit: largest text size (36 → 24px) that keeps the whole panel on screen */
+    var card=win.querySelector('.xCard'),fs=36;card.style.setProperty('--xf',fs+'px');
+    while(card.scrollHeight>card.clientHeight+1&&fs>24){fs--;card.style.setProperty('--xf',fs+'px');}
+  }
+  win.addEventListener('pointerdown',function(e){e.stopPropagation();});
+  win.addEventListener('click',function(e){
+    e.stopPropagation();
+    var sp=e.target.closest('.xSpk');
+    if(sp){if(window.lxSay)lxSay(sp.dataset.say,sp);else if(window.speechSynthesis){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(sp.dataset.say);u.lang='en-US';u.rate=.9;speechSynthesis.speak(u);}return;}
+    if(e.target.closest('.xClose')||!e.target.closest('.xCard'))close();
+  });
+
+  slides.forEach(function(s){
+    var b=document.createElement('button');b.className='xplBtn';b.type='button';
+    b.dataset.pos=s.dataset.xplPos||'bl';
+    b.title='Explain the rule';b.setAttribute('aria-label','Explain the rule on this slide');b.innerHTML=bulb();
+    b.addEventListener('pointerdown',function(e){e.stopPropagation();});
+    b.addEventListener('click',function(e){e.stopPropagation();if(!s.classList.contains('active'))return;if(openBtn===b)close();else{close();open(s,b);}});
+    s.appendChild(b);
+    new MutationObserver(function(){if(!s.classList.contains('active')&&openBtn===b)close();}).observe(s,{attributes:true,attributeFilter:['class']});
+  });
+  /* GAMIFY's button is added after this runs on some decks: re-check the corner once everything is in */
+  setTimeout(function(){slides.forEach(function(s){var b=s.querySelector('.xplBtn'),g=s.querySelector('.gmzBtn');if(!b||s.dataset.xplPos||!g)return;
+    var cs=getComputedStyle(g);if(cs.left!=='auto'&&parseFloat(cs.left)<300)b.dataset.pos='br';});},0);
+
+  /* while open: Esc closes; slide keys do nothing (no REV step, no slide change) */
+  document.addEventListener('keydown',function(e){
+    if(!win.classList.contains('on'))return;
+    if(e.key==='Escape'){close();e.preventDefault();e.stopImmediatePropagation();return;}
+    if([' ','ArrowRight','ArrowLeft','ArrowUp','ArrowDown','PageUp','PageDown','Enter'].indexOf(e.key)>-1||e.code==='Space'){e.preventDefault();e.stopImmediatePropagation();}
+  },true);
+})();
+</script>
+<!-- ===== end EXPLAIN ===== -->
 </body>
 </html>
