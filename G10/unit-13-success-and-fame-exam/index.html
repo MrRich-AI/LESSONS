@@ -166,13 +166,22 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1b2326;font-family:
 .b2 .q h2{font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:70px;line-height:.98;letter-spacing:-2px}
 .b2 .q h2 i{color:#c8901a}
 .b2 .ch{position:absolute;left:110px;top:372px;display:grid;grid-template-columns:repeat(4,200px);gap:26px;z-index:5}
-.b2 .ch button{height:180px;border-radius:30px;border:5px solid #2b2118;background:#fffaf0;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:92px;color:#2b2118;cursor:pointer;box-shadow:0 10px 0 #2b2118;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;transition:transform .15s,background .2s}
-.b2 .ch button small{font-family:"Patrick Hand",cursive;font-weight:400;font-size:26px;margin-top:6px;color:#6b5440}
-.b2 .ch button:hover{transform:translateY(-4px)}
-.b2 .ch button.on{background:#ffe7a6;box-shadow:0 10px 0 #2b2118,0 0 0 8px rgba(231,178,58,.5)}
-.b2 .ch button.ok{background:#3c9a4a;border-color:#1f6a2b;color:#fff;box-shadow:0 10px 0 #1f6a2b}
-.b2 .ch button.ok small{color:#e6ffe8}
-.b2 .ch button.bad{animation:shake .5s;background:#f6d2cb;border-color:#b3261e;color:#b3261e;box-shadow:0 10px 0 #b3261e}
+.b2 .ch .opt{position:relative;display:flex}
+.b2 .ch .opt>button.cv{width:100%}
+.b2 .ch .pb{position:absolute;right:-18px;top:-22px;z-index:2;width:72px;height:72px;border-radius:50%;border:4px solid #fffaf0;background:radial-gradient(circle at 35% 30%,#d9683a,#a8441d 70%);color:#fffaf0;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 6px 0 #6e2a10,0 10px 18px rgba(60,30,10,.35);transition:transform .15s}
+.b2 .ch .pb i{font-style:normal;font-size:30px;line-height:1;margin-left:5px}
+.b2 .ch .pb:hover{transform:scale(1.1)}
+.b2 .ch .pb.on{background:radial-gradient(circle at 35% 30%,#f4c542,#c8901a 70%);color:#2b2118;animation:pbPulse .7s ease-in-out infinite}
+.b2 .ch .pb.on i{margin-left:0;font-size:0}
+.b2 .ch .pb.on i::before{content:"";display:block;width:24px;height:24px;border-radius:4px;background:#2b2118}
+@keyframes pbPulse{0%,100%{box-shadow:0 6px 0 #8a5a08,0 0 0 0 rgba(244,197,66,.7)}50%{box-shadow:0 6px 0 #8a5a08,0 0 0 14px rgba(244,197,66,0)}}
+.b2 .ch button.cv{height:180px;border-radius:30px;border:5px solid #2b2118;background:#fffaf0;font-family:"Fraunces",Georgia,serif;font-weight:900;font-size:92px;color:#2b2118;cursor:pointer;box-shadow:0 10px 0 #2b2118;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1;transition:transform .15s,background .2s}
+.b2 .ch button.cv small{font-family:"Patrick Hand",cursive;font-weight:400;font-size:26px;margin-top:6px;color:#6b5440}
+.b2 .ch button.cv:hover{transform:translateY(-4px)}
+.b2 .ch button.cv.on{background:#ffe7a6;box-shadow:0 10px 0 #2b2118,0 0 0 8px rgba(231,178,58,.5)}
+.b2 .ch button.cv.ok{background:#3c9a4a;border-color:#1f6a2b;color:#fff;box-shadow:0 10px 0 #1f6a2b}
+.b2 .ch button.cv.ok small{color:#e6ffe8}
+.b2 .ch button.cv.bad{animation:shake .5s;background:#f6d2cb;border-color:#b3261e;color:#b3261e;box-shadow:0 10px 0 #b3261e}
 .b2 .gauge{position:absolute;right:150px;top:110px;width:620px;height:420px;z-index:4}
 .b2 .gauge svg{width:100%;height:100%;overflow:visible}
 .b2 .needle{transform-origin:310px 330px;transform-box:view-box;transition:transform 1.6s cubic-bezier(.3,1.5,.4,1)}
@@ -728,12 +737,12 @@ body.student .ncard .noun .spkBtn.sm{position:absolute;left:100%;top:50%;transfo
     <div class="beeBug" style="--bp:path('M 1980 150 C 1500 40, 1300 300, 1000 120 S 500 0, -200 160');--bd:9s;width:150px;height:118px"><svg viewBox="-110 -90 230 170"><ellipse cx="0" cy="62" rx="60" ry="10" fill="rgba(60,40,10,.18)"/><g class="wing"><ellipse cx="-14" cy="-44" rx="30" ry="46" fill="rgba(225,242,255,.85)" stroke="#2b2118" stroke-width="4"/></g><g class="wing w2"><ellipse cx="24" cy="-40" rx="27" ry="42" fill="rgba(225,242,255,.8)" stroke="#2b2118" stroke-width="4"/></g><defs><radialGradient id="bb" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#ffe78a"/><stop offset=".6" stop-color="#f2b81e"/><stop offset="1" stop-color="#b9800a"/></radialGradient></defs><ellipse cx="0" cy="0" rx="70" ry="50" fill="url(#bb)" stroke="#2b2118" stroke-width="6"/><path d="M-30,-46 q12,46 0,92 M2,-50 q14,50 0,100 M34,-44 q10,44 0,88" stroke="#2b2118" stroke-width="15" fill="none"/><circle cx="72" cy="-6" r="34" fill="#2b2118"/><circle cx="84" cy="-15" r="10" fill="#fff"/><circle cx="87" cy="-15" r="5" fill="#2b2118"/><circle cx="89" cy="-18" r="2" fill="#fff"/><path d="M84,-38 q18,-34 36,-28 M70,-38 q6,-38 22,-40" stroke="#2b2118" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="120" cy="-66" r="5" fill="#2b2118"/><circle cx="92" cy="-78" r="5" fill="#2b2118"/><path d="M84,10 q10,8 20,0" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M-70,0 l-28,9 l28,9z" fill="#2b2118"/></svg></div>
     <div class="q"><div class="k">Guinness World Record · World’s Fastest Violinist</div><h2>How many notes <i>per second</i> did the record-holder play?</h2></div>
     <div class="ch">
-      <button><b>6</b><small>notes / second</small></button><button><b>9</b><small>notes / second</small></button><button data-ok="1"><b>13</b><small>notes / second</small></button><button><b>20</b><small>notes / second</small></button>
+      <div class="opt"><button class="cv"><b>9</b><small>notes / second</small></button><button class="pb" data-nps="9" title="Play at 9 notes per second" aria-label="Play at 9 notes per second"><i>▶</i></button></div><div class="opt"><button class="cv" data-ok="1"><b>13</b><small>notes / second</small></button><button class="pb" data-nps="13" title="Play at 13 notes per second" aria-label="Play at 13 notes per second"><i>▶</i></button></div><div class="opt"><button class="cv"><b>20</b><small>notes / second</small></button><button class="pb" data-nps="20" title="Play at 20 notes per second" aria-label="Play at 20 notes per second"><i>▶</i></button></div><div class="opt"><button class="cv"><b>32</b><small>notes / second</small></button><button class="pb" data-nps="32" title="Play at 32 notes per second" aria-label="Play at 32 notes per second"><i>▶</i></button></div>
     </div>
     <div class="gauge"><svg viewBox="0 0 620 420">
       <path d="M40,330 A270,270 0 0 1 580,330" fill="none" stroke="#2b2118" stroke-width="16" stroke-linecap="round"/>
       <path d="M40,330 A270,270 0 0 1 580,330" fill="none" stroke="#e7b23a" stroke-width="8" stroke-dasharray="4 38" />
-      <line x1="72.0" y1="330.0" x2="96.0" y2="330.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="124.0" y="342.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">0</text><line x1="74.9" y1="292.8" x2="86.8" y2="294.6" stroke="#2b2118" stroke-width="2"/><line x1="83.6" y1="256.5" x2="95.1" y2="260.2" stroke="#2b2118" stroke-width="2"/><line x1="97.9" y1="222.0" x2="108.6" y2="227.4" stroke="#2b2118" stroke-width="2"/><line x1="117.5" y1="190.1" x2="127.2" y2="197.2" stroke="#2b2118" stroke-width="2"/><line x1="141.7" y1="161.7" x2="158.7" y2="178.7" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="178.5" y="210.5" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">5</text><line x1="170.1" y1="137.5" x2="177.2" y2="147.2" stroke="#2b2118" stroke-width="2"/><line x1="202.0" y1="117.9" x2="207.4" y2="128.6" stroke="#2b2118" stroke-width="2"/><line x1="236.5" y1="103.6" x2="240.2" y2="115.1" stroke="#2b2118" stroke-width="2"/><line x1="272.8" y1="94.9" x2="274.6" y2="106.8" stroke="#2b2118" stroke-width="2"/><line x1="310.0" y1="92.0" x2="310.0" y2="116.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="310.0" y="156.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">10</text><line x1="347.2" y1="94.9" x2="345.4" y2="106.8" stroke="#2b2118" stroke-width="2"/><line x1="383.5" y1="103.6" x2="379.8" y2="115.1" stroke="#2b2118" stroke-width="2"/><line x1="418.0" y1="117.9" x2="412.6" y2="128.6" stroke="#2b2118" stroke-width="2"/><line x1="449.9" y1="137.5" x2="442.8" y2="147.2" stroke="#2b2118" stroke-width="2"/><line x1="478.3" y1="161.7" x2="461.3" y2="178.7" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="441.5" y="210.5" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">15</text><line x1="502.5" y1="190.1" x2="492.8" y2="197.2" stroke="#2b2118" stroke-width="2"/><line x1="522.1" y1="222.0" x2="511.4" y2="227.4" stroke="#2b2118" stroke-width="2"/><line x1="536.4" y1="256.5" x2="524.9" y2="260.2" stroke="#2b2118" stroke-width="2"/><line x1="545.1" y1="292.8" x2="533.2" y2="294.6" stroke="#2b2118" stroke-width="2"/><line x1="548.0" y1="330.0" x2="524.0" y2="330.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="496.0" y="342.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">20</text>
+      <line x1="72.0" y1="330.0" x2="96.0" y2="330.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="124.0" y="342.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">0</text><line x1="76.6" y1="283.6" x2="88.3" y2="285.9" stroke="#2b2118" stroke-width="2"/><line x1="90.1" y1="238.9" x2="101.2" y2="243.5" stroke="#2b2118" stroke-width="2"/><line x1="112.1" y1="197.8" x2="122.1" y2="204.4" stroke="#2b2118" stroke-width="2"/><line x1="141.7" y1="161.7" x2="158.7" y2="178.7" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="178.5" y="210.5" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">8</text><line x1="177.8" y1="132.1" x2="184.4" y2="142.1" stroke="#2b2118" stroke-width="2"/><line x1="218.9" y1="110.1" x2="223.5" y2="121.2" stroke="#2b2118" stroke-width="2"/><line x1="263.6" y1="96.6" x2="265.9" y2="108.3" stroke="#2b2118" stroke-width="2"/><line x1="310.0" y1="92.0" x2="310.0" y2="116.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="310.0" y="156.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">16</text><line x1="356.4" y1="96.6" x2="354.1" y2="108.3" stroke="#2b2118" stroke-width="2"/><line x1="401.1" y1="110.1" x2="396.5" y2="121.2" stroke="#2b2118" stroke-width="2"/><line x1="442.2" y1="132.1" x2="435.6" y2="142.1" stroke="#2b2118" stroke-width="2"/><line x1="478.3" y1="161.7" x2="461.3" y2="178.7" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="441.5" y="210.5" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">24</text><line x1="507.9" y1="197.8" x2="497.9" y2="204.4" stroke="#2b2118" stroke-width="2"/><line x1="529.9" y1="238.9" x2="518.8" y2="243.5" stroke="#2b2118" stroke-width="2"/><line x1="543.4" y1="283.6" x2="531.7" y2="285.9" stroke="#2b2118" stroke-width="2"/><line x1="548.0" y1="330.0" x2="524.0" y2="330.0" stroke="#2b2118" stroke-width="5"/><text class="gnum" x="496.0" y="342.0" text-anchor="middle" font-family="Fraunces,serif" font-weight="900" font-size="38" fill="#2b2118">32</text>
       <text x="310" y="250" text-anchor="middle" font-family="Patrick Hand,cursive" font-size="34" fill="#6b5440">notes per second</text>
       <g class="needle" style="transform:rotate(-90deg)"><path d="M304,330 L310,90 L316,330z" fill="#c2361f"/><circle cx="310" cy="330" r="24" fill="#2b2118"/><circle cx="310" cy="330" r="9" fill="#e7b23a"/></g>
     </svg></div>
@@ -1692,7 +1701,7 @@ var LESSON_NOTES = {
   "Ask: Could you play this? How fast do you think the fastest violinist in the world can play it?"
  ],
  "The Bumblebee Challenge — the world record": [
-  "Class votes: click the number they choose (6, 9, 13 or 20 notes per second). ▶ Normal speed replays 7 per second.",
+  "Class votes: click the number they choose (9, 13, 20 or 32 notes per second). The ▶ on each card plays the tune at that speed – try them before voting. ▶ Normal speed replays 7 per second.",
   "Reveal 1: 13 notes per second (the whole piece in 66.56 seconds, 2008). Then click ▶ Record speed to hear it at 13 per second.",
   "Reveal 2: the record-holder – David Garrett, a German violinist. Ask: What do you know about him? What might his life be like?",
   "Lead-in: “Let’s read a blog about him.”"
@@ -2675,7 +2684,7 @@ var QUIZ = [
     TUNE.forEach(function(m,i){note(c,out,m,t0+i*d,d*.92);});
     var strip=slide.querySelector('.strip'),row=strip&&strip.querySelector('.row'),lab=strip&&strip.querySelector('.nps'),needle=slide.querySelector('.needle');
     slide.classList.add('playing');btn.classList.add('on');if(lab)lab.textContent=nps+' notes per second';
-    if(needle)needle.style.transform='rotate('+(nps/20*180-90)+'deg)';
+    if(needle)needle.style.transform='rotate('+(nps/32*180-90)+'deg)';
     var k={out:out,raf:0,done:function(){slide.classList.remove('playing');btn.classList.remove('on');if(onEnd)onEnd();}};cur=k;
     var STEP=56;
     function frame(){
@@ -2697,7 +2706,7 @@ var QUIZ = [
     s+='</g></svg><div class="head"></div><div class="nps"></div>';strip.innerHTML=s;
   }
   document.querySelectorAll('.slide.bee .strip').forEach(buildStrip);
-  document.querySelectorAll('.slide.bee .playBtn').forEach(function(b){
+  document.querySelectorAll('.slide.bee .playBtn, .slide.bee .ch .pb').forEach(function(b){
     b.addEventListener('pointerdown',function(e){e.stopPropagation();});
     b.addEventListener('click',function(e){
       e.stopPropagation();if(b.disabled)return;
@@ -2707,7 +2716,7 @@ var QUIZ = [
   });
   /* choice buttons: the class votes, the reveal marks them */
   document.querySelectorAll('.slide.bee .ch').forEach(function(box){
-    var bs=[].slice.call(box.querySelectorAll('button')),ans=box.closest('.slide').querySelector('.ansNum'),rec=box.closest('.slide').querySelector('.playBtn.rec'),needle=box.closest('.slide').querySelector('.needle');
+    var bs=[].slice.call(box.querySelectorAll('button.cv')),ans=box.closest('.slide').querySelector('.ansNum'),rec=box.closest('.slide').querySelector('.playBtn.rec'),needle=box.closest('.slide').querySelector('.needle');
     bs.forEach(function(b){
       b.addEventListener('pointerdown',function(e){e.stopPropagation();});
       b.addEventListener('click',function(e){e.stopPropagation();if(ans.classList.contains('shown'))return;var on=b.classList.contains('on');bs.forEach(function(x){x.classList.remove('on');});if(!on)b.classList.add('on');});
@@ -2715,7 +2724,7 @@ var QUIZ = [
     function mark(on){
       bs.forEach(function(b){b.classList.remove('ok','bad');if(!on)return;if(b.dataset.ok)b.classList.add('ok');else if(b.classList.contains('on')){void b.offsetWidth;b.classList.add('bad');}});
       if(rec)rec.disabled=!on;
-      if(needle&&on)needle.style.transform='rotate('+(13/20*180-90)+'deg)';
+      if(needle&&on)needle.style.transform='rotate('+(13/32*180-90)+'deg)';
     }
     var was=false;new MutationObserver(function(){var on=ans.classList.contains('shown');if(on!==was){was=on;mark(on);}}).observe(ans,{attributes:true,attributeFilter:['class']});
     mark(false);
