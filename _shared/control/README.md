@@ -1,3 +1,8 @@
+> **The master has moved to SHARED (mrrich-ai/SHARED) on 28 Oct 2026.** This folder is frozen as it was on 26 Oct 2026:
+> don't copy from it and don't edit it. Every shared feature is now a SHARED module (`control/`, `features/`, `activities/`,
+> `student/`) with its code, full rules and a demo; SHARED rebuilds this `control.html` byte for byte from those modules.
+> Existing builds are not changed; they are updated from SHARED only when they are edited.
+
 # CONTROL
 
 CONTROL (formerly the Lesson Template) is the **master copy of every shared feature** for all of Richard's builds, in every Project. Lesson HTML builds start from it; any other build (INCLASS, RVW, WB, Essay, games…) that uses one of its features takes that feature's code from here, even if it uses only one or two.
