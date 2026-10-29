@@ -1,0 +1,87 @@
+<!-- ===== G9 Unit 4 Transport — build's own scripts (Step 1): poster scenes, flying-car card art, B3 multi-column sorter,
+     warmer video, 5/6 theme (LX_THEME). Runs after the SHARED engine. ===== -->
+<script>
+/* ---------- B3: multi-column sorter (words can go in more than one column; reveal one column per REV step) ---------- */
+(function(){
+  var wrap=document.getElementById('b3');if(!wrap)return;
+  var slide=wrap.closest('.slide'),bank=document.getElementById('b3bank');
+  var cols=[].slice.call(wrap.querySelectorAll('.b3col'));
+  function stageScale(){var st=document.getElementById('stage');return st?st.getBoundingClientRect().width/1920:1;}
+  function norm(w){return (w||'').toLowerCase().trim();}
+  function placed(col){return [].slice.call(col.querySelectorAll('.b3drop .pl')).map(function(p){return p.dataset.w;});}
+  function render(col){
+    var drop=col.querySelector('.b3drop'),tab=col.querySelector('.b3head .ans'),shown=tab.classList.contains('shown');
+    col.classList.toggle('shown',shown);
+    [].slice.call(drop.querySelectorAll('.key,.miss')).forEach(function(e){e.remove();});
+    if(!shown)return;
+    var keys=drop.dataset.key.split('|'),mine=placed(col),plain=keys.map(function(k){return norm(k.replace('*',''));});
+    keys.forEach(function(k){var w=k.replace('*',''),d=document.createElement('div');d.className='key'+(k.indexOf('*')>0?' b1w':'')+(mine.indexOf(norm(w))>=0?' got':'');d.textContent=w;drop.appendChild(d);});
+    mine.forEach(function(w){if(plain.indexOf(w)<0&&norm(drop.dataset.ex)!==w){var d=document.createElement('div');d.className='miss';d.textContent=w;drop.appendChild(d);}});
+  }
+  cols.forEach(function(col){
+    var drop=col.querySelector('.b3drop');
+    if(drop.dataset.ex){var e=document.createElement('div');e.className='ex';e.textContent=drop.dataset.ex;drop.appendChild(e);}
+    new MutationObserver(function(){render(col);}).observe(col.querySelector('.b3head .ans'),{attributes:true,attributeFilter:['class']});
+  });
+  function addTo(col,w){
+    var drop=col.querySelector('.b3drop');w=norm(w);
+    if(placed(col).indexOf(w)>=0||norm(drop.dataset.ex)===w)return;
+    var p=document.createElement('div');p.className='pl';p.dataset.w=w;p.textContent=w;p.title='Click to remove';
+    var ex=drop.querySelector('.ex');drop.insertBefore(p,null);if(ex)drop.insertBefore(ex,drop.firstChild);
+    p.animate([{transform:'scale(1.3)',background:'#fff6c7'},{transform:'none'}],{duration:350});
+    render(col);
+  }
+  wrap.addEventListener('click',function(e){
+    e.stopPropagation(); /* never a blank REV click on the sorter */
+    var pl=e.target.closest('.pl');if(pl){var col=pl.closest('.b3col');pl.remove();render(col);return;}
+    var dr=e.target.closest('.b3drop');var sel=wrap.querySelector('.b3chip.sel');
+    if(dr&&sel){addTo(dr.closest('.b3col'),sel.textContent);}
+  });
+  var selected=null;
+  [].slice.call(wrap.querySelectorAll('.b3chip:not(.ex)')).forEach(function(chip){
+    chip.addEventListener('pointerdown',function(e){
+      e.preventDefault();e.stopPropagation();
+      var sx=e.clientX,sy=e.clientY,moved=false,fl=null,over=null,k=stageScale();
+      var r=chip.getBoundingClientRect(),dx=sx-r.left,dy=sy-r.top;
+      function mv(ev){
+        if(!moved&&Math.abs(ev.clientX-sx)+Math.abs(ev.clientY-sy)<7)return;
+        if(!moved){moved=true;fl=chip.cloneNode(true);fl.classList.add('b3float');fl.classList.remove('sel');fl.style.transform='scale('+k+')';document.body.appendChild(fl);}
+        fl.style.left=(ev.clientX-dx)+'px';fl.style.top=(ev.clientY-dy)+'px';
+        var el=document.elementFromPoint(ev.clientX,ev.clientY),d=el&&el.closest('.b3drop');
+        if(d&&!wrap.contains(d))d=null;
+        if(over&&over!==d)over.classList.remove('over');over=d;if(d)d.classList.add('over');
+      }
+      function up(){
+        window.removeEventListener('pointermove',mv);window.removeEventListener('pointerup',up);window.removeEventListener('pointercancel',up);
+        window.__gdragEnd=Date.now();
+        if(moved){if(fl)fl.remove();if(over){over.classList.remove('over');addTo(over.closest('.b3col'),chip.textContent);}}
+        else{var on=chip.classList.contains('sel');wrap.querySelectorAll('.b3chip.sel').forEach(function(c){c.classList.remove('sel');});if(!on)chip.classList.add('sel');}
+      }
+      window.addEventListener('pointermove',mv);window.addEventListener('pointerup',up);window.addEventListener('pointercancel',up);
+    });
+  });
+  var tabs=cols.map(function(c){return c.querySelector('.b3head .ans');});
+  var chk=document.getElementById('b3check');
+  function syncChk(){var all=tabs.every(function(t){return t.classList.contains('shown');});chk.textContent=all?'Hide answers':'Check answers';chk.classList.toggle('on',all);}
+  tabs.forEach(function(t){new MutationObserver(syncChk).observe(t,{attributes:true,attributeFilter:['class']});});
+  chk.onclick=function(e){e.stopPropagation();var all=tabs.every(function(t){return t.classList.contains('shown');});tabs.forEach(function(t){if(t.classList.contains('shown')===all)t.click();});};
+  document.getElementById('b3clear').onclick=function(e){e.stopPropagation();wrap.querySelectorAll('.pl').forEach(function(p){p.remove();});wrap.querySelectorAll('.b3chip.sel').forEach(function(c){c.classList.remove('sel');});cols.forEach(render);};
+})();
+
+/* ---------- warmer: the platform comes alive (time-lapse + scream, from Richard's pptx) ---------- */
+(function(){
+  var v=document.getElementById('rushVid'),a=document.getElementById('rushAud');if(!v)return;
+  var s=v.closest('.slide'),btn=s.querySelector('.rushBtn');
+  function stop(keep){v.pause();a.pause();btn.classList.remove('on');s.classList.remove('playing','shake');if(!keep){try{v.currentTime=0;a.currentTime=0;}catch(e){}}}
+  btn.addEventListener('click',function(e){
+    e.stopPropagation();
+    if(btn.classList.contains('on')){stop(true);return;}
+    s.classList.remove('played');try{v.currentTime=0;a.currentTime=0;}catch(x){}
+    btn.classList.add('on');s.classList.add('playing');
+    var p=v.play();if(p&&p.catch)p.catch(function(){});var q=a.play();if(q&&q.catch)q.catch(function(){});
+    setTimeout(function(){if(btn.classList.contains('on')){s.classList.add('shake');setTimeout(function(){s.classList.remove('shake');},1100);}},900);
+  });
+  v.addEventListener('ended',function(){btn.classList.remove('on');s.classList.remove('playing');s.classList.add('played');});
+  new MutationObserver(function(){if(!s.classList.contains('active')&&(btn.classList.contains('on')))stop(false);}).observe(s,{attributes:true,attributeFilter:['class']});
+})();
+</script>
