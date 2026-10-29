@@ -14,8 +14,6 @@
   .wrap{max-width:1040px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
   main.wrap{padding-top:32px;padding-bottom:40px}
   .units{display:grid;grid-template-columns:1fr;gap:12px}
-  @media (min-width:560px){.units{grid-template-columns:repeat(2,1fr)}}
-  @media (min-width:900px){.units{grid-template-columns:repeat(3,1fr)}}
   .unit-btn{appearance:none;font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%;display:flex;align-items:center;gap:16px}
   .unit-btn small,.unit-btn strong,.unit-btn .count{display:block}
   .panel[hidden]{display:none}
@@ -48,8 +46,10 @@
   .unit-btn small{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
   .unit-btn strong{font-size:1.08rem;font-weight:700;color:var(--navy);margin-top:2px}
   .unit-btn .count{font-size:.85rem;color:var(--muted);margin-top:2px}
-  .panel{margin-top:16px;border-top:1px solid var(--line);padding-top:18px}
-  .panel h3{font-family:"Source Serif 4",Georgia,serif;font-weight:600;font-size:1.15rem;color:var(--navy);margin:0 0 12px}
+  .panel{margin:10px 0 6px 23px;padding-left:33px;border-left:2px solid var(--gold)}
+  .lessons li{position:relative}
+  .lessons li::before{content:"";position:absolute;left:-33px;top:50%;width:25px;border-top:2px solid var(--gold)}
+  @media (max-width:480px){.panel{margin-left:12px;padding-left:20px}.lessons li::before{left:-20px;width:14px}}
   .lessons a{padding:14px 16px;border-radius:8px;border:1px solid var(--line);border-left:4px solid var(--gold);background:#fff;transition:background .15s,border-color .15s}
   .lessons a:hover{background:#f8f9fb;border-color:var(--navy-2);border-left-color:var(--gold)}
   .lessons a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
@@ -105,17 +105,13 @@ CATALOG.forEach(function(g){
     html += '<button class="unit-btn" type="button" aria-expanded="false" aria-controls="p-' + key + '" data-key="' + key + '">' +
             '<span class="num">' + u.num + '</span><span><small>Unit ' + u.num + '</small><strong>' + esc(u.title) + '</strong>' +
             '<span class="count">' + u.lessons.length + (u.lessons.length === 1 ? " lesson" : " lessons") + '</span></span></button>';
-  });
-  html += '</div>';
-  g.units.forEach(function(u){
-    var key = g.id + "-unit-" + u.num;
-    html += '<div class="panel" id="p-' + key + '" hidden><h3>' + esc(g.grade) + ' · Unit ' + u.num + ': ' + esc(u.title) + '</h3><ul class="lessons">';
+    html += '<div class="panel" id="p-' + key + '" hidden><ul class="lessons" aria-label="' + esc(g.grade) + ' · Unit ' + u.num + ': ' + esc(u.title) + '">';
     u.lessons.forEach(function(l){
       html += '<li><a href="' + esc(l.href) + '"><span class="tag">' + esc(l.tag) + '</span><span><span class="t">' + esc(l.title) + '</span></span><span class="arrow" aria-hidden="true">›</span></a></li>';
     });
     html += '</ul></div>';
   });
-  html += '</section>';
+  html += '</div></section>';
 });
 app.innerHTML = html;
 
