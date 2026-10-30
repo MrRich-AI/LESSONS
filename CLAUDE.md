@@ -10,8 +10,8 @@ These are NOT student games: no name/class screen, no scoring submission, no dat
 - Classes: G9 = 9A1, 9A2, 9A3; G10 = 10A1. Roster nicknames are built into each file — copy them from the most recent build of the same grade and keep them easy to edit.
 
 ## Commits
-- New build: always ask before the first commit.
-- Edits to an existing build: commit without asking.
+- New builds and edits: commit and push without asking (Oct 30 2026).
+- Never paste the raw HTML code in chat; GitHub and the Google Drive mirror hold it.
 - Message format: `Add Lesson HTML: G9 Unit 3 Food (A, B1–5)` / `Update Lesson HTML: …` — always name the unit sections covered (the browser-tab `<title>` does too).
 - Never commit API keys or other secrets.
 
